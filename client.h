@@ -6,16 +6,9 @@
 #define FINAL_CLIENT_H
 
 #include <stdbool.h>
-#include <tiff.h>
+#include "utils.h"
 
 const uint32 CLIENT_AEM = 9026;
-
-typedef struct message_t {
-    uint32 sender;      // ΑΕΜ αποστολέα:       uint32
-    uint32 receiver;    // ΑΕΜ παραλήπτη:       uint32
-    uint64 created_at;  // Χρόνος δημιουργίας:  uint64 ( Linux timestamp )
-    char body[256];     // Κείμενο μηνύματος:   ASCII[256]
-} Message;
 
 /// \brief Sends given message to message's recipient.
 /// \param message the message to be sent
