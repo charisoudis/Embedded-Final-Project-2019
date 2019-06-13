@@ -15,8 +15,6 @@ Message explode(const char glue, MessageSerialized messageSerialized)
     message.created_at = (uint64_t) strtoll( strsep( &messageCopy, &glue ), (char **)NULL, 10 );
     memcpy( message.body, strsep( &messageCopy, &glue ), 256 );
 
-    inspect( message );
-
     return message;
 }
 
