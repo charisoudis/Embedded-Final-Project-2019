@@ -5,15 +5,16 @@
 #ifndef FINAL_UTILS_H
 #define FINAL_UTILS_H
 
-#include <tiff.h>
+#include <stdint.h>
 
 typedef struct message_t {
-    uint32 sender;                  // ΑΕΜ αποστολέα:       uint32
-    uint32 receiver;                // ΑΕΜ παραλήπτη:       uint32
-    uint64 created_at;              // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
+    uint32_t receiver;              // ΑΕΜ παραλήπτη:       uint32
+    uint64_t created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
     unsigned char body[256];        // Κείμενο μηνύματος:   ASCII[256]
 } Message;
 
+/* char[274] type */
 typedef unsigned char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 274 characters
 
 /// \brief Serializes a message ( of message_t type ) into a 274-characters string.

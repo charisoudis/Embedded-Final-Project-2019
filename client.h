@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include "utils.h"
 
-const uint32 CLIENT_AEM = 9026;
+const uint32_t CLIENT_AEM = 9026;
 
 /// \brief Sends given message to message's recipient.
 /// \param message the message to be sent
