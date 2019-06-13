@@ -42,3 +42,23 @@ Message generateRandomMessage()
 
     return generateMessage( recipient, body );
 }
+
+/// \brief Receives given message.
+/// \param message the message with this CLIENT_AEM as recipient field
+/// \return TRUE on success, FALSE otherwise
+bool receive(Message message)
+{
+    // TODO
+
+    return false;
+}
+
+/// \brief Sends given message to message's recipient.
+/// \param message the message to be sent
+/// \return TRUE on success, FALSE otherwise
+bool send(Message message)
+{
+    // TODO
+
+    return false;
+}
