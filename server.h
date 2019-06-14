@@ -15,4 +15,8 @@ Message **getPendingMessages(uint32_t recipient);
 /// \return TRUE if there exist messages for $recipient, FALSE otherwise
 bool hasPendingMessages(uint32_t recipient);
 
+Message** receiveAll();
+bool transmit(Message **recipientMessages);
+bool transmitAll();
+
 #endif //FINAL_SERVER_H

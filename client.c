@@ -13,6 +13,8 @@ Message generateMessage(uint32_t recipient, const char * body)
     message.created_at = (uint64_t) time(NULL);
     memcpy( message.body, body, 256 );
 
+    message.transmitted = false;
+
     return message;
 }
 
@@ -29,6 +31,9 @@ Message generateRandomMessage()
     static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";
     static uint8_t charsetLength = 69;
 
+    // Initial Random Number Generator seeding
+    srand( (unsigned int) time( NULL ) );
+
     //  - random recipient
     recipient = (uint32_t) (rand() % (9999 - 1000 + 1) + 1000);
 
@@ -40,23 +45,37 @@ Message generateRandomMessage()
     }
     body[255] = '\0';
 
-    return generateMessage( recipient, body );
+    Message message = generateMessage( recipient, body );
+
+    //  - random transmission status
+    message.transmitted = (bool) ( time(NULL) & 1);
+    if ( message.transmitted )
+    {
+        message.transmitted_device[0] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device[1] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device[2] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device[3] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device[4] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device[5] = (unsigned char) ( rand() % 256 );
+    }
+
+    return message;
 }
 
-/// \brief Receives given message.
+/// \brief Fetches a message from server.
 /// \param message the message with this CLIENT_AEM as recipient field
 /// \return TRUE on success, FALSE otherwise
-bool receive(Message message)
+bool fetch(Message message)
 {
     // TODO
 
     return false;
 }
 
-/// \brief Sends given message to message's recipient.
+/// \brief Forwards given message to server for transmission ( message's recipient ).
 /// \param message the message to be sent
 /// \return TRUE on success, FALSE otherwise
-bool send(Message message)
+bool forward(Message message)
 {
     // TODO
 

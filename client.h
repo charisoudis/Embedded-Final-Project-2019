@@ -23,14 +23,14 @@ Message generateMessage(uint32_t recipient, const char * body);
 /// \return newly generated message of type message_t
 Message generateRandomMessage();
 
-/// \brief Receives given message.
+/// \brief Fetches a message from server ( validating if message was indeed intended for this client ).
 /// \param message the message with this CLIENT_AEM as recipient field
 /// \return TRUE on success, FALSE otherwise
-bool receive(Message message);
+bool fetch(Message message);
 
-/// \brief Sends given message to message's recipient.
+/// \brief Forwards given message to server for transmission ( message's recipient ).
 /// \param message the message to be sent
 /// \return TRUE on success, FALSE otherwise
-bool send(Message message);
+bool forward(Message message);
 
 #endif //FINAL_CLIENT_H

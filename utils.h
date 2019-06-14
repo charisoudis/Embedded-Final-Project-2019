@@ -8,35 +8,51 @@
 #include <stdbool.h>
 
 typedef struct message_t {
+    // Fundamental Message fields
     uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
     uint32_t recipient;             // ΑΕΜ παραλήπτη:       uint32
     uint64_t created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
     char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
+
+    // Metadata
+    bool transmitted;                       // If the message was actually transmitted from this device
+    unsigned char transmitted_device[6];    // MAC address of device that the message was transmitted to ( 6 bytes )
 } Message;
 
 /* char[277] type */
 typedef char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
 
 /// \brief Un-serializes message-as-a-string and recreates message struct.
-/// \param glue the connective character; acts as the separator between successive message fields
+/// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
-Message explode(char glue, MessageSerialized messageSerialized);
+Message explode(const char *glue, MessageSerialized messageSerialized);
+
+/// Convert HEX string to an array of bytes representing MAC address.
+/// \param hex HEX string ( successive bytes should be glued together using ':' )
+/// \param mac MAC address as array of bytes ( 'byte' is 'unsigned char' in C )
+void hex2mac(const char * hex, unsigned char * mac);
 
 /// \brief Serializes a message ( of message_t type ) into a 277-characters string.
-/// \param glue the connective character; to be placed between successive message fields
+/// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized
-/// \return a string containing all message fields glued together using $glue
-MessageSerialized implode(char glue, Message message);
+/// \param messageSerialized a string containing all message fields glued together using $glue
+void implode(const char *glue, Message message, MessageSerialized messageSerialized);
 
 /// \brief Log ( to stdout ) message's fields.
 /// \param message
-void inspect(Message message);
+/// \param metadata show/hide metadata information from message
+void inspect(Message message, bool metadata);
 
 /// \brief Check if two messages have exactly the same values in ALL of their fields.
 /// \param message1
 /// \param message2
 /// \return
 bool isEqual(Message message1, Message message2);
+
+/// Convert MAC address from byte array to string ( adding ':' between successive bytes )
+/// \param mac mac address as array of bytes ( 'byte' is 'unsigned char' in C )
+/// \param hex pointer to the HEX string of the MAC address
+void mac2hex(const unsigned char *mac, char *hex);
 
 #endif //FINAL_UTILS_H
