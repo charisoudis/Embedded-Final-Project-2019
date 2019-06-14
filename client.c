@@ -51,12 +51,12 @@ Message generateRandomMessage()
     message.transmitted = (bool) ( time(NULL) & 1);
     if ( message.transmitted )
     {
-        message.transmitted_device[0] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device[1] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device[2] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device[3] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device[4] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device[5] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[0] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[1] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[2] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[3] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[4] = (unsigned char) ( rand() % 256 );
+        message.transmitted_device.mac[5] = (unsigned char) ( rand() % 256 );
     }
 
     return message;

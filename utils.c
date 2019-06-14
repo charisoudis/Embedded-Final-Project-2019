@@ -65,7 +65,7 @@ void inspect(const Message message, bool metadata)
     if ( metadata )
     {
         char hex[18];
-        mac2hex( message.transmitted_device, hex );
+        mac2hex( message.transmitted_device.mac, hex );
 
         fprintf( stdout, "\t---\n\ttransmitted = %d\n\ttransmitted_device = %s\n", message.transmitted, hex );
     }

@@ -7,6 +7,11 @@
 #include <string.h>
 #include <stdbool.h>
 
+typedef struct device_t {
+    uint32_t AEM;
+    unsigned char mac[6];           // MAC address of this device ( 6 bytes )
+} Device;
+
 typedef struct message_t {
     // Fundamental Message fields
     uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
@@ -15,8 +20,8 @@ typedef struct message_t {
     char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
-    bool transmitted;                       // If the message was actually transmitted from this device
-    unsigned char transmitted_device[6];    // MAC address of device that the message was transmitted to ( 6 bytes )
+    bool transmitted;               // If the message was actually transmitted from this device
+    Device transmitted_device;      // Device that this message was transmitted to
 } Message;
 
 /* char[277] type */
