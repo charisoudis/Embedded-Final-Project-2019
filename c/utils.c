@@ -1,6 +1,6 @@
-#include "utils.h"
+#include "../h/utils.h"
 
-/// \brief Un-serializes message-as-a-string and recreates message struct.
+/// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
@@ -58,14 +58,23 @@ void implode(const char * glue, const Message message, MessageSerialized message
 /// \param metadata show/hide metadata information from message
 void inspect(const Message message, bool metadata)
 {
-    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %010ld,\n\tbody = %s\n",
-            message.sender, message.recipient, message.created_at, message.body
+    // Parse timestamp
+    char created_at_full[50];
+    timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
+
+    // Print main fields
+    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %010ld ( %s ),\n\tbody = %s\n",
+            message.sender, message.recipient, message.created_at, created_at_full, message.body
     );
 
+    // Print metadata
     if ( metadata )
     {
         char hex[18];
-        mac2hex( message.transmitted_device.mac, hex );
+
+        message.transmitted ?
+            mac2hex( message.transmitted_device.mac, hex ):
+            snprintf( hex, 18, "--:--:--:--:--:--" );
 
         fprintf( stdout, "\t---\n\ttransmitted = %d\n\ttransmitted_device = %s\n", message.transmitted, hex );
     }
@@ -98,4 +107,23 @@ void mac2hex(const unsigned char *mac, char *hex)
 {
     sprintf(hex, "%02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
     hex[18] = '\0';
+}
+
+/// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
+/// \param timestamp UNIX timestamp ( uint64_t )
+/// \param format strftime-compatible format
+/// \param string the resulting datetime string
+inline void timestamp2ftime( const uint64_t timestamp, const char *format, char *string )
+{
+    struct tm *tmp = localtime((const time_t *) &( timestamp ));
+    if ( tmp == NULL )
+    {
+        perror( "\ttimestamp2ftime(): localtime() error" );
+        exit( EXIT_FAILURE );
+    }
+    if ( 0 == strftime( string, UINT32_MAX, format, tmp ) )
+    {
+        fprintf( stderr, "\ttimestamp2ftime(): strftime() error" );
+        exit( EXIT_FAILURE );
+    }
 }

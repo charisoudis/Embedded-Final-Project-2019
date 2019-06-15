@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 typedef struct device_t {
     uint32_t AEM;
@@ -21,13 +22,13 @@ typedef struct message_t {
 
     // Metadata
     bool transmitted;               // If the message was actually transmitted from this device
-    Device transmitted_device;      // Device that this message was transmitted to
+    Device transmitted_device;      // Device that this message was transmitted to ( if transmitted from this device )
 } Message;
 
 /* char[277] type */
 typedef char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
 
-/// \brief Un-serializes message-as-a-string and recreates message struct.
+/// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
@@ -49,7 +50,7 @@ void implode(const char *glue, Message message, MessageSerialized messageSeriali
 /// \param metadata show/hide metadata information from message
 void inspect(Message message, bool metadata);
 
-/// \brief Check if two messages have exactly the same values in ALL of their fields.
+/// \brief Check if two messages have exactly the same values in ALL of their fields ( metadata excluded ).
 /// \param message1
 /// \param message2
 /// \return
@@ -59,5 +60,11 @@ bool isEqual(Message message1, Message message2);
 /// \param mac mac address as array of bytes ( 'byte' is 'unsigned char' in C )
 /// \param hex pointer to the HEX string of the MAC address
 void mac2hex(const unsigned char *mac, char *hex);
+
+/// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
+/// \param timestamp UNIX timestamp ( uint64_t )
+/// \param format strftime-compatible format
+/// \param string the resulting datetime string
+void timestamp2ftime( uint64_t timestamp, const char *format, char *string );
 
 #endif //FINAL_UTILS_H

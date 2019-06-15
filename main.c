@@ -1,12 +1,14 @@
-#include <stdio.h>
-#include <time.h>
-#include "utils.h"
-#include "client.h"
+#include <locale.h>
+#include "h/utils.h"
+#include "h/client.h"
 
 int main()
 {
-    Message message, messageDeserialized;
+    Message message, messageDeserialized, sdfsfsd;
     MessageSerialized messageSerialized;
+
+    // Format datetime stings in Greek
+    setlocale( LC_TIME, "el_GR.UTF-8" );
 
     // Generate a new message ( with random contents )
     message = generateRandomMessage();
@@ -18,8 +20,8 @@ int main()
     printf( "messageSerialized = \"%s\"\n\n", messageSerialized );
 
     // Test Explode
-    Message messageRetrieved = explode( "_", messageSerialized );
-    inspect( messageRetrieved, false );
+    messageDeserialized = explode( "_", messageSerialized );
+    inspect( messageDeserialized, false );
 
     // Free resources
     free( messageSerialized );

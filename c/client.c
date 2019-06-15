@@ -1,4 +1,4 @@
-#include "client.h"
+#include "../h/client.h"
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
 /// \param recipient message's recipient
@@ -37,7 +37,7 @@ Message generateRandomMessage()
     //  - random recipient
     recipient = (uint32_t) (rand() % (9999 - 1000 + 1) + 1000);
 
-    //  - random body ( src: https://codereview.stackexchange.com/a/29276 )
+    //  - random body ( c: https://codereview.stackexchange.com/a/29276 )
     for ( size_t n = 0; n < 255; n++ )
     {
         int key = rand() % charsetLength;
