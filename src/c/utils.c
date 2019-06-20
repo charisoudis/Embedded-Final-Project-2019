@@ -1,4 +1,4 @@
-#include "../h/utils.h"
+#include "utils.h"
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param glue the connective character(s); acts as the separator between successive message fields

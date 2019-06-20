@@ -1,4 +1,4 @@
-CC        = gcc -g
+CC        = gcc -g -Isrc/h
 XFLAGS    = -Wall -Wshadow -Wstrict-prototypes -Wmissing-prototypes \
             -DDEBUG -Wredundant-decls
 
@@ -18,8 +18,8 @@ clean :
 
 # Search for .c files in "src" directory; .h files in "include" directory
 # The pattern matching character '%' matches filename without the extension
-vpath %.c c
-vpath %.h h
+vpath %.c src/c
+vpath %.h src/h
 
 # Entry point of compilation
 $(LINK_TARGET) : $(OBJS)

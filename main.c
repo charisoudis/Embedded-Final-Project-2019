@@ -1,6 +1,6 @@
 #include <locale.h>
-#include "h/utils.h"
-#include "h/client.h"
+#include "utils.h"
+#include "client.h"
 
 int main()
 {

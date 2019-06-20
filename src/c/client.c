@@ -1,4 +1,4 @@
-#include "../h/client.h"
+#include "client.h"
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
 /// \param recipient message's recipient

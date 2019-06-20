@@ -1,4 +1,4 @@
-#include "../h/server.h"
+#include "server.h"
 
 ///// \brief Get an array of pointer to messages whose recipient is $recipient.
 ///// \param recipient the recipient for whom messages will be retrieved out of $messages buffer
