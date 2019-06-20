@@ -3,7 +3,7 @@ XFLAGS    = -Wall -Wshadow -Wstrict-prototypes -Wmissing-prototypes \
             -DDEBUG -Wredundant-decls
 
 # Final target executable
-LINK_TARGET = ./o/final.o
+LINK_TARGET = ./out/final.out
 
 # Partial Object codes
 OBJS =  \
@@ -18,11 +18,12 @@ clean :
 
 # Search for .c files in "src" directory; .h files in "include" directory
 # The pattern matching character '%' matches filename without the extension
-vpath %.c src/c
+vpath %.c src
 vpath %.h include
 
 # Entry point of compilation
 $(LINK_TARGET) : $(OBJS)
+	mkdir out
 	$(CC) -o $@ $^
 
 # Here is a Pattern Rule, often used for compile-line.
