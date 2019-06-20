@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 99)
 set(SOURCE_FILES main.c)
 add_executable(Final ${SOURCE_FILES})
 
-include_directories(src/h)
+include_directories(include)
 
 add_subdirectory(src)
-add_subdirectory(tests)
+add_subdirectory(test)
