@@ -25,8 +25,19 @@ typedef struct message_t {
     Device transmitted_device;      // Device that this message was transmitted to ( if transmitted from this device )
 } Message;
 
+/* pthread functions' arguments pointer */
+typedef struct communication_thread_args_t {
+
+    Device communication_device;
+
+} CommunicationThreadArgs;
+
 /* char[277] type */
 typedef char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
+
+
+//------------------------------------------------------------------------------------
+
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param glue the connective character(s); acts as the separator between successive message fields

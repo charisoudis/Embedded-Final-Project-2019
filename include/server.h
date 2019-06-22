@@ -15,6 +15,15 @@ Message messages[2000];
 ///// \return TRUE if there exist messages for $recipient, FALSE otherwise
 //bool hasPendingMessages(uint32_t recipient);
 
+/// \brief Thread for handling communication staff ( POSIX thread compatible function ).
+/// \param args pointer to communication_thread_args_t type
+void communication_thread( void *args );
+
+/// \brief Main server loop. Starts polling
+/// \param max_secs
+/// \return
+bool loop( uint32_t max_secs );
+
 /// \brief Receives a single message from $transmitter.
 /// \param receiver the connected device
 /// \param message the message to be received from $transmitter

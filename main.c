@@ -4,7 +4,7 @@
 
 int main()
 {
-    Message message, messageDeserialized, sdfsfsd;
+    Message message, messageDeserialized;
     MessageSerialized messageSerialized;
 
     // Format datetime stings in Greek
