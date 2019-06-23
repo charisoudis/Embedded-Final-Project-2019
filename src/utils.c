@@ -55,10 +55,20 @@ void communication_receiver_worker(void *thread_args)
     MessageSerialized messageSerialized;
 
     messageSerialized = (char *) malloc( 277 );
-    while ( read( args->connected_socket_fd , messageSerialized, 277 ) == 277 )
+    next_loop: while ( read( args->connected_socket_fd , messageSerialized, 277 ) == 277 )
     {
         // Reconstruct message
         message = explode( "_", messageSerialized );
+
+        // Check for duplicates
+        for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
+        {
+            if ( isMessageEqual( message, messages[message_i] ) )
+                goto next_loop;
+
+            if ( messages[message_i].created_at == 0 )
+                break;
+        }
 
         // Store
         //----- CRITICAL
@@ -151,7 +161,6 @@ Message generateRandomMessage()
 {
     uint32_t recipient;
     char body[256];
-    static uint8_t charsetLength = 69;
 
     //  - random recipient ( using sodium )
     recipient = randombytes_uniform( CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN;

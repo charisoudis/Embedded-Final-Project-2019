@@ -129,17 +129,6 @@ bool isMessageEqual(Message message1, Message message2);
 /// \param hex pointer to the HEX string of the MAC address
 void mac2hex(const unsigned char *mac, char *hex);
 
-/// \brief Receives a single message from $transmitter.
-/// \param receiver the connected device
-/// \param message the message to be received from $transmitter
-/// \return TRUE on success, FALSE otherwise
-bool receive(Device transmitter, Message message);
-
-/// \brief Receives all pending messages of $transmitter and appends them to $messages circular buffer.
-/// \param transmitter the connected device
-/// \return the number of messages received
-uint16_t receiveAll(Device transmitter);
-
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \return -1 on error, opened socket's file descriptor on success
@@ -150,16 +139,5 @@ int socket_connect(const char * ip);
 /// \param format strftime-compatible format
 /// \param string the resulting datetime string
 void timestamp2ftime( uint64_t timestamp, const char *format, char *string );
-
-/// \brief Transmits a single message to $receiver.
-/// \param receiver the connected device
-/// \param message the message to be transmitted to $receiver
-/// \return TRUE on success, FALSE otherwise
-bool transmit(Device receiver, Message message);
-
-/// \brief Transmits all pending messages for $receiver ( having in recipient field device's AEM ).
-/// \param receiver the connected device
-/// \return the number of messages transmitted
-uint16_t transmitAll(Device receiver);
 
 #endif //FINAL_UTILS_H

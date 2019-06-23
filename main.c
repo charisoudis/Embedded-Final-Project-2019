@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------------------------
 
 
-#define MAX_EXECUTION_TIME 1 //7200     // 2 hours
+#define MAX_EXECUTION_TIME 10 //7200     // 2 hours
 
 static pthread_t pollingThread, producerThread;
 pthread_mutex_t availableThreadsLock, messagesBufferLock;

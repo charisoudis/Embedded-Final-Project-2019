@@ -66,10 +66,10 @@ void *polling_worker(void)
 void *producer_worker(void)
 {
     Message message;
-    uint32_t delay, count;
+    uint32_t delay;
     int status;
 
-    count = 0;
+//    uint32_t count = 0;
     do
     {
         /* Disable cancellation for a while, so that we don't
@@ -97,12 +97,10 @@ void *producer_worker(void)
         /* sleep() is a cancellation point */
 
         // Sleep
-//        delay = randombytes_uniform( PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN;
-//        sleep( delay );
+        delay = randombytes_uniform( PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN;
+        sleep( delay );
 
-        usleep( 100 );
-
-        // count
+//        usleep( 100 );
 //        fprintf( stdout, "\tproducer_worker(): count = %d\n", ++count );
     }
     while( 1 );
