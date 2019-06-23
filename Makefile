@@ -1,6 +1,5 @@
 CC        = gcc -g -Iinclude
-XFLAGS    = -Wall -Wshadow -Wstrict-prototypes -Wmissing-prototypes \
-            -DDEBUG -Wredundant-decls
+XFLAGS    = -lpthread
 
 # Final target executable
 LINK_TARGET = ./out/final.out
@@ -23,8 +22,9 @@ vpath %.h include
 
 # Entry point of compilation
 $(LINK_TARGET) : $(OBJS)
-	mkdir out
-	$(CC) -o $@ $^
+	# sudo aptitude install libsodium-dev || mkdir -p out	# Un-comment if libsodium is not installed in your system
+	mkdir -p out
+	$(CC) -o $@ $^ $(XFLAGS)
 
 # Here is a Pattern Rule, often used for compile-line.
 # It says how to create a file with a .o suffix, given a file with a .c suffix.

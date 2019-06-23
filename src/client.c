@@ -1,83 +1,109 @@
 #include "client.h"
 
-/// \brief Generates a new message from this client towards $recipient with $body as content.
-/// \param recipient message's recipient
-/// \param body message's body
-/// \return newly generated message of type message_t
-Message generateMessage(uint32_t recipient, const char * body)
+extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
+extern uint8_t communicationThreadsAvailable;
+
+extern pthread_mutex_t availableThreadsLock;
+extern pthread_mutex_t messagesBufferLock;
+
+/// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
+void *polling_worker(void)
+{
+    sleep( 100 );
+
+    int status;
+    uint16_t aem;
+    char ip[12];
+    pthread_t communicationThread;
+
+    aem = CLIENT_AEM_RANGE_MIN;
+    do
+    {
+        // Format IP address
+        snprintf( ip, 12, "10.0.%02d.%02d", (int) aem / 100, aem % 100 );
+
+        // Try connecting
+        int socket_fd = socket_connect( ip );
+        if ( -1 != socket_fd )
+        {
+            // Connected > OffLoad to communication worker
+            //  - format arguments
+            Device device = {.AEM = aem};
+            CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
+
+            //  - open thread
+            if ( communicationThreadsAvailable > 0 )
+            {
+                //----- CRITICAL
+                pthread_mutex_lock( &availableThreadsLock );
+
+                communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+                communicationThreadsAvailable--;
+
+                pthread_mutex_unlock( &availableThreadsLock );
+                //-----:end
+
+                status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
+                if ( status != 0 )
+                    error( status, "\tpolling_worker(): pthread_create() failed" );
+            }
+            else
+            {
+                close( socket_fd );
+            }
+        }
+
+        // Reset polling if reached AEMs range's maximum.
+        if ( ++aem > CLIENT_AEM_RANGE_MAX )
+        {
+            aem = CLIENT_AEM_RANGE_MIN;
+        }
+    }
+    while( 1 );
+}
+
+/// \brief Message producer thread. Produces a random message at the end of the pre-defined interval.
+void *producer_worker(void)
 {
     Message message;
+    uint32_t delay, count;
+    int status;
 
-    message.sender = CLIENT_AEM;
-    message.recipient = recipient;
-    message.created_at = (uint64_t) time(NULL);
-    memcpy( message.body, body, 256 );
-
-    message.transmitted = false;
-
-    return message;
-}
-
-/// \brief Generates a new random message composed of:
-///     - random recipient  ( 4 randomly generated digits: {1-9}{0-9}{0-9}{0-9} )
-///     - random body       ( 256 randomly generated ascii characters )
-///     - CLIENT_AEM as sender
-///     - creation time_of_day as created_at timestamp
-/// \return newly generated message of type message_t
-Message generateRandomMessage()
-{
-    uint32_t recipient;
-    char body[256];
-    static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";
-    static uint8_t charsetLength = 69;
-
-    // Initial Random Number Generator seeding
-    srand( (unsigned int) time( NULL ) );
-
-    //  - random recipient
-    recipient = (uint32_t) (rand() % (9999 - 1000 + 1) + 1000);
-
-    //  - random body ( c: https://codereview.stackexchange.com/a/29276 )
-    for ( size_t n = 0; n < 255; n++ )
+    count = 0;
+    do
     {
-        int key = rand() % charsetLength;
-        body[ n ] = charset[ key ];
+        /* Disable cancellation for a while, so that we don't
+              immediately react to a cancellation request */
+        status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
+        if ( status != 0 )
+            error( status, "\tproducer_worker(): pthread_setcancelstate(DISABLE) failed" );
+
+        // Generate
+        message = generateRandomMessage();
+
+        // Store
+        //----- CRITICAL
+        pthread_mutex_lock( &messagesBufferLock );
+
+        messages_push( message );
+
+        pthread_mutex_unlock( &messagesBufferLock );
+        //-----:end
+
+        status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
+        if ( status != 0 )
+            error( status, "\tproducer_worker(): pthread_setcancelstate(ENABLE) failed" );
+
+        /* sleep() is a cancellation point */
+
+        // Sleep
+//        delay = randombytes_uniform( PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN;
+//        sleep( delay );
+
+        usleep( 100 );
+
+        // count
+//        fprintf( stdout, "\tproducer_worker(): count = %d\n", ++count );
     }
-    body[255] = '\0';
-
-    Message message = generateMessage( recipient, body );
-
-    //  - random transmission status
-    message.transmitted = (bool) ( time(NULL) & 1);
-    if ( message.transmitted )
-    {
-        message.transmitted_device.mac[0] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device.mac[1] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device.mac[2] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device.mac[3] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device.mac[4] = (unsigned char) ( rand() % 256 );
-        message.transmitted_device.mac[5] = (unsigned char) ( rand() % 256 );
-    }
-
-    return message;
-}
-
-/// \brief Fetches a message from server.
-/// \param message the message with this CLIENT_AEM as recipient field
-/// \return TRUE on success, FALSE otherwise
-bool fetch(Message message)
-{
-    // TODO
-
-    return false;
-}
-
-/// \brief Forwards given message to server for transmission ( message's recipient ).
-/// \param message the message to be sent
-/// \return TRUE on success, FALSE otherwise
-bool forward(Message message)
-{
-    // TODO
-
-    return false;
+    while( 1 );
 }

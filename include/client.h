@@ -1,36 +1,31 @@
 #ifndef FINAL_CLIENT_H
 #define FINAL_CLIENT_H
 
+#include <pthread.h>
 #include <stdbool.h>
 #include <time.h>
+#include <zconf.h>
 #include "utils.h"
+#include "server.h"
 
 #ifndef CLIENT_AEM
-#define CLIENT_AEM 9026
+    #define CLIENT_AEM 9026
 #endif
 
-/// \brief Generates a new message from this client towards $recipient with $body as content.
-/// \param recipient message's recipient
-/// \param body message's body
-/// \return newly generated message of type message_t
-Message generateMessage(uint32_t recipient, const char * body);
+#ifndef CLIENT_AEM_RANGE
+    #define CLIENT_AEM_RANGE_MIN 8000
+    #define CLIENT_AEM_RANGE_MAX 9050
+#endif
 
-/// \brief Generates a new random message composed of:
-///     - random recipient  ( 4 randomly generated digits: {1-9}{0-9}{0-9}{0-9} )
-///     - random body       ( 256 randomly generated ascii characters )
-///     - CLIENT_AEM as sender
-///     - creation time_of_day as created_at timestamp
-/// \return newly generated message of type message_t
-Message generateRandomMessage();
+#ifndef PRODUCER_DELAY_RANGE
+    #define PRODUCER_DELAY_RANGE_MIN 1
+    #define PRODUCER_DELAY_RANGE_MAX 5
+#endif
 
-/// \brief Fetches a message from server ( validating if message was indeed intended for this client ).
-/// \param message the message with this CLIENT_AEM as recipient field
-/// \return TRUE on success, FALSE otherwise
-bool fetch(Message message);
+/// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
+void *polling_worker(void);
 
-/// \brief Forwards given message to server for transmission ( message's recipient ).
-/// \param message the message to be sent
-/// \return TRUE on success, FALSE otherwise
-bool forward(Message message);
+/// \brief Message producer thread. Produces a random message at the end of the pre-defined interval.
+void *producer_worker(void);
 
 #endif //FINAL_CLIENT_H
