@@ -11,7 +11,7 @@ extern pthread_mutex_t messagesBufferLock;
 /// \param thread_args pointer to communicate_args_t type
 void communication_worker(void *thread_args)
 {
-    CommunicationWorkerArgs *args = thread_args;
+    CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
 
     pthread_t receiverThread;
     int status;
@@ -34,6 +34,20 @@ void communication_worker(void *thread_args)
 
         // Transmitter Thread ( main thread )
         communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+
+        // Wait receiver thread
+        status = pthread_join( receiverThread, NULL );
+        if ( status != 0 )
+            error( status, "\tcommunication_worker(): pthread_join() failed" );
+
+        // Update number of threads
+        //----- CRITICAL
+        pthread_mutex_lock( &availableThreadsLock );
+
+        communicationThreadsAvailable++;
+
+        pthread_mutex_unlock( &availableThreadsLock );
+        //-----:end
     }
     else
     {
@@ -42,14 +56,24 @@ void communication_worker(void *thread_args)
         communication_receiver_worker( thread_args );
     }
 
+    // Close Socket
     close( args->connected_socket_fd );
+
+    // Update number of threads ( since this function is called in a new thread )
+    //----- CRITICAL
+    pthread_mutex_lock( &availableThreadsLock );
+
+    communicationThreadsAvailable++;
+
+    pthread_mutex_unlock( &availableThreadsLock );
+    //-----:end
 }
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
 /// \param thread_args pointer to communicate_args_t type
 void communication_receiver_worker(void *thread_args)
 {
-    CommunicationWorkerArgs *args = thread_args;
+    CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
 
     Message message;
     MessageSerialized messageSerialized;
@@ -79,6 +103,9 @@ void communication_receiver_worker(void *thread_args)
         pthread_mutex_unlock( &messagesBufferLock );
         //-----:end
     }
+
+    // Free resources
+    free( messageSerialized );
 }
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
@@ -87,8 +114,8 @@ void communication_receiver_worker(void *thread_args)
 inline void communication_transmitter_worker(Device receiver, int socket_fd)
 {
     MessageSerialized messageSerialized;
-    messageSerialized = (char *) malloc( 277 );
 
+    messageSerialized = (char *) malloc( 277 );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
         if ( messages[message_i].created_at > 0 && !isDeviceEqual( receiver, messages[message_i].transmitted_device ) )

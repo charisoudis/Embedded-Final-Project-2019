@@ -20,9 +20,8 @@ void messages_push(Message message)
             {
                 uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
 
-//                fprintf( stdout, "\t\tmessages_push(MESSAGES_PUSH_OVERRIDE_SENT_ONLY): messagesHead = %d | messagesHeadModSize = %d\n", messagesHead, messagesHeadModSize );
-
                 while (
+                    /* while message[i] is not transmitted */
                     !messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
                     && messagesHeadModSize < MESSAGES_SIZE
                 );
@@ -51,8 +50,6 @@ void messages_push(Message message)
         default_case:
         {
             uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
-
-//            fprintf( stdout, "\t\tmessages_push(MESSAGES_PUSH_OVERRIDE_BLIND): messagesHead = %d | messagesHeadModSize = %d\n", messagesHead, messagesHeadModSize );
 
             // push to head
             memcpy( (void *) ( messages + messagesHeadModSize ), (void *) &message, sizeof( Message ) );
