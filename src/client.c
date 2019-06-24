@@ -46,6 +46,10 @@ void *polling_worker(void)
                 status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
                 if ( status != 0 )
                     error( status, "\tpolling_worker(): pthread_create() failed" );
+
+                status = pthread_detach( communicationThread );
+                if ( status != 0 )
+                    error( status, "\tpolling_worker(): pthread_detach() failed" );
             }
             else
             {
