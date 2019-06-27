@@ -1,5 +1,7 @@
-include_directories(../lib/cmocka/include)
+#include_directories(../lib/cmocka/include)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(FinalTests test_utils.h test_utils.c run.c)
+add_executable(runFinalTests test.hpp UtilsTest.cpp)
 
-target_link_libraries(FinalTests ${CMOCKA_LIBRARY} "-nostartfiles")
+target_link_libraries(runFinalTests gtest gtest_main)
+target_link_libraries(runFinalTests FINAL_LIB pthread sodium)

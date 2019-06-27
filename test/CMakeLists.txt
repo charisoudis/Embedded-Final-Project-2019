@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(Final)
+project(FinalTests)
 
-add_subdirectory(lib/cmocka)
+add_subdirectory(lib/googletest)
 add_subdirectory(final_tests)

@@ -58,7 +58,7 @@ int main( int argc, char **argv )
         error( status, "\tmain(): pthread_create( producerThread ) failed" );
 
     // Start listening server ( main thread )
-    server_listen();
+    listening_worker();
 
 //    Message message, messageDeserialized;
 //    MessageSerialized messageSerialized;

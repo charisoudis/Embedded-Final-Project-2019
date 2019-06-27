@@ -24,6 +24,6 @@ uint16_t messagesHead;
 void messages_push(Message message);
 
 /// \brief Main server loop. Calls communication_thread() on each new connection.
-void server_listen();
+void listening_worker();
 
 #endif //FINAL_SERVER_H
