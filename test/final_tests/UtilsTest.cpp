@@ -41,7 +41,7 @@ protected:
     }
 
     Message message{};
-    MessageSerialized messageSerialized;
+    MessageSerialized messageSerialized{};
 
 };
 
