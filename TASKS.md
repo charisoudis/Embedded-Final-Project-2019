@@ -3,7 +3,7 @@
 -- _αρχή_ --
 
 - [x] Γράψιμο αρχικής έκδοσης κώδικα C
-- [ ] Συγγραφή tests για CMocka/GoogleTest
+- [x] Συγγραφή tests για GoogleTest
 - [ ] Πέρασμα OpenWRT στα zsun
 - [ ] Σύνδεση με `ssh` στο OpenWRT του κάθε zsun
 - [ ] Αλλαγή IP στο zsun, ώστε το κάθε zsun να παίρνει την IP βάσει του AEM
