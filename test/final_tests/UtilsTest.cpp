@@ -32,7 +32,7 @@ protected:
         message.transmitted = false;
         message.sender = 9026;
         message.recipient = 8908;
-        snprintf( message.body, 256, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra commodo ligula, id tempor ligula feugiat eu. Quisque condimentum tortor et nunc cursus, suscipit mollis tellus volutpat. Proin semper venenatis eros, eget faucibus nibh facilisis metus." );
+        snprintf( message.body, 256, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra commodo ligula, id tempor ligula feugiat eu. Quisque condimentum tortor et nunc cursus, suscipit mollis tellus volutpat. Proin semper venenatis eros, eget faucibus nibh facilisis metus" );
         message.created_at = 1561669840;    // 06/27/2019 @ 9:10pm (UTC)
 
         // Implode Message
