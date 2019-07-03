@@ -88,6 +88,7 @@ void *producer_worker(void)
 
         // Generate
         message = generateRandomMessage();
+        inspect( message, 0 );
 
         // Store
         //----- CRITICAL

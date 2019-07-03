@@ -170,7 +170,7 @@ Message generateMessage(uint32_t recipient, const char * body)
 
     message.sender = CLIENT_AEM;
     message.recipient = recipient;
-    message.created_at = (uint64_t) time(NULL);
+    message.created_at = (uint64_t) time(0);
     memcpy( message.body, body, 256 );
 
     message.transmitted = 0;
@@ -251,8 +251,8 @@ void inspect(const Message message, uint8_t metadata)
     timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
 
     // Print main fields
-    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %010ld ( %s ),\n\tbody = %s\n",
-            message.sender, message.recipient, message.created_at, created_at_full, message.body
+    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %s,\n\tbody = %s\n",
+            message.sender, message.recipient, created_at_full, message.body
     );
 
     // Print metadata

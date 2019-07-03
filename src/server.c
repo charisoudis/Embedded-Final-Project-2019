@@ -62,6 +62,8 @@ void messages_push(Message message)
 /// \brief Main server loop. Calls communication_thread() on each new connection.
 void listening_worker()
 {
+    sleep( 100 );
+
     int status, server_fd, socket_fd;
     struct sockaddr_in serverAddress, clientAddress;
     char ip[INET_ADDRSTRLEN];
