@@ -149,7 +149,7 @@ Message explode(const char * glue, MessageSerialized messageSerialized)
     // Start exploding string
     message.sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
     message.recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
-    message.created_at = (uint64_t) strtoll( strsep( &messageCopy, glue ), (char **)NULL, 10 );
+    message.created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, 10 );
 
     memcpy( message.body, strsep( &messageCopy, glue ), 256 );
     free( messageCopyPointer );
@@ -170,7 +170,8 @@ Message generateMessage(uint32_t recipient, const char * body)
 
     message.sender = CLIENT_AEM;
     message.recipient = recipient;
-    message.created_at = (uint64_t) time(0);
+    message.created_at = (unsigned long) time( NULL );
+
     memcpy( message.body, body, 256 );
 
     message.transmitted = 0;
@@ -251,8 +252,8 @@ void inspect(const Message message, uint8_t metadata)
     timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
 
     // Print main fields
-    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %s,\n\tbody = %s\n",
-            message.sender, message.recipient, created_at_full, message.body
+    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
+            message.sender, message.recipient, message.created_at, created_at_full, message.body
     );
 
     // Print metadata
@@ -357,10 +358,10 @@ int socket_connect(const char * ip)
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
-/// \param timestamp UNIX timestamp ( uint64_t )
+/// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
 /// \param string the resulting datetime string
-inline void timestamp2ftime( const uint64_t timestamp, const char *format, char *string )
+inline void timestamp2ftime( const unsigned long timestamp, const char *format, char *string )
 {
     struct tm *tmp = localtime((const time_t *) &( timestamp ));
     if ( tmp == NULL )

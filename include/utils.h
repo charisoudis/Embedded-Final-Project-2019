@@ -25,6 +25,7 @@
 
 //------------------------------------------------------------------------------------
 
+typedef unsigned long uint64;
 
 typedef struct device_t {
     uint32_t AEM;
@@ -35,7 +36,7 @@ typedef struct message_t {
     // Fundamental Message fields
     uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
     uint32_t recipient;             // ΑΕΜ παραλήπτη:       uint32
-    uint64_t created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    uint64 created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
     char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
@@ -134,9 +135,9 @@ void mac2hex(const unsigned char *mac, char *hex);
 int socket_connect(const char * ip);
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
-/// \param timestamp UNIX timestamp ( uint64_t )
+/// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
 /// \param string the resulting datetime string
-void timestamp2ftime( uint64_t timestamp, const char *format, char *string );
+void timestamp2ftime( uint64 timestamp, const char *format, char *string );
 
 #endif //FINAL_UTILS_H
