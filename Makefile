@@ -1,5 +1,5 @@
 CC_DIR    = /home/argiris/Desktop/Argiris/EmbeddedSystems/openwrt-zsun-zsun/staging_dir/toolchain-mips_mips32_gcc-4.8-linaro_uClibc-0.9.33.2/bin
-CC        = $(CC_DIR)/mips-openwrt-linux-gcc -std=c99 -g -Iinclude
+CC        = echo "01041960" | sudo -S $(CC_DIR)/mips-openwrt-linux-gcc -std=c99 -g -Iinclude
 XFLAGS    = -lpthread
 
 # Final target executable
@@ -42,4 +42,4 @@ main.o : client.h server.h utils.h
 
 # Make rule
 all : $(LINK_TARGET)
-	rm $(OBJS) && sshpass -p 01041960 scp $(LINK_TARGET) root@192.168.1.1:/root
+	rm -f $(OBJS) && sshpass -p 01041960 scp $(LINK_TARGET) root@192.168.1.1:/root

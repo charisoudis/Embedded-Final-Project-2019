@@ -19,7 +19,7 @@
     #define SOCKET_PORT 2278
 #endif
 #ifndef COMMUNICATION_WORKERS_MAX
-    #define COMMUNICATION_WORKERS_MAX 8
+    #define COMMUNICATION_WORKERS_MAX 4
 #endif
 
 

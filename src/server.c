@@ -62,8 +62,6 @@ void messages_push(Message message)
 /// \brief Main server loop. Calls communication_thread() on each new connection.
 void listening_worker()
 {
-    sleep( 100 );
-
     int status, server_fd, socket_fd;
     struct sockaddr_in serverAddress, clientAddress;
     char ip[INET_ADDRSTRLEN];
@@ -75,11 +73,11 @@ void listening_worker()
         error( status, "\tserver_listen(): socket() failed" );
     server_fd = status;
 
-    // Set server address
-    status = 1;     // forcefully attaching socket to selected socket port
-    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
-    if ( status < 0 )
-        error( status, "\tserver_listen(): setsockopt() failed" );
+    // Set server address ( forcefully attaching socket to selected socket port )
+    status = 1;
+//    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
+//    if ( status < 0 )
+//        error( status, "\tserver_listen(): setsockopt() failed" );
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
