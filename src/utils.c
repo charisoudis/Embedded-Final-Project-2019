@@ -87,7 +87,7 @@ void communication_receiver_worker(void *thread_args)
         // Check for duplicates
         for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
         {
-            if ( isMessageEqual( message, messages[message_i] ) )
+            if ( 1 == isMessageEqual( message, messages[message_i] ) )
                 goto next_loop;
 
             if ( messages[message_i].created_at == 0 )
@@ -118,7 +118,7 @@ inline void communication_transmitter_worker(Device receiver, int socket_fd)
     messageSerialized = (char *) malloc( 277 );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        if ( messages[message_i].created_at > 0 && !isDeviceEqual( receiver, messages[message_i].transmitted_device ) )
+        if ( messages[message_i].created_at > 0 && 0 == isDeviceEqual( receiver, messages[message_i].transmitted_device ) )
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
@@ -127,7 +127,7 @@ inline void communication_transmitter_worker(Device receiver, int socket_fd)
             send( socket_fd , messageSerialized , 277, 0 );
 
             // Update Status
-            messages[message_i].transmitted = true;
+            messages[message_i].transmitted = 1;
             memcpy( &messages[message_i].transmitted_device, &receiver, sizeof( Device ) );
         }
     }
@@ -155,7 +155,7 @@ Message explode(const char * glue, MessageSerialized messageSerialized)
     free( messageCopyPointer );
 
     // Set message's metadata
-    message.transmitted = false;
+    message.transmitted = 0;
 
     return message;
 }
@@ -173,7 +173,7 @@ Message generateMessage(uint32_t recipient, const char * body)
     message.created_at = (uint64_t) time(NULL);
     memcpy( message.body, body, 256 );
 
-    message.transmitted = false;
+    message.transmitted = 0;
 
     return message;
 }
@@ -190,21 +190,24 @@ Message generateRandomMessage()
     char body[256];
 
     //  - random recipient ( using sodium )
-    recipient = randombytes_uniform( CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN;
+    recipient = (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN);
 
     //  - random body ( using sodium )
     for ( int byte_i = 0; byte_i < 255; byte_i ++ )
     {
-        body[byte_i] = (char) ( randombytes_uniform( 95 ) + 32 );
+        body[byte_i] = (char) ( rand() % (95 - 32 + 1) + 32);
     }
     body[255] = '\0';
 
     Message message = generateMessage( recipient, body );
 
     //  - random transmission status
-    message.transmitted = (bool) ( randombytes_random() % 2 == 1 );
-    if ( message.transmitted )
-        randombytes_buf( message.transmitted_device.mac, 6 );
+    message.transmitted = (uint8_t) (rand() % 2 == 1 ? 1 : 0);
+    if ( message.transmitted == 1 )
+    {
+        for( uint8_t byte_i = 0; byte_i < 6; byte_i++ )
+            message.transmitted_device.mac[byte_i] = (unsigned char) (rand() % 255);
+    }
 
     return message;
 }
@@ -241,7 +244,7 @@ void implode(const char * glue, const Message message, MessageSerialized message
 /// \brief Log ( to stdout ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
-void inspect(const Message message, bool metadata)
+void inspect(const Message message, uint8_t metadata)
 {
     // Parse timestamp
     char created_at_full[50];
@@ -257,7 +260,7 @@ void inspect(const Message message, bool metadata)
     {
         char hex[18];
 
-        message.transmitted ?
+        message.transmitted == 1 ?
             mac2hex( message.transmitted_device.mac, hex ):
             snprintf( hex, 18, "--:--:--:--:--:--" );
 
@@ -296,27 +299,27 @@ uint32_t ip2aem(const char *ip)
 /// \param device1
 /// \param device2
 /// \return
-bool isDeviceEqual(Device device1, Device device2)
+uint8_t isDeviceEqual(Device device1, Device device2)
 {
-    return device1.AEM == device2.AEM;
+    return (uint8_t) (device1.AEM == device2.AEM ? 1 : 0);
 }
 
 /// \brief Check if two messages have exactly the same values in ALL of their fields.
 /// \param message1
 /// \param message2
 /// \return
-bool isMessageEqual(Message message1, Message message2)
+uint8_t isMessageEqual(Message message1, Message message2)
 {
     if ( message1.sender != message2.sender )
-        return false;
+        return 0;
     if ( message1.recipient != message2.recipient )
-        return false;
+        return 0;
     if ( message1.created_at != message2.created_at )
-        return false;
+        return 0;
     if ( 0 != strcmp( message1.body, message2.body ) )
-        return false;
+        return 0;
 
-    return true;
+    return 1;
 }
 
 /// Convert MAC address from byte array to string ( adding ':' between successive bytes )

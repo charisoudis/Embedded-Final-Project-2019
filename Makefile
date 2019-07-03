@@ -22,7 +22,6 @@ vpath %.h include
 
 # Entry point of compilation
 $(LINK_TARGET) : $(OBJS)
-	# sudo aptitude install libsodium-dev || mkdir -p out	# Un-comment if libsodium is not installed in your system
 	mkdir -p out
 	$(CC) -o $@ $^ $(XFLAGS)
 

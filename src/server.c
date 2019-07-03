@@ -1,4 +1,3 @@
-#include <zconf.h>
 #include "server.h"
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
@@ -22,7 +21,7 @@ void messages_push(Message message)
 
                 while (
                     /* while message[i] is not transmitted */
-                    !messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
+                    0 == messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
                     && messagesHeadModSize < MESSAGES_SIZE
                 );
                 if ( messagesHeadModSize == MESSAGES_SIZE )
