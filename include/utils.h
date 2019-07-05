@@ -52,6 +52,7 @@ typedef struct communication_worker_args_t {
 
     Device connected_device;
     uint16_t connected_socket_fd;
+    uint8_t concurrent;
 
 } CommunicationWorkerArgs;
 
@@ -67,9 +68,9 @@ void communication_worker(void *args);
 void communication_receiver_worker(void *args);
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param receiver connected device that will receive messages
+/// \param receiverDevice connected device that will receive messages
 /// \param socket_fd socket file descriptor with connected device
-void communication_transmitter_worker(Device receiver, int socket_fd);
+void communication_transmitter_worker(Device receiverDevice, int socket_fd);
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param glue the connective character(s); acts as the separator between successive message fields

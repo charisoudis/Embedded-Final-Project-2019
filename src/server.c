@@ -74,7 +74,7 @@ void listening_worker()
     server_fd = status;
 
     // Set server address ( forcefully attaching socket to selected socket port )
-    status = 1;
+//    status = 1;
 //    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
 //    if ( status < 0 )
 //        error( status, "\tserver_listen(): setsockopt() failed" );
@@ -123,6 +123,8 @@ void listening_worker()
             pthread_mutex_unlock( &availableThreadsLock );
             //-----:end
 
+            args.concurrent = 1;
+
             status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
             if ( status != 0 )
                 error( status, "\tserver_listen(): pthread_create() failed" );
@@ -133,7 +135,9 @@ void listening_worker()
         }
         else
         {
-            close( socket_fd );
+            // run in main thread
+            args.concurrent = 0;
+            communication_worker(&args);
         }
     }
     while (1);

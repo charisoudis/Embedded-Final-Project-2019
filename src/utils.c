@@ -59,14 +59,17 @@ void communication_worker(void *thread_args)
     // Close Socket
     close( args->connected_socket_fd );
 
-    // Update number of threads ( since this function is called in a new thread )
-    //----- CRITICAL
-    pthread_mutex_lock( &availableThreadsLock );
+    // Update number of threads ( if this function is called in a new thread )
+    if ( 1 == args->concurrent )
+    {
+        //----- CRITICAL
+        pthread_mutex_lock( &availableThreadsLock );
 
-    communicationThreadsAvailable++;
+        communicationThreadsAvailable++;
 
-    pthread_mutex_unlock( &availableThreadsLock );
-    //-----:end
+        pthread_mutex_unlock( &availableThreadsLock );
+        //-----:end
+    }
 }
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
@@ -94,7 +97,7 @@ void communication_receiver_worker(void *thread_args)
                 break;
         }
 
-        // Store
+        // Store in $messages buffer
         //----- CRITICAL
         pthread_mutex_lock( &messagesBufferLock );
 
@@ -109,16 +112,16 @@ void communication_receiver_worker(void *thread_args)
 }
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param receiver connected device that will receive messages
+/// \param receiverDevice connected device that will receive messages
 /// \param socket_fd socket file descriptor with connected device
-inline void communication_transmitter_worker(Device receiver, int socket_fd)
+inline void communication_transmitter_worker(Device receiverDevice, int socket_fd)
 {
     MessageSerialized messageSerialized;
 
     messageSerialized = (char *) malloc( 277 );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        if ( messages[message_i].created_at > 0 && 0 == isDeviceEqual( receiver, messages[message_i].transmitted_device ) )
+        if ( messages[message_i].created_at > 0 && 0 == isDeviceEqual( receiverDevice, messages[message_i].transmitted_device ) )
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
@@ -126,9 +129,13 @@ inline void communication_transmitter_worker(Device receiver, int socket_fd)
             // Transmit
             send( socket_fd , messageSerialized , 277, 0 );
 
-            // Update Status
+            // Update Status in $messages buffer
+            pthread_mutex_lock( &messagesBufferLock );
+
             messages[message_i].transmitted = 1;
-            memcpy( &messages[message_i].transmitted_device, &receiver, sizeof( Device ) );
+            memcpy( &messages[message_i].transmitted_device, &receiverDevice, sizeof( Device ) );
+
+            pthread_mutex_unlock( &messagesBufferLock );
         }
     }
 
