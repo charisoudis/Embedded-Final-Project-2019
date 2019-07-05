@@ -12,13 +12,13 @@ extern pthread_mutex_t messagesBufferLock;
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-
-    pthread_t receiverThread;
     int status;
 
     // Receiver Thread ( in a new thread )
     if ( communicationThreadsAvailable > 1 )
     {
+        pthread_t receiverThread;
+
         //----- CRITICAL
         pthread_mutex_lock( &availableThreadsLock );
 

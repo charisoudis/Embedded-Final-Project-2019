@@ -10,6 +10,8 @@ extern pthread_mutex_t messagesBufferLock;
 /// \param message
 void messages_push(Message message)
 {
+    uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
+
     switch ( MESSAGES_PUSH_OVERRIDE_POLICY )
     {
         case MESSAGES_PUSH_OVERRIDE_SENT_ONLY:
@@ -17,17 +19,18 @@ void messages_push(Message message)
             // If buffer filled once, then override only sent
             if ( messagesHead > MESSAGES_SIZE )
             {
-                uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
+                uint16_t messagesHeadCopy = messagesHead;
 
                 while (
                     /* while message[i] is not transmitted */
                     0 == messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
-                    && messagesHeadModSize < MESSAGES_SIZE
+                    && ++messagesHeadModSize < MESSAGES_SIZE
                 );
                 if ( messagesHeadModSize == MESSAGES_SIZE )
                 {
                     // if reached end of buffer and did not succeed in finding a free spot then override message at
                     // initial messagesHead's position ( to avoid possible endless loop )
+                    messagesHeadModSize = (uint16_t) (messagesHeadCopy % MESSAGES_SIZE);
                     goto default_case;
                 }
                 else
@@ -48,8 +51,6 @@ void messages_push(Message message)
         default:
         default_case:
         {
-            uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
-
             // push to head
             memcpy( (void *) ( messages + messagesHeadModSize ), (void *) &message, sizeof( Message ) );
 
