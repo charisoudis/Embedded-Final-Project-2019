@@ -16,6 +16,9 @@ void *polling_worker(void)
     char ip[12];
     pthread_t communicationThread;
 
+    // Use current time as seed for random generator
+    srand( (unsigned int) time(NULL) );
+
     aem = CLIENT_AEM_RANGE_MIN;
     do
     {
@@ -53,7 +56,9 @@ void *polling_worker(void)
             }
             else
             {
-                close( socket_fd );
+                //close( socket_fd );
+                communication_worker(&args);
+
             }
         }
 
@@ -83,6 +88,7 @@ void *producer_worker(void)
 
         // Generate
         message = generateRandomMessage();
+        inspect( message, 0 );
 
         // Store
         //----- CRITICAL
@@ -100,7 +106,7 @@ void *producer_worker(void)
         /* sleep() is a cancellation point */
 
         // Sleep
-        delay = randombytes_uniform( PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN;
+        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
         sleep( delay );
     }
     while( 1 );

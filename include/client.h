@@ -1,10 +1,6 @@
 #ifndef FINAL_CLIENT_H
 #define FINAL_CLIENT_H
 
-#include <pthread.h>
-#include <stdbool.h>
-#include <time.h>
-#include <zconf.h>
 #include "utils.h"
 #include "server.h"
 

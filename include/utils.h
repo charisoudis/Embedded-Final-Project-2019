@@ -4,14 +4,13 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <pthread.h>
-#include <sodium.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include <sys/socket.h>
 #include <time.h>
+#include <unistd.h>
 
 #define error(status, msg) \
                do { errno = status; perror(msg); exit(EXIT_FAILURE); } while (0)
@@ -20,12 +19,13 @@
     #define SOCKET_PORT 2278
 #endif
 #ifndef COMMUNICATION_WORKERS_MAX
-    #define COMMUNICATION_WORKERS_MAX 8
+    #define COMMUNICATION_WORKERS_MAX 4
 #endif
 
 
 //------------------------------------------------------------------------------------
 
+typedef unsigned long uint64;
 
 typedef struct device_t {
     uint32_t AEM;
@@ -36,11 +36,11 @@ typedef struct message_t {
     // Fundamental Message fields
     uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
     uint32_t recipient;             // ΑΕΜ παραλήπτη:       uint32
-    uint64_t created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    uint64 created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
     char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
-    bool transmitted;               // If the message was actually transmitted from this device
+    uint8_t transmitted;            // If the message was actually transmitted from this device
     Device transmitted_device;      // Device that this message was transmitted to ( if transmitted from this device )
 } Message;
 
@@ -105,7 +105,7 @@ void implode(const char *glue, Message message, MessageSerialized messageSeriali
 /// \brief Log ( to stdout ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
-void inspect(Message message, bool metadata);
+void inspect(Message message, uint8_t metadata);
 
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )
@@ -116,13 +116,13 @@ uint32_t ip2aem(const char *ip);
 /// \param device1
 /// \param device2
 /// \return
-bool isDeviceEqual(Device device1, Device device2);
+uint8_t isDeviceEqual(Device device1, Device device2);
 
 /// \brief Check if two messages have exactly the same values in ALL of their fields ( metadata excluded ).
 /// \param message1
 /// \param message2
 /// \return
-bool isMessageEqual(Message message1, Message message2);
+uint8_t isMessageEqual(Message message1, Message message2);
 
 /// Convert MAC address from byte array to string ( adding ':' between successive bytes )
 /// \param mac mac address as array of bytes ( 'byte' is 'unsigned char' in C )
@@ -135,9 +135,9 @@ void mac2hex(const unsigned char *mac, char *hex);
 int socket_connect(const char * ip);
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
-/// \param timestamp UNIX timestamp ( uint64_t )
+/// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
 /// \param string the resulting datetime string
-void timestamp2ftime( uint64_t timestamp, const char *format, char *string );
+void timestamp2ftime( uint64 timestamp, const char *format, char *string );
 
 #endif //FINAL_UTILS_H

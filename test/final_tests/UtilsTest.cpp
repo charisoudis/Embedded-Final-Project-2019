@@ -29,7 +29,7 @@ protected:
     void SetUp() override
     {
         // Init a random message
-        message.transmitted = false;
+        message.transmitted = 0;
         message.sender = 9026;
         message.recipient = 8908;
         snprintf( message.body, 256, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra commodo ligula, id tempor ligula feugiat eu. Quisque condimentum tortor et nunc cursus, suscipit mollis tellus volutpat. Proin semper venenatis eros, eget faucibus nibh facilisis metus" );
@@ -84,11 +84,11 @@ TEST_F(UtilsTest, IsMessageEqual)
 
     // Check equality
     memcpy( &myMessage, &message, sizeof( Message ) );
-    EXPECT_TRUE( isMessageEqual( myMessage, message ) );
+    EXPECT_EQ( 1, isMessageEqual( myMessage, message ) );
 
     // Check non-equality
     myMessageDifferent = generateRandomMessage();
-    EXPECT_FALSE( isMessageEqual( message, myMessageDifferent ) );
+    EXPECT_EQ( 0, isMessageEqual( message, myMessageDifferent ) );
 }
 
 /// \brief Tests utils > ip2aem() function.

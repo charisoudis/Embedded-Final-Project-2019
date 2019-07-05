@@ -1,5 +1,3 @@
-#include <locale.h>
-#include <zconf.h>
 #include <signal.h>
 #include "client.h"
 #include "server.h"

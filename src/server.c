@@ -1,4 +1,3 @@
-#include <zconf.h>
 #include "server.h"
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
@@ -22,7 +21,7 @@ void messages_push(Message message)
 
                 while (
                     /* while message[i] is not transmitted */
-                    !messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
+                    0 == messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
                     && messagesHeadModSize < MESSAGES_SIZE
                 );
                 if ( messagesHeadModSize == MESSAGES_SIZE )
@@ -74,11 +73,11 @@ void listening_worker()
         error( status, "\tserver_listen(): socket() failed" );
     server_fd = status;
 
-    // Set server address
-    status = 1;     // forcefully attaching socket to selected socket port
-    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
-    if ( status < 0 )
-        error( status, "\tserver_listen(): setsockopt() failed" );
+    // Set server address ( forcefully attaching socket to selected socket port )
+    status = 1;
+//    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
+//    if ( status < 0 )
+//        error( status, "\tserver_listen(): setsockopt() failed" );
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
