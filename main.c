@@ -27,6 +27,22 @@ static void onAlarm(int signo);
 
 int main( int argc, char **argv )
 {
+    int mh = 0, mho = 10;
+    while ( mh < mho )
+    {
+        fprintf( stdout, "%d\n", mh );
+        mh++;
+
+//        if ( 0 == messages[messagesHead].created_at ) break;
+//        if ( 1 == messages[messagesHead].transmitted ) break;
+    }
+
+    fprintf( stdout, "%d\n", mh );
+
+    return 0;
+
+
+
     static uint32_t maxExecutionTime;   // secs
     int status;
 

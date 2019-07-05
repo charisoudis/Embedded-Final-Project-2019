@@ -10,53 +10,43 @@ extern pthread_mutex_t messagesBufferLock;
 /// \param message
 void messages_push(Message message)
 {
-    uint16_t messagesHeadModSize = (uint16_t) (messagesHead % MESSAGES_SIZE);
-
-    switch ( MESSAGES_PUSH_OVERRIDE_POLICY )
+    // Find where to place new message
+    if ( MESSAGES_PUSH_OVERRIDE_POLICY == MESSAGES_PUSH_OVERRIDE_SENT_ONLY )
     {
-        case MESSAGES_PUSH_OVERRIDE_SENT_ONLY:
+        messages_head_t messagesHeadOriginal = messagesHead;
+
+        // start searching for a hole, from buffer's head
+        do
         {
-            // If buffer filled once, then override only sent
-            if ( messagesHead > MESSAGES_SIZE )
+            if ( 0 == messages[messagesHead].created_at ) break;
+            if ( 1 == messages[messagesHead].transmitted ) break;
+        }
+        while ( ++messagesHead < MESSAGES_SIZE );
+
+        // if reached buffer's end, rewind at start and search until original buffer's head
+        if ( MESSAGES_SIZE == messagesHead )
+        {
+            messagesHead = 0;
+
+            while ( messagesHead < messagesHeadOriginal )
             {
-                uint16_t messagesHeadCopy = messagesHead;
+                if ( 0 == messages[messagesHead].created_at ) break;
+                if ( 1 == messages[messagesHead].transmitted ) break;
 
-                while (
-                    /* while message[i] is not transmitted */
-                    0 == messages[ messagesHeadModSize++ ].transmitted && ++messagesHead
-                    && ++messagesHeadModSize < MESSAGES_SIZE
-                );
-                if ( messagesHeadModSize == MESSAGES_SIZE )
-                {
-                    // if reached end of buffer and did not succeed in finding a free spot then override message at
-                    // initial messagesHead's position ( to avoid possible endless loop )
-                    messagesHeadModSize = (uint16_t) (messagesHeadCopy % MESSAGES_SIZE);
-                    goto default_case;
-                }
-                else
-                {
-                    messagesHead--;
-                    messagesHeadModSize--;
-                }
-
-//                fprintf( stdout, "\t\tmessages_push(MESSAGES_PUSH_OVERRIDE_SENT_ONLY): messagesHeadModSize = %d\n", messagesHeadModSize );
-
-                // push to head
-                memcpy( (void *) ( messages + messagesHeadModSize ), (void *) &message, sizeof( Message ) );
-
-                break;
+                messagesHead++;
             }
-        }
-        case MESSAGES_PUSH_OVERRIDE_BLIND:
-        default:
-        default_case:
-        {
-            // push to head
-            memcpy( (void *) ( messages + messagesHeadModSize ), (void *) &message, sizeof( Message ) );
 
-            // update head
-            messagesHead++;
+            // after this loop, if no break executed, messagesHead === messagesHeadOriginal
         }
+    }
+
+    // Place message at buffer's head
+    memcpy( (void *) ( messages + messagesHead ), (void *) &message, sizeof( Message ) );
+
+    // Increment head
+    if ( ++messagesHead == MESSAGES_SIZE )
+    {
+        messagesHead = 0;
     }
 }
 
