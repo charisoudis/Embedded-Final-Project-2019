@@ -16,13 +16,6 @@
 typedef uint16_t messages_head_t;
 typedef uint8_t devices_head_t;
 
-/* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
-messages_head_t messagesHead;
-
-/* devicesHead is in range: [0, $COMMUNICATION_WORKERS_MAX + 2 - 1] */
-devices_head_t devicesHead;
-
-
 typedef struct active_devices_queue_t {
 
     Device devices[ACTIVE_DEVICES_MAX];
@@ -30,8 +23,6 @@ typedef struct active_devices_queue_t {
     devices_head_t tail;
 
 } ActiveDevicesQueue;
-
-Message messages[ MESSAGES_SIZE ];
 
 
 /// Check if $device exists $activeDevices FIFO queue.

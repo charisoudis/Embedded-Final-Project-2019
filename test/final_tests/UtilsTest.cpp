@@ -3,6 +3,7 @@
 #include <setjmp.h>
 #include "gtest/gtest.h"
 extern "C" {
+    #include "log.h"
     #include "utils.h"
 }
 
@@ -13,10 +14,12 @@ extern "C" {
 #define MAX_EXECUTION_TIME 10 //7200     // 2 hours
 
 static pthread_t pollingThread, producerThread;
-pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
+pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
+
+MessagesStats messagesStats;
 
 //------------------------------------------------------------------------------------------------
 
@@ -93,5 +96,8 @@ TEST_F(UtilsTest, IsMessageEqual)
 /// \brief Tests utils > ip2aem() function.
 TEST_F(UtilsTest, Ip2Aem)
 {
-    // TODO
+    uint32_t aem = 9026;
+    char *ip = "10.0.90.26";
+
+    EXPECT_EQ( 9026, ip2aem( ip ) );
 }

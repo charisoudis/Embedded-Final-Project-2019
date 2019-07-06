@@ -12,6 +12,15 @@ extern ActiveDevicesQueue activeDevicesQueue;   // FIFO
 //------------------------------------------------------------------------------------------------
 
 
+/* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
+messages_head_t messagesHead;
+
+/* devicesHead is in range: [0, $COMMUNICATION_WORKERS_MAX + 2 - 1] */
+devices_head_t devicesHead;
+
+Message messages[ MESSAGES_SIZE ];
+
+
 /// Check if $device exists $activeDevices FIFO queue.
 /// \param device
 uint8_t devices_exists(Device device)

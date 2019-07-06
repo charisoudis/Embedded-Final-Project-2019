@@ -8,6 +8,8 @@ extern uint8_t communicationThreadsAvailable;
 extern pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
 extern MessagesStats messagesStats;
 
+extern Message messages[ MESSAGES_SIZE ];
+
 
 //------------------------------------------------------------------------------------------------
 

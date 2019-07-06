@@ -24,6 +24,9 @@ MessagesStats messagesStats;
 //------------------------------------------------------------------------------------------------
 
 
+extern messages_head_t messagesHead;
+
+
 /// \brief Handler of SIGALRM signal. Used to terminate sampling when totalSamplingTime finishes.
 /// \param signo
 /// \return void - Actually this function terminates program execution.
