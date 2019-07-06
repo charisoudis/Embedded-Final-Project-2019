@@ -48,6 +48,7 @@ int main( int argc, char **argv )
     // Set max execution time ( in seconds )
     executionTime = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
 
+    // Initialize RNG
     srand((unsigned int) time(NULL ));
 
     // Initialize Locks
