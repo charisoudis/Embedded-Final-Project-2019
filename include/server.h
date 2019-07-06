@@ -14,12 +14,37 @@
 #endif
 
 typedef uint16_t messages_head_t;
+typedef uint8_t devices_head_t;
+
+/* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
+messages_head_t messagesHead;
+
+/* devicesHead is in range: [0, $COMMUNICATION_WORKERS_MAX + 2 - 1] */
+devices_head_t devicesHead;
+
+
+typedef struct active_devices_queue_t {
+
+    Device devices[ACTIVE_DEVICES_MAX];
+    devices_head_t head;
+    devices_head_t tail;
+
+} ActiveDevicesQueue;
 
 Message messages[ MESSAGES_SIZE ];
 
-/* messagesHead is allowed to exceed MESSAGES_SIZE; if so, then mod-MESSAGES_SIZE arithmetic is used to calculate
- * actual head position */
-messages_head_t messagesHead;
+
+/// Check if $device exists $activeDevices FIFO queue.
+/// \param device
+uint8_t devices_exists(Device device);
+
+/// Push $device to $activeDevices FIFO queue.
+/// \param device
+void devices_push(Device device);
+
+/// Remove $device from $activeDevices FIFO queue.
+/// \param device
+void devices_remove(Device device);
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message

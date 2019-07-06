@@ -3,8 +3,7 @@
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern pthread_mutex_t availableThreadsLock;
-extern pthread_mutex_t messagesBufferLock;
+extern pthread_mutex_t availableThreadsLock, messagesBufferLock;
 
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void)
@@ -29,10 +28,10 @@ void *polling_worker(void)
         int socket_fd = socket_connect( ip );
         if ( -1 != socket_fd )
         {
-            // Don't cancel thread until the socket is closed
+            //----- NON-CANCELABLE SECTION
             status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
             if ( status != 0 )
-                error( status, "\tpolling_worker(): pthread_setcancelstate( DISABLE) failed" );
+                error( status, "\tpolling_worker(): pthread_setcancelstate( DISABLE ) failed" );
 
             // Connected > OffLoad to communication worker
             //  - format arguments
@@ -42,7 +41,7 @@ void *polling_worker(void)
             //  - open thread
             if ( communicationThreadsAvailable > 0 )
             {
-                //----- CRITICAL
+                //----- CRITICAL SECTION
                 pthread_mutex_lock( &availableThreadsLock );
 
                 communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
@@ -69,10 +68,10 @@ void *polling_worker(void)
 
             }
 
-            // Re-enable thread cancelling
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
             if ( status != 0 )
                 error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
+            //-----:end
         }
 
         // Reset polling if reached AEMs range's maximum.
@@ -95,15 +94,15 @@ void *producer_worker(void)
     {
         // Generate
         message = generateRandomMessage();
-        inspect( message, 0 );
+        inspect( message, 1 );
 
-        // Disable cancellation until the new message has been pushed to $messages buffer
+        //----- NON-CANCELABLE SECTION
         status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
         if ( status != 0 )
             error( status, "\tproducer_worker(): pthread_setcancelstate( DISABLE ) failed" );
 
         // Store
-        //----- CRITICAL
+        //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesBufferLock );
 
         messages_push( message );
@@ -111,10 +110,10 @@ void *producer_worker(void)
         pthread_mutex_unlock( &messagesBufferLock );
         //-----:end
 
-        // Re-enable thread cancelling ( sleep() is a cancellation point )
         status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
         if ( status != 0 )
             error( status, "\tproducer_worker(): pthread_setcancelstate( ENABLE ) failed" );
+        //-----:end
 
         // Sleep
         delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);

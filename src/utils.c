@@ -4,65 +4,96 @@
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern pthread_mutex_t availableThreadsLock;
-extern pthread_mutex_t messagesBufferLock;
+extern pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
+
+
+//------------------------------------------------------------------------------------------------
+
 
 /// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
 /// \param thread_args pointer to communicate_args_t type
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
+    uint8_t deviceExists;
     int status;
 
-    // Receiver Thread ( in a new thread )
-    if ( communicationThreadsAvailable > 1 )
+    // Check if there is an active connection with given device
+    //----- CRITICAL SECTION
+    pthread_mutex_lock( &activeDevicesLock );
+
+    deviceExists = devices_exists( args->connected_device );
+    if ( 0 == deviceExists )
     {
-        pthread_t receiverThread;
-
-        //----- CRITICAL
-        pthread_mutex_lock( &availableThreadsLock );
-
-        receiverThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
-        communicationThreadsAvailable--;
-
-        pthread_mutex_unlock( &availableThreadsLock );
-        //-----:end
-
-        status = pthread_create( &receiverThread, NULL, (void *) communication_receiver_worker, &thread_args );
-        if ( status != 0 )
-            error( status, "\tcommunication_worker(): pthread_create() failed" );
-
-        // Transmitter Thread ( main thread )
-        communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
-
-        // Wait receiver thread
-        status = pthread_join( receiverThread, NULL );
-        if ( status != 0 )
-            error( status, "\tcommunication_worker(): pthread_join() failed" );
-
-        // Update number of threads
-        //----- CRITICAL
-        pthread_mutex_lock( &availableThreadsLock );
-
-        communicationThreadsAvailable++;
-
-        pthread_mutex_unlock( &availableThreadsLock );
-        //-----:end
+        // Update active devices
+        devices_push( args->connected_device );
     }
-    else
+
+    pthread_mutex_unlock( &activeDevicesLock );
+    //-----:end
+
+    // If no active connection with given device exists
+    if ( 0 == deviceExists )
     {
-        // Serial Execution
-        communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
-        communication_receiver_worker( thread_args );
+        // Receiver Thread ( in a new thread )
+        if ( communicationThreadsAvailable > 2 )
+        {
+            pthread_t receiverThread;
+
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &availableThreadsLock );
+
+            receiverThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+            communicationThreadsAvailable--;
+
+            pthread_mutex_unlock( &availableThreadsLock );
+            //-----:end
+
+            status = pthread_create( &receiverThread, NULL, (void *) communication_receiver_worker, &thread_args );
+            if ( status != 0 )
+                error( status, "\tcommunication_worker(): pthread_create() failed" );
+
+            // Transmitter Thread ( main thread )
+            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+
+            // Wait receiver thread
+            status = pthread_join( receiverThread, NULL );
+            if ( status != 0 )
+                error( status, "\tcommunication_worker(): pthread_join() failed" );
+
+            // Update number of threads
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &availableThreadsLock );
+
+            communicationThreadsAvailable++;
+
+            pthread_mutex_unlock( &availableThreadsLock );
+            //-----:end
+        }
+        else
+        {
+            // Serial Execution
+            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+            communication_receiver_worker( thread_args );
+        }
+
+        // Update active devices
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &activeDevicesLock );
+
+        devices_remove( args->connected_device );
+
+        pthread_mutex_unlock( &activeDevicesLock );
+        //-----:end
     }
 
     // Close Socket
     close( args->connected_socket_fd );
 
-    // Update number of threads ( if this function is called in a new thread )
+    // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
     if ( 1 == args->concurrent )
     {
-        //----- CRITICAL
+        //----- CRITICAL SECTION
         pthread_mutex_lock( &availableThreadsLock );
 
         communicationThreadsAvailable++;
@@ -98,7 +129,7 @@ void communication_receiver_worker(void *thread_args)
         }
 
         // Store in $messages buffer
-        //----- CRITICAL
+        //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesBufferLock );
 
         messages_push( message );

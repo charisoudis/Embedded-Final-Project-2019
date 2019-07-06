@@ -6,6 +6,131 @@ extern uint8_t communicationThreadsAvailable;
 extern pthread_mutex_t availableThreadsLock;
 extern pthread_mutex_t messagesBufferLock;
 
+extern ActiveDevicesQueue activeDevicesQueue;   // FIFO
+
+
+//------------------------------------------------------------------------------------------------
+
+
+/// Check if $device exists $activeDevices FIFO queue.
+/// \param device
+uint8_t devices_exists(Device device)
+{
+    for (devices_head_t device_i = 0; device_i < ACTIVE_DEVICES_MAX; ++device_i)
+    {
+        if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) )
+            return 1;
+    }
+
+    return 0;
+}
+
+/// Push $device to activeDevices FIFO queue.
+/// \param device
+void devices_push(Device device)
+{
+    // Place device at activeDevices queue's tail
+    memcpy( (void *) ( activeDevicesQueue.devices + activeDevicesQueue.tail ), (void *) &device, sizeof( Device ) );
+
+    // Increment tail
+    if ( ++activeDevicesQueue.tail == ACTIVE_DEVICES_MAX )
+    {
+        activeDevicesQueue.tail = 0;
+    }
+
+    if ( activeDevicesQueue.tail == activeDevicesQueue.head )
+    {
+        activeDevicesQueue.tail = -1;
+    }
+}
+
+/// Remove $device from $activeDevices FIFO queue.
+/// \param device
+void devices_remove(Device device)
+{
+    // Remove device from queue's head
+    if ( 0 == isDeviceEqual( device, activeDevicesQueue.devices[activeDevicesQueue.head] ) )
+    {
+        devices_head_t device_i;
+
+        // find device's index
+        for ( device_i = 0; device_i < ACTIVE_DEVICES_MAX; device_i++ )
+            if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) ) break;
+
+        // Device that has to be removed is not located on queue's head ( as it should be supp. equal communication time )
+        // move all devices to the right and virtually place device in head
+        if ( activeDevicesQueue.head < activeDevicesQueue.tail )
+        {
+            if ( activeDevicesQueue.head < device_i && device_i <= activeDevicesQueue.tail )
+            {
+                // move all previous one position to the right
+                do
+                {
+                    // devices[device_i] <-- devices[device_i - 1]
+                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
+                }
+                while( --device_i >= activeDevicesQueue.head );
+            }
+            else
+            {
+                error( -1, "\tdevices_remove(): device_i is is not in range: [head + 1, tail]" );
+            }
+        }
+        else if ( activeDevicesQueue.head > activeDevicesQueue.tail )
+        {
+            if ( device_i <= activeDevicesQueue.head && device_i > activeDevicesQueue.tail )
+            {
+                error( -1, "\tdevices_remove(): device_i is is not in one of ranges: [head + 1, N] OR [0, tail]" );
+            }
+            else
+            {
+                // move all previous one position to the right
+                //  - 1 ... device_i
+                do
+                {
+                    // devices[device_i] <-- devices[device_i - 1]
+                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
+                }
+                while( --device_i > 0 );
+
+                //  - 0 <-- N
+                device_i = ACTIVE_DEVICES_MAX - 1;
+                memcpy( activeDevicesQueue.devices, activeDevicesQueue.devices + device_i, sizeof( Device ) );
+
+                //  - head ... device_i
+                do
+                {
+                    // devices[device_i] <-- devices[device_i - 1]
+                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
+                }
+                while( --device_i >= activeDevicesQueue.head );
+            }
+        }
+        else
+        {
+            error( -1, "\tdevices_remove(): queue is empty ( head == tail )" );
+        }
+
+        devices_head_t devicesHead = activeDevicesQueue.head;
+        for (devices_head_t i = (devices_head_t) (activeDevicesQueue.head + 1); i < ACTIVE_DEVICES_MAX; ++i)
+        {
+            if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[i] ) )
+            {
+                break;
+            }
+        }
+    }
+    else
+    {
+        activeDevicesQueue.devices[activeDevicesQueue.head].AEM = 0;
+    }
+
+    if ( ++activeDevicesQueue.head == ACTIVE_DEVICES_MAX )
+    {
+        activeDevicesQueue.head = 0;
+    }
+}
+
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message
 void messages_push(Message message)
@@ -15,11 +140,11 @@ void messages_push(Message message)
     {
         messages_head_t messagesHeadOriginal = messagesHead;
 
-        // start searching for a hole, from buffer's head
+        // start searching for a hole from buffer's head
         do
         {
-            if ( 0 == messages[messagesHead].created_at ) break;
-            if ( 1 == messages[messagesHead].transmitted ) break;
+            if ( 0 == messages[messagesHead].created_at ) break;    // found empty message: hole
+            if ( 1 == messages[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
         }
         while ( ++messagesHead < MESSAGES_SIZE );
 
@@ -105,7 +230,7 @@ void listening_worker()
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
         {
-            //----- CRITICAL
+            //----- CRITICAL SECTION
             pthread_mutex_lock( &availableThreadsLock );
 
             communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];

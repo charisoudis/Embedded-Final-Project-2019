@@ -10,11 +10,13 @@ extern "C" {
 //------------------------------------------------------------------------------------------------
 
 
-pthread_mutex_t availableThreadsLock, messagesBufferLock;
+#define MAX_EXECUTION_TIME 10 //7200     // 2 hours
+
+static pthread_t pollingThread, producerThread;
+pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
-
 
 //------------------------------------------------------------------------------------------------
 

@@ -10,10 +10,12 @@
 #define MAX_EXECUTION_TIME 10 //7200     // 2 hours
 
 static pthread_t pollingThread, producerThread;
-pthread_mutex_t availableThreadsLock, messagesBufferLock;
+pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
+
+ActiveDevicesQueue activeDevicesQueue;
 
 
 //------------------------------------------------------------------------------------------------
@@ -27,24 +29,13 @@ static void onAlarm(int signo);
 
 int main( int argc, char **argv )
 {
-    int mh = 0, mho = 10;
-    while ( mh < mho )
-    {
-        fprintf( stdout, "%d\n", mh );
-        mh++;
-
-//        if ( 0 == messages[messagesHead].created_at ) break;
-//        if ( 1 == messages[messagesHead].transmitted ) break;
-    }
-
-    fprintf( stdout, "%d\n", mh );
-
-    return 0;
-
-
-
     static uint32_t maxExecutionTime;   // secs
     int status;
+
+    // Initialize types
+    messagesHead = 0;
+    activeDevicesQueue.head = 0;
+    activeDevicesQueue.tail = 0;
 
     // Set max execution time ( in seconds )
     maxExecutionTime = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
@@ -56,6 +47,9 @@ int main( int argc, char **argv )
     status = pthread_mutex_init( &messagesBufferLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesBufferLock ) failed" );
+    status = pthread_mutex_init( &activeDevicesLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
 
     // Setup alarm
     alarm( maxExecutionTime );
