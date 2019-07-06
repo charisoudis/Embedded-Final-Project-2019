@@ -1,9 +1,11 @@
 #include "client.h"
+#include "log.h"
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
 extern pthread_mutex_t availableThreadsLock, messagesBufferLock;
+extern MessagesStats messagesStats;
 
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void)
@@ -110,6 +112,8 @@ void *producer_worker(void)
         pthread_mutex_unlock( &messagesBufferLock );
         //-----:end
 
+        messagesStats.produced++;
+
         status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
         if ( status != 0 )
             error( status, "\tproducer_worker(): pthread_setcancelstate( ENABLE ) failed" );
@@ -117,6 +121,8 @@ void *producer_worker(void)
 
         // Sleep
         delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
+        // delay = (uint32_t) (rand() % (60 * PRODUCER_DELAY_RANGE_MAX + 1 - 60 * PRODUCER_DELAY_RANGE_MIN ) + 60 * PRODUCER_DELAY_RANGE_MIN);
+        messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }
     while( 1 );

@@ -13,7 +13,7 @@
     #define CLIENT_AEM_RANGE_MAX 9050
 #endif
 
-#ifndef PRODUCER_DELAY_RANGE
+#ifndef PRODUCER_DELAY_RANGE    // in minutes
     #define PRODUCER_DELAY_RANGE_MIN 1
     #define PRODUCER_DELAY_RANGE_MAX 5
 #endif

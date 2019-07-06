@@ -1,10 +1,12 @@
 #include "client.h"
+#include "log.h"
 #include "utils.h"
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
+extern pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
+extern MessagesStats messagesStats;
 
 
 //------------------------------------------------------------------------------------------------
@@ -136,6 +138,15 @@ void communication_receiver_worker(void *thread_args)
 
         pthread_mutex_unlock( &messagesBufferLock );
         //-----:end
+
+        // Update stats
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &messagesStatsLock );
+
+        messagesStats.received++;
+
+        pthread_mutex_unlock( &messagesStatsLock );
+        //-----:end
     }
 
     // Free resources
@@ -161,12 +172,23 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
             send( socket_fd , messageSerialized , 277, 0 );
 
             // Update Status in $messages buffer
+            //----- CRITICAL SECTION
             pthread_mutex_lock( &messagesBufferLock );
 
             messages[message_i].transmitted = 1;
             memcpy( &messages[message_i].transmitted_device, &receiverDevice, sizeof( Device ) );
 
             pthread_mutex_unlock( &messagesBufferLock );
+            //-----:end
+
+            // Update stats
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &messagesStatsLock );
+
+            messagesStats.produced++;
+
+            pthread_mutex_unlock( &messagesStatsLock );
+            //-----:end
         }
     }
 
@@ -208,7 +230,7 @@ Message generateMessage(uint32_t recipient, const char * body)
 
     message.sender = CLIENT_AEM;
     message.recipient = recipient;
-    message.created_at = (unsigned long) time( NULL );
+    message.created_at = (uint64) time( NULL );
 
     memcpy( message.body, body, 256 );
 
@@ -401,6 +423,9 @@ int socket_connect(const char * ip)
 /// \param string the resulting datetime string
 inline void timestamp2ftime( const unsigned long timestamp, const char *format, char *string )
 {
+//    // Format datetime stings in Greek
+//    setlocale( LC_TIME, "el_GR.UTF-8" );
+
     struct tm *tmp = localtime((const time_t *) &( timestamp ));
     if ( tmp == NULL )
     {

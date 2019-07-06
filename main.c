@@ -1,5 +1,6 @@
 #include <signal.h>
 #include "client.h"
+#include "log.h"
 #include "server.h"
 #include "utils.h"
 
@@ -7,15 +8,17 @@
 //------------------------------------------------------------------------------------------------
 
 
-#define MAX_EXECUTION_TIME 10 //7200     // 2 hours
+#define MAX_EXECUTION_TIME 10 // 7200         // 2 hours
+static uint32_t executionTime;          // secs
 
 static pthread_t pollingThread, producerThread;
-pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock;
+pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 
 ActiveDevicesQueue activeDevicesQueue;
+MessagesStats messagesStats;
 
 
 //------------------------------------------------------------------------------------------------
@@ -29,7 +32,6 @@ static void onAlarm(int signo);
 
 int main( int argc, char **argv )
 {
-    static uint32_t maxExecutionTime;   // secs
     int status;
 
     // Initialize types
@@ -37,8 +39,16 @@ int main( int argc, char **argv )
     activeDevicesQueue.head = 0;
     activeDevicesQueue.tail = 0;
 
+    // Initialize logger
+    log_tearUp( "log.txt" );
+    messagesStats.produced = 0;
+    messagesStats.received = 0;
+    messagesStats.transmitted = 0;
+
     // Set max execution time ( in seconds )
-    maxExecutionTime = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
+    executionTime = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
+
+    srand((unsigned int) time(NULL ));
 
     // Initialize Locks
     status = pthread_mutex_init( &availableThreadsLock, NULL );
@@ -50,9 +60,12 @@ int main( int argc, char **argv )
     status = pthread_mutex_init( &activeDevicesLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
+    status = pthread_mutex_init( &messagesStatsLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
 
     // Setup alarm
-    alarm( maxExecutionTime );
+    alarm( executionTime );
     signal( SIGALRM, onAlarm );
 
     // Start polling client ( in a new thread )
@@ -68,34 +81,12 @@ int main( int argc, char **argv )
     // Start listening server ( main thread )
     listening_worker();
 
-//    Message message, messageDeserialized;
-//    MessageSerialized messageSerialized;
-//
-//    // Format datetime stings in Greek
-//    setlocale( LC_TIME, "el_GR.UTF-8" );
-//
-//    // Generate a new message ( with random contents )
-//    message = generateRandomMessage();
-//    inspect( message, true );
-//
-//    // Test Implode
-//    messageSerialized = (char *)malloc( 277 );
-//    implode( "_", message, messageSerialized );
-//    printf( "messageSerialized = \"%s\"\n\n", messageSerialized );
-//
-//    // Test Explode
-//    messageDeserialized = explode( "_", messageSerialized );
-//    inspect( messageDeserialized, false );
-//
-//    // Free resources
-//    free( messageSerialized );
-
     return EXIT_SUCCESS;
 }
 
 static void onAlarm( int signo )
 {
-    fprintf( stdout, "\tonAlarm(): Caught the SIGALRM signal ( signo = %d )\n", signo );
+    log_info( "Caught the SIGALRM signal", "onAlarm", "-" );
 
     int status;
 
@@ -120,7 +111,13 @@ static void onAlarm( int signo )
     // TODO extra work here
     // ...
 
-    printf("\tonAlarm(): Exiting now...\n");
+    log_info( "Exiting now...", "onAlarm", "-" );
+
+    // Close logger
+    messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
+    messagesStats.producedDelayAvg /= 60.0;                             // sec --> min
+    log_tearDown( executionTime, &messagesStats );
+
     exit( EXIT_SUCCESS );
 }
 
