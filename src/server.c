@@ -15,9 +15,6 @@ extern ActiveDevicesQueue activeDevicesQueue;   // FIFO
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 messages_head_t messagesHead;
 
-/* devicesHead is in range: [0, $COMMUNICATION_WORKERS_MAX + 2 - 1] */
-devices_head_t devicesHead;
-
 Message messages[ MESSAGES_SIZE ];
 
 
@@ -25,7 +22,7 @@ Message messages[ MESSAGES_SIZE ];
 /// \param device
 uint8_t devices_exists(Device device)
 {
-    for (devices_head_t device_i = 0; device_i < ACTIVE_DEVICES_MAX; ++device_i)
+    for (devices_head_t device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; ++device_i)
     {
         if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) )
             return 1;
@@ -42,14 +39,14 @@ void devices_push(Device device)
     memcpy( (void *) ( activeDevicesQueue.devices + activeDevicesQueue.tail ), (void *) &device, sizeof( Device ) );
 
     // Increment tail
-    if ( ++activeDevicesQueue.tail == ACTIVE_DEVICES_MAX )
+    if ( ++activeDevicesQueue.tail == ACTIVE_SOCKET_CONNECTIONS_MAX )
     {
         activeDevicesQueue.tail = 0;
     }
 
     if ( activeDevicesQueue.tail == activeDevicesQueue.head )
     {
-        activeDevicesQueue.tail = -1;
+        activeDevicesQueue.tail = (devices_head_t) -1;
     }
 }
 
@@ -63,7 +60,7 @@ void devices_remove(Device device)
         devices_head_t device_i;
 
         // find device's index
-        for ( device_i = 0; device_i < ACTIVE_DEVICES_MAX; device_i++ )
+        for ( device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; device_i++ )
             if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) ) break;
 
         // Device that has to be removed is not located on queue's head ( as it should be supp. equal communication time )
@@ -103,7 +100,7 @@ void devices_remove(Device device)
                 while( --device_i > 0 );
 
                 //  - 0 <-- N
-                device_i = ACTIVE_DEVICES_MAX - 1;
+                device_i = ACTIVE_SOCKET_CONNECTIONS_MAX - 1;
                 memcpy( activeDevicesQueue.devices, activeDevicesQueue.devices + device_i, sizeof( Device ) );
 
                 //  - head ... device_i
@@ -120,8 +117,7 @@ void devices_remove(Device device)
             error( -1, "\tdevices_remove(): queue is empty ( head == tail )" );
         }
 
-        devices_head_t devicesHead = activeDevicesQueue.head;
-        for (devices_head_t i = (devices_head_t) (activeDevicesQueue.head + 1); i < ACTIVE_DEVICES_MAX; ++i)
+        for (devices_head_t i = (devices_head_t) (activeDevicesQueue.head + 1); i < ACTIVE_SOCKET_CONNECTIONS_MAX; ++i)
         {
             if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[i] ) )
             {
@@ -134,7 +130,7 @@ void devices_remove(Device device)
         activeDevicesQueue.devices[activeDevicesQueue.head].AEM = 0;
     }
 
-    if ( ++activeDevicesQueue.head == ACTIVE_DEVICES_MAX )
+    if ( ++activeDevicesQueue.head == ACTIVE_SOCKET_CONNECTIONS_MAX )
     {
         activeDevicesQueue.head = 0;
     }
