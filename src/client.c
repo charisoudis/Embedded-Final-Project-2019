@@ -23,6 +23,8 @@ void *polling_worker(void)
     aem = CLIENT_AEM_RANGE_MIN;
     do
     {
+        log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
+
         // Format IP address
         snprintf( ip, 12, "10.0.%02d.%02d", (int) aem / 100, aem % 100 );
 
@@ -39,6 +41,10 @@ void *polling_worker(void)
             //  - format arguments
             Device device = {.AEM = aem};
             CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
+
+            char connectedMessage[22];
+            snprintf( connectedMessage, 22, "Connected: AEM = %04d", device.AEM );
+            log_info( connectedMessage, "polling_worker()", "-" );
 
             //  - open thread
             if ( communicationThreadsAvailable > 0 )

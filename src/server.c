@@ -218,6 +218,8 @@ void listening_worker()
     clientAddressLength = sizeof( clientAddress );
     do
     {
+        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
+
         // Accept a new socket connection
         status = accept( server_fd, (struct sockaddr *) &clientAddress, &clientAddressLength );
         if ( status < 0 )
@@ -231,6 +233,10 @@ void listening_worker()
         //  - format arguments
         Device device = {.AEM = ip2aem( ip )};
         CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
+
+        char connectedMessage[22];
+        snprintf( connectedMessage, 22, "Connected: AEM = %04d", device.AEM );
+        log_info( connectedMessage, "listening_worker()", "-" );
 
         //  - open thread
         if ( communicationThreadsAvailable > 0 )

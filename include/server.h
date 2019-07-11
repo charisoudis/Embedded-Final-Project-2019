@@ -2,6 +2,7 @@
 #define FINAL_SERVER_H
 
 #include "utils.h"
+#include "log.h"
 
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
     #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
