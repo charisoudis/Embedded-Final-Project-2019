@@ -1,9 +1,9 @@
 #include "log.h"
 
 /// Append end of session message and closes log file pointer.
-/// \param executionTime
+/// \param executionTimeRequested
 /// \param messagesStats
-void log_tearDown(uint executionTime, MessagesStats* messagesStats)
+void log_tearDown(uint executionTimeRequested, double executionTimeActual, MessagesStats* messagesStats)
 {
     // End new session
     fprintf( logFilePointer, "\n/*\n"
@@ -11,7 +11,8 @@ void log_tearDown(uint executionTime, MessagesStats* messagesStats)
                              "| end: NEW SESSION\n"
                              "|--------------------------------------------------------------------------\n"
                              "|\n"
-                             "| Duration            : %u secs\n"
+                             "| Duration Actual     : %lf secs\n"
+                             "| Duration Requested  : %u secs\n"
                              "| Devices Connected   : %d\n"
                              "|\n"
                              "| Messages Produced   : %u ( avg. delay = %.03f min )\n"
@@ -19,7 +20,7 @@ void log_tearDown(uint executionTime, MessagesStats* messagesStats)
                              "| Messages Transmitted: %u\n"
                              "|\n"
                              "*/\n\n\n",
-                             executionTime, 0,
+                             executionTimeActual, executionTimeRequested, 0,
                              messagesStats->produced, messagesStats->producedDelayAvg, messagesStats->received, messagesStats->transmitted );
 
     // Close file pointer

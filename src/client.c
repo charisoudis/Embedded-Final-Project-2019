@@ -67,7 +67,6 @@ void *polling_worker(void)
                 // run in current thread
                 args.concurrent = 0;
                 communication_worker(&args);
-
             }
 
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );

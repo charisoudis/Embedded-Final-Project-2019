@@ -40,7 +40,7 @@ public:
     void TearDown( ) override
     {
         // Restore devices
-        for ( devices_head_t devices_i = 0; devices_i < ACTIVE_DEVICES_MAX - 1; devices_i++ )
+        for ( devices_head_t devices_i = 0; devices_i < ACTIVE_SOCKET_CONNECTIONS_MAX - 1; devices_i++ )
         {
            activeDevicesQueue.devices[devices_i].AEM = 0;
         }
@@ -105,12 +105,12 @@ TEST_F(ServerTest, DevicesPush_Simple)
 TEST_F(ServerTest, DevicesPush_OverflowCheck)
 {
     devices_head_t devices_i;
-    for ( devices_i = 0; devices_i < ACTIVE_DEVICES_MAX - 1; devices_i++ )
+    for ( devices_i = 0; devices_i < ACTIVE_SOCKET_CONNECTIONS_MAX - 1; devices_i++ )
     {
        Device device = {.AEM = (uint32_t) (9026 + devices_i)};
        devices_push( device );
     }
-    EXPECT_EQ( ACTIVE_DEVICES_MAX - 1, activeDevicesQueue.tail );
+    EXPECT_EQ( ACTIVE_SOCKET_CONNECTIONS_MAX - 1, activeDevicesQueue.tail );
 
     Device device = {.AEM = (uint32_t) (9026 + devices_i)};
     devices_push( device );
@@ -121,12 +121,12 @@ TEST_F(ServerTest, DevicesPush_OverflowCheck)
 TEST_F(ServerTest, DevicesPush_OverflowCheck2)
 {
     devices_head_t devices_i;
-    for ( devices_i = 0; devices_i < ACTIVE_DEVICES_MAX - 1; devices_i++ )
+    for ( devices_i = 0; devices_i < ACTIVE_SOCKET_CONNECTIONS_MAX - 1; devices_i++ )
     {
        Device device = {.AEM = (uint32_t) (9026 + devices_i)};
        devices_push( device );
     }
-    EXPECT_EQ( ACTIVE_DEVICES_MAX - 1, activeDevicesQueue.tail );
+    EXPECT_EQ( ACTIVE_SOCKET_CONNECTIONS_MAX - 1, activeDevicesQueue.tail );
 
     activeDevicesQueue.head++;
 
@@ -167,18 +167,18 @@ TEST_F(ServerTest, DevicesRemove_Simple)
 /// \brief Tests utils > devices_remove() function.
 TEST_F(ServerTest, DevicesRemove_Full)
 {
-    Device devices[ACTIVE_DEVICES_MAX];
+    Device devices[ACTIVE_SOCKET_CONNECTIONS_MAX];
 
     // Push max devices
-    for ( devices_head_t device_i = 0; device_i < ACTIVE_DEVICES_MAX; device_i++ )
+    for ( devices_head_t device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; device_i++ )
     {
         devices[device_i] = {.AEM = (uint32_t) ( 9026 + device_i )};
         devices_push( devices[device_i] );
     }
 
     // Select random device index
-    srand(static_cast<unsigned int>(time(NULL )));
-    auto randomDeviceIndex = ( devices_head_t ) ( rand() % ACTIVE_DEVICES_MAX );
+    srand( (unsigned int) time(nullptr) );
+    auto randomDeviceIndex = ( devices_head_t ) ( rand() % ACTIVE_SOCKET_CONNECTIONS_MAX );
 
     // Remove selected device
     devices_remove( devices[randomDeviceIndex] );
@@ -192,7 +192,7 @@ TEST_F(ServerTest, DevicesRemove_Full)
 
     randomDeviceIndex++;
 
-    for ( devices_head_t device_i = randomDeviceIndex; device_i < ACTIVE_DEVICES_MAX; device_i++ )
+    for ( devices_head_t device_i = randomDeviceIndex; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; device_i++ )
         EXPECT_EQ( 1, devices_exists( devices[device_i] ) );
 }
 
@@ -252,17 +252,17 @@ TEST_F(ServerTest, MessagesPushFull)
     // Check next push
     Message message = generateRandomMessage();
     messages_push( message );
-    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_POLICY ? 1 : firstTransmittedMessageIndex + 1 );
+    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_BLIND == MESSAGES_PUSH_OVERRIDE_POLICY ? 1 : firstTransmittedMessageIndex + 1 );
 
     // Check next push
     message = generateRandomMessage();
     messages_push( message );
-    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_POLICY ? 2 : secondTransmittedMessageIndex + 1 );
+    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_BLIND == MESSAGES_PUSH_OVERRIDE_POLICY ? 2 : secondTransmittedMessageIndex + 1 );
 
     // Check next push
     message = generateRandomMessage();
     messages_push( message );
-    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_POLICY ? 3 : thirdTransmittedMessageIndex + 1 );
+    EXPECT_EQ( messagesHead, MESSAGES_PUSH_OVERRIDE_BLIND == MESSAGES_PUSH_OVERRIDE_POLICY ? 3 : thirdTransmittedMessageIndex + 1 );
 }
 
 

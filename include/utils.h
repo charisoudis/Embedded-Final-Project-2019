@@ -19,11 +19,11 @@
     #define SOCKET_PORT 2278
 #endif
 
-#ifndef ACTIVE_DEVICES_MAX
-    #define ACTIVE_DEVICES_MAX 10
+#ifndef ACTIVE_SOCKET_CONNECTIONS_MAX
+    #define ACTIVE_SOCKET_CONNECTIONS_MAX 2     // >=2: 1 ( server ) + 1 ( client ) + ...( other concurrent sockets )...
 #endif
 #ifndef COMMUNICATION_WORKERS_MAX
-    #define COMMUNICATION_WORKERS_MAX (ACTIVE_DEVICES_MAX - 2)
+    #define COMMUNICATION_WORKERS_MAX (ACTIVE_SOCKET_CONNECTIONS_MAX - 2)   // 0 == serial socket communications
 #endif
 
 

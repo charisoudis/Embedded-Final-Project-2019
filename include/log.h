@@ -21,9 +21,10 @@ typedef struct messages_stats_t {
 static FILE *logFilePointer;
 
 /// Append end of session message and closes log file pointer.
-/// \param executionTime
+/// \param executionTimeRequested
+/// \param executionTimeActual
 /// \param messagesStats
-void log_tearDown(uint executionTime, MessagesStats* messagesStats);
+void log_tearDown(uint executionTimeRequested, double executionTimeActual, MessagesStats* messagesStats);
 
 /// Creates / Opens file and add the new session message.
 /// \param fileName

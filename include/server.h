@@ -18,7 +18,7 @@ typedef uint8_t devices_head_t;
 
 typedef struct active_devices_queue_t {
 
-    Device devices[ACTIVE_DEVICES_MAX];
+    Device devices[ACTIVE_SOCKET_CONNECTIONS_MAX];
     devices_head_t head;
     devices_head_t tail;
 

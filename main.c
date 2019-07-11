@@ -8,8 +8,9 @@
 //------------------------------------------------------------------------------------------------
 
 
-#define MAX_EXECUTION_TIME 10 // 7200         // 2 hours
-static uint32_t executionTime;          // secs
+#define MAX_EXECUTION_TIME 7200                 // 2 hours
+static uint32_t executionTimeRequested;         // secs
+static struct timespec executionTimeActualStart, executionTimeActualFinish;
 
 static pthread_t pollingThread, producerThread;
 pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
@@ -49,7 +50,7 @@ int main( int argc, char **argv )
     messagesStats.transmitted = 0;
 
     // Set max execution time ( in seconds )
-    executionTime = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
+    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
 
     // Initialize RNG
     srand((unsigned int) time(NULL ));
@@ -68,8 +69,11 @@ int main( int argc, char **argv )
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
 
+    // Start recording actual time
+    clock_gettime(CLOCK_REALTIME, &executionTimeActualStart);
+
     // Setup alarm
-    alarm( executionTime );
+    alarm( executionTimeRequested );
     signal( SIGALRM, onAlarm );
 
     // Start polling client ( in a new thread )
@@ -112,15 +116,25 @@ static void onAlarm( int signo )
     if ( status != 0 )
         error( status, "\tonAlarm(): pthread_join() on pollingThread failed" );
 
-    // TODO extra work here
-    // ...
+    // Find actual execution time
+    clock_gettime(CLOCK_REALTIME, &executionTimeActualFinish);
+    long executionTimeActualSeconds = executionTimeActualFinish.tv_sec - executionTimeActualStart.tv_sec;
+    long executionTimeActualNanoSeconds = executionTimeActualFinish.tv_nsec - executionTimeActualStart.tv_nsec;
+
+    if (executionTimeActualStart.tv_nsec > executionTimeActualFinish.tv_nsec)   // clock underflow
+    {
+        --executionTimeActualSeconds;
+        executionTimeActualNanoSeconds += 1000000000;
+    }
+
+    double executionTimeActual = (double)executionTimeActualSeconds + (double)executionTimeActualNanoSeconds/(double)1000000000;
 
     log_info( "Exiting now...", "onAlarm", "-" );
 
     // Close logger
     messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
     messagesStats.producedDelayAvg /= 60.0;                             // sec --> min
-    log_tearDown( executionTime, &messagesStats );
+    log_tearDown( executionTimeRequested, executionTimeActual, &messagesStats );
 
     exit( EXIT_SUCCESS );
 }
