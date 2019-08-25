@@ -1,40 +1,23 @@
 #ifndef FINAL_SERVER_H
 #define FINAL_SERVER_H
 
-#include "utils.h"
-#include "log.h"
+#include "types.h"
+#include <errno.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>
 
-#ifndef MESSAGES_PUSH_OVERRIDE_POLICY
-    #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
-    #define MESSAGES_PUSH_OVERRIDE_BLIND 1
-    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_SENT_ONLY
-#endif
-
-#ifndef MESSAGES_SIZE
-    #define MESSAGES_SIZE 2000
-#endif
-
-typedef uint16_t messages_head_t;
-typedef uint8_t devices_head_t;
-
-typedef struct active_devices_queue_t {
-
-    Device devices[ACTIVE_SOCKET_CONNECTIONS_MAX];
-    devices_head_t head;
-    devices_head_t tail;
-
-} ActiveDevicesQueue;
-
-
-/// Check if $device exists $activeDevices FIFO queue.
+/// \brief Check if $device exists in $activeDevices FIFO queue.
 /// \param device
+/// \return uint8 0 if FALSE, 1 if TRUE
 uint8_t devices_exists(Device device);
 
-/// Push $device to $activeDevices FIFO queue.
+/// \brief Push $device to $activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device);
 
-/// Remove $device from $activeDevices FIFO queue.
+/// \brief Remove $device from $activeDevices FIFO queue.
 /// \param device
 void devices_remove(Device device);
 

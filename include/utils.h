@@ -1,66 +1,13 @@
 #ifndef FINAL_UTILS_H
 #define FINAL_UTILS_H
 
+#include "types.h"
 #include <arpa/inet.h>
 #include <errno.h>
 #include <pthread.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-#include <time.h>
-#include <unistd.h>
-
-#define error(status, msg) \
-               do { errno = status; perror(msg); exit(EXIT_FAILURE); } while (0)
-
-#ifndef SOCKET_PORT
-    #define SOCKET_PORT 2278
-#endif
-
-#ifndef ACTIVE_SOCKET_CONNECTIONS_MAX
-    #define ACTIVE_SOCKET_CONNECTIONS_MAX 2     // >=2: 1 ( server ) + 1 ( client ) + ...( other concurrent sockets )...
-#endif
-#ifndef COMMUNICATION_WORKERS_MAX
-    #define COMMUNICATION_WORKERS_MAX (ACTIVE_SOCKET_CONNECTIONS_MAX - 2)   // 0 == serial socket communications
-#endif
-
-
-//------------------------------------------------------------------------------------
-
-typedef unsigned long uint64;
-
-typedef struct device_t {
-    uint32_t AEM;
-    unsigned char mac[6];           // MAC address of this device ( 6 bytes )
-} Device;
-
-typedef struct message_t {
-    // Fundamental Message fields
-    uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
-    uint32_t recipient;             // ΑΕΜ παραλήπτη:       uint32
-    uint64 created_at;            // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
-    char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
-
-    // Metadata
-    uint8_t transmitted;            // If the message was actually transmitted from this device
-    Device transmitted_device;      // Device that this message was transmitted to ( if transmitted from this device )
-} Message;
-
-/* char[277] type */
-typedef char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
-
-/* pthread function arguments pointer */
-typedef struct communication_worker_args_t {
-
-    Device connected_device;
-    uint16_t connected_socket_fd;
-    uint8_t concurrent;
-
-} CommunicationWorkerArgs;
-
-//------------------------------------------------------------------------------------
 
 
 /// \brief Handle communication staff with connected device ( POSIX thread compatible function ).

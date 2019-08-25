@@ -1,5 +1,8 @@
-#include "client.h"
-#include "log.h"
+#include <conf.h>
+#include <client.h>
+#include <log.h>
+#include <server.h>
+#include <utils.h>
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;

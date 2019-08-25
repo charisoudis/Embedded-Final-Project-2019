@@ -1,4 +1,5 @@
 #include <signal.h>
+#include "conf.h"
 #include "client.h"
 #include "log.h"
 #include "server.h"

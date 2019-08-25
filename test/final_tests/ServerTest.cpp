@@ -4,6 +4,7 @@
 #include "gtest/gtest.h"
 extern "C" {
     #include "server.h"
+    #include "utils.h"
 }
 
 
@@ -17,7 +18,7 @@ ActiveDevicesQueue activeDevicesQueue;
 
 
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
-messages_head_t messagesHead;
+extern messages_head_t messagesHead;
 
 /* devicesHead is in range: [0, $COMMUNICATION_WORKERS_MAX + 2 - 1] */
 devices_head_t devicesHead;
@@ -31,6 +32,9 @@ protected:
 
     void SetUp() override
     {
+        messagesHead = 0;
+        devicesHead = 0;
+
         activeDevicesQueue.head = 0;
         activeDevicesQueue.tail = 0;
     }

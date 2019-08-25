@@ -1,4 +1,7 @@
-#include "server.h"
+#include <conf.h>
+#include <server.h>
+#include <log.h>
+#include <utils.h>
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
@@ -18,8 +21,9 @@ messages_head_t messagesHead;
 Message messages[ MESSAGES_SIZE ];
 
 
-/// Check if $device exists $activeDevices FIFO queue.
+/// \brief Check if $device exists $activeDevices FIFO queue.
 /// \param device
+/// \return uint8 0 if FALSE, 1 if TRUE
 uint8_t devices_exists(Device device)
 {
     for (devices_head_t device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; ++device_i)
@@ -31,7 +35,7 @@ uint8_t devices_exists(Device device)
     return 0;
 }
 
-/// Push $device to activeDevices FIFO queue.
+/// \brief Push $device to activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device)
 {
@@ -50,7 +54,7 @@ void devices_push(Device device)
     }
 }
 
-/// Remove $device from $activeDevices FIFO queue.
+/// \brief Remove $device from $activeDevices FIFO queue.
 /// \param device
 void devices_remove(Device device)
 {

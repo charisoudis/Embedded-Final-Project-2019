@@ -1,4 +1,8 @@
-#include "log.h"
+#include <conf.h>
+#include <log.h>
+#include <utils.h>
+
+static FILE *logFilePointer;
 
 /// Append end of session message and closes log file pointer.
 /// \param executionTimeRequested
