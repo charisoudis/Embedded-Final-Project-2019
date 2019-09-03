@@ -4,11 +4,43 @@
 
 static FILE *logFilePointer;
 
+/// Logs error with errno found in status after where/when information.
+/// \param functionName
+/// \param actionName
+/// \param status
+void log_error(const char* functionName, const char* actionName, const int* status )
+{
+    char nowAsString[50];
+    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+
+    fprintf( logFilePointer, "[ERR]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, strerror( *status ) );
+}
+
+/// Logs message after where/when information.
+/// \param message
+/// \param functionName
+/// \param actionName
+void log_info(const char* message, const char* functionName, const char* actionName)
+{
+    char nowAsString[50];
+    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+
+    fprintf( logFilePointer, "[INF]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, message );
+}
+
+/// \brief Logs given message ( prints similar to utils.h > inspect() ) after where/when information.
+/// \param functionName
+void log_message(const char* functionName, const Message message )
+{
+    log_info( "Message Inspection\n<<<RAW", functionName, "-" );
+    inspect( message, 1, logFilePointer );
+    fprintf( logFilePointer, "RAW>>>" );
+}
+
 /// Append end of session message and closes log file pointer.
 /// \param executionTimeRequested
 /// \param messagesStats
-void log_tearDown(uint executionTimeRequested, double executionTimeActual, MessagesStats* messagesStats)
-{
+void log_tearDown(const uint executionTimeRequested, const double executionTimeActual, const MessagesStats *messagesStats) {
     // End new session
     fprintf( logFilePointer, "\n/*\n"
                              "|--------------------------------------------------------------------------\n"
@@ -24,8 +56,8 @@ void log_tearDown(uint executionTimeRequested, double executionTimeActual, Messa
                              "| Messages Transmitted: %u\n"
                              "|\n"
                              "*/\n\n\n",
-                             executionTimeActual, executionTimeRequested, 0,
-                             messagesStats->produced, messagesStats->producedDelayAvg, messagesStats->received, messagesStats->transmitted );
+             executionTimeActual, executionTimeRequested, 0,
+             messagesStats->produced, messagesStats->producedDelayAvg, messagesStats->received, messagesStats->transmitted );
 
     // Close file pointer
     fclose( logFilePointer );
@@ -39,8 +71,8 @@ void log_tearUp(const char *fileName)
     //  - yes: new session
     //  - no : new file + new session
     logFilePointer = ( access( fileName, F_OK ) == -1 ) ?
-            fopen( fileName, "w" ):
-            fopen( fileName, "a" );
+                     fopen( fileName, "w" ):
+                     fopen( fileName, "a" );
 
     char nowAsString[50];
     timestamp2ftime( (uint64) time( NULL ), "%a, %d %b %Y @ %T", nowAsString );
@@ -56,28 +88,4 @@ void log_tearUp(const char *fileName)
                              "| FileName: %s\n"
                              "|\n"
                              "*/\n\n", nowAsString, CLIENT_AEM, fileName );
-}
-
-/// Logs message after where/when information.
-/// \param message
-/// \param functionName
-/// \param actionName
-void log_info(const char* message, const char* functionName, const char* actionName)
-{
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
-
-    fprintf( logFilePointer, "[INF]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, message );
-}
-
-/// Logs error with errno found in status after where/when information.
-/// \param functionName
-/// \param actionName
-/// \param status
-void log_error(const char* functionName, const char* actionName, const int* status )
-{
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
-
-    fprintf( logFilePointer, "[ERR]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, strerror( *status ) );
 }

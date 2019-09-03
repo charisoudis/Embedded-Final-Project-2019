@@ -193,6 +193,8 @@ void listening_worker()
     socklen_t clientAddressLength;
     pthread_t communicationThread;
 
+    char logMessage[100];
+
     status = socket(AF_INET, SOCK_STREAM, 0);
     if ( status < 0 )
         error( status, "\tserver_listen(): socket() failed" );
@@ -238,9 +240,9 @@ void listening_worker()
         Device device = {.AEM = ip2aem( ip )};
         CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
 
-        char connectedMessage[22];
-        snprintf( connectedMessage, 22, "Connected: AEM = %04d", device.AEM );
-        log_info( connectedMessage, "listening_worker()", "-" );
+        // Log
+        sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
+        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
 
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
@@ -270,6 +272,10 @@ void listening_worker()
             args.concurrent = 0;
             communication_worker(&args);
         }
+
+        // Log
+        sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
+        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
     }
     while (1);
 }

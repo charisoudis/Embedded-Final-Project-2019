@@ -23,6 +23,8 @@ void communication_worker(void *thread_args)
     uint8_t deviceExists;
     int status;
 
+    char logMessage[100];
+
     // Check if there is an active connection with given device
     //----- CRITICAL SECTION
     pthread_mutex_lock( &activeDevicesLock );
@@ -91,6 +93,11 @@ void communication_worker(void *thread_args)
         pthread_mutex_unlock( &activeDevicesLock );
         //-----:end
     }
+    else
+    {
+        sprintf( logMessage, "Active connection with device found: AEM = %04d. Skipping...", args->connected_device.AEM );
+        log_error( logMessage, "communication_worker()", 0 );
+    }
 
     // Close Socket
     close( args->connected_socket_fd );
@@ -142,6 +149,9 @@ void communication_receiver_worker(void *thread_args)
         pthread_mutex_unlock( &messagesBufferLock );
         //-----:end
 
+        // Log received message
+        log_message( "communication_receiver_worker()", message );
+
         // Update stats
         //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesStatsLock );
@@ -163,6 +173,8 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
 {
     MessageSerialized messageSerialized;
 
+    char logMessage[100];
+
     messageSerialized = (char *) malloc( 277 );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
@@ -170,6 +182,10 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
+
+            // Log
+            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
+            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
 
             // Transmit
             send( socket_fd , messageSerialized , 277, 0 );
@@ -305,17 +321,17 @@ void implode(const char * glue, const Message message, MessageSerialized message
     );
 }
 
-/// \brief Log ( to stdout ) message's fields.
+/// \brief Log ( to file pointer ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
-void inspect(const Message message, uint8_t metadata)
+void inspect(const Message message, uint8_t metadata, FILE *fp)
 {
     // Parse timestamp
     char created_at_full[50];
     timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
 
     // Print main fields
-    fprintf( stdout, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
+    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
             message.sender, message.recipient, message.created_at, created_at_full, message.body
     );
 
@@ -328,10 +344,10 @@ void inspect(const Message message, uint8_t metadata)
             mac2hex( message.transmitted_device.mac, hex ):
             snprintf( hex, 18, "--:--:--:--:--:--" );
 
-        fprintf( stdout, "\t---\n\ttransmitted = %d\n\ttransmitted_device = %s\n", message.transmitted, hex );
+        fprintf( fp, "\t---\n\ttransmitted = %d\n\ttransmitted_device = %s\n", message.transmitted, hex );
     }
 
-    fprintf( stdout, "}\n\n" );
+    fprintf( fp, "}\n" );
 }
 
 /// \brief Extracts AEM from given IPv4 address.

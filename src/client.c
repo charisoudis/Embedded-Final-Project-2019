@@ -20,6 +20,8 @@ void *polling_worker(void)
     char ip[12];
     pthread_t communicationThread;
 
+    char logMessage[100];
+
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
 
@@ -45,9 +47,9 @@ void *polling_worker(void)
             Device device = {.AEM = aem};
             CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
 
-            char connectedMessage[22];
-            snprintf( connectedMessage, 22, "Connected: AEM = %04d", device.AEM );
-            log_info( connectedMessage, "polling_worker()", "-" );
+            // Log
+            sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
+            log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
 
             //  - open thread
             if ( communicationThreadsAvailable > 0 )
@@ -78,6 +80,10 @@ void *polling_worker(void)
                 communication_worker(&args);
             }
 
+            // Log
+            sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
+            log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
+
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
             if ( status != 0 )
                 error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
@@ -88,6 +94,7 @@ void *polling_worker(void)
         if ( ++aem > CLIENT_AEM_RANGE_MAX )
         {
             aem = CLIENT_AEM_RANGE_MIN;
+            log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
         }
     }
     while( 1 );
@@ -104,7 +111,7 @@ void *producer_worker(void)
     {
         // Generate
         message = generateRandomMessage();
-        inspect( message, 1 );
+        inspect( message, 1, stdout );
 
         //----- NON-CANCELABLE SECTION
         status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );

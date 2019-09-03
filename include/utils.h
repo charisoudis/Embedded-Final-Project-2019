@@ -57,7 +57,8 @@ void implode(const char *glue, Message message, MessageSerialized messageSeriali
 /// \brief Log ( to stdout ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
-void inspect(Message message, uint8_t metadata);
+/// \param fp file pointer to where to output inspection
+void inspect(Message message, uint8_t metadata, FILE *fp);
 
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )
