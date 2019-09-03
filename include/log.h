@@ -19,6 +19,7 @@ void log_error(const char* functionName, const char* actionName, const int* stat
 
 /// \brief Logs given message ( prints similar to utils.h > inspect() ) after where/when information.
 /// \param functionName
+/// \param message
 void log_message(const char* functionName, Message message );
 
 /// \brief Append end of session message and closes log file pointer.
