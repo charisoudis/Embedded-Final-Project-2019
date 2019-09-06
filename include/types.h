@@ -8,7 +8,7 @@
 
 // start: Utils.h
 typedef unsigned long uint64;
-//typedef unsigned int uint;
+typedef unsigned int uint;
 
 typedef struct device_t {
     uint32_t AEM;
