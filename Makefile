@@ -42,4 +42,4 @@ main.o : client.h server.h utils.h
 
 # Make rule
 all : $(LINK_TARGET)
-	rm -f $(OBJS) && sshpass -p 01041960 scp $(LINK_TARGET) root@192.168.1.1:/root
+	rm -f $(OBJS) && sshpass -p 123456 scp $(LINK_TARGET) root@192.168.1.1:/root
