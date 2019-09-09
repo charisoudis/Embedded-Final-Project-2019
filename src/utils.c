@@ -3,6 +3,8 @@
 #include <log.h>
 #include <server.h>
 
+extern uint32_t CLIENT_AEM;
+
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
@@ -282,7 +284,8 @@ Message generateRandomMessage()
     Message message = generateMessage( recipient, body );
 
     //  - random transmission status
-    message.transmitted = (uint8_t) (rand() % 2 == 1 ? 1 : 0);
+//    message.transmitted = (uint8_t) (rand() % 2 == 1 ? 1 : 0);
+    message.transmitted = 0;
     if ( message.transmitted == 1 )
     {
         for( uint8_t byte_i = 0; byte_i < 6; byte_i++ )
@@ -411,13 +414,15 @@ void mac2hex(const unsigned char *mac, char *hex)
     hex[18] = '\0';
 }
 
+extern struct sockaddr_in socket_connect__serv_addr;
+
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \return -1 on error, opened socket's file descriptor on success
 int socket_connect(const char * ip)
 {
     int socket_fd = 0, status;
-    struct sockaddr_in serv_addr;
+    char ipp[INET_ADDRSTRLEN];
 
     status = socket( AF_INET, SOCK_STREAM, 0 );
     if ( status < 0 )
@@ -425,15 +430,18 @@ int socket_connect(const char * ip)
 
     socket_fd = status;
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons( SOCKET_PORT );
-
     // Convert IPv4 and IPv6 addresses from text to binary form
-    status = inet_pton( AF_INET, ip, &( serv_addr.sin_addr ) );
-    if ( status <= 0 )
+    sprintf( ipp, "%s", ip );
+    status = inet_pton( AF_INET, ipp, &( socket_connect__serv_addr.sin_addr ) );
+    if ( status < 0 )
         error( status, "\tsocket_connect(): inet_pton() failed" );
+    else if ( 0 == status )
+    {
+        return -1;
+    }
 
-    return connect( socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr) );
+    return ( 0 == connect( socket_fd, (struct sockaddr *)&socket_connect__serv_addr, sizeof(socket_connect__serv_addr) ) ) ?
+        socket_fd : -1;
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.

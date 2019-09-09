@@ -22,6 +22,9 @@ uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 ActiveDevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
 
+uint32_t CLIENT_AEM;
+struct sockaddr_in socket_connect__serv_addr;
+
 
 //------------------------------------------------------------------------------------------------
 
@@ -70,6 +73,9 @@ int main( int argc, char **argv )
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
 
+    // Get AEM of running device
+    CLIENT_AEM = getClientAem();
+
     // Start recording actual time
     clock_gettime(CLOCK_REALTIME, &executionTimeActualStart);
 
@@ -78,6 +84,8 @@ int main( int argc, char **argv )
     signal( SIGALRM, onAlarm );
 
     // Start polling client ( in a new thread )
+    socket_connect__serv_addr.sin_family = AF_INET;
+    socket_connect__serv_addr.sin_port = htons( SOCKET_PORT );
     status = pthread_create(&pollingThread, NULL, (void *) polling_worker, NULL);
     if ( status != 0 )
         error( status, "\tmain(): pthread_create( pollingThread ) failed" );
@@ -88,7 +96,9 @@ int main( int argc, char **argv )
         error( status, "\tmain(): pthread_create( producerThread ) failed" );
 
     // Start listening server ( main thread )
-    listening_worker();
+//    listening_worker();
+
+    while(1){}
 
     return EXIT_SUCCESS;
 }

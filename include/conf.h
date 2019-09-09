@@ -1,11 +1,9 @@
 #ifndef FINAL_CONF_H
 #define FINAL_CONF_H
 
-// start: Client.h
-#ifndef CLIENT_AEM
-    #define CLIENT_AEM 9026
-#endif
+#include <stdint.h>
 
+// start: Client.h
 #ifndef CLIENT_AEM_RANGE
     #define CLIENT_AEM_RANGE_MIN 8000
     #define CLIENT_AEM_RANGE_MAX 9050
@@ -39,6 +37,12 @@
 #endif
 #ifndef COMMUNICATION_WORKERS_MAX
     #define COMMUNICATION_WORKERS_MAX (ACTIVE_SOCKET_CONNECTIONS_MAX - 2)   // 0 == serial socket communications
+#endif
+// end
+
+// start: Log.h
+#ifndef ALSO_LOG_TO_STDOUT
+    #define ALSO_LOG_TO_STDOUT 1
 #endif
 // end
 

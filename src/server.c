@@ -201,10 +201,10 @@ void listening_worker()
     server_fd = status;
 
     // Set server address ( forcefully attaching socket to selected socket port )
-//    status = 1;
-//    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
-//    if ( status < 0 )
-//        error( status, "\tserver_listen(): setsockopt() failed" );
+    status = 1;
+    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
+    if ( status < 0 )
+        error( status, "\tserver_listen(): setsockopt() failed" );
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
@@ -221,11 +221,10 @@ void listening_worker()
         error( status, "\tserver_listen(): listen() failed" );
 
     // Main server loop
+    log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
     clientAddressLength = sizeof( clientAddress );
     do
     {
-        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
-
         // Accept a new socket connection
         status = accept( server_fd, (struct sockaddr *) &clientAddress, &clientAddressLength );
         if ( status < 0 )
