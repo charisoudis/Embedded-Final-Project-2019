@@ -2,22 +2,21 @@
 #include <server.h>
 #include <log.h>
 #include <utils.h>
+#include <netdb.h>
+
+extern MessagesStats messagesStats;
+extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
+extern DevicesQueue activeDevicesQueue;
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern pthread_mutex_t availableThreadsLock;
-extern pthread_mutex_t messagesBufferLock;
-
-extern ActiveDevicesQueue activeDevicesQueue;   // FIFO
-
+extern uint32_t CLIENT_AEM;
 
 //------------------------------------------------------------------------------------------------
 
-
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 messages_head_t messagesHead;
-
 Message messages[ MESSAGES_SIZE ];
 
 
@@ -26,118 +25,55 @@ Message messages[ MESSAGES_SIZE ];
 /// \return uint8 0 if FALSE, 1 if TRUE
 uint8_t devices_exists(Device device)
 {
-    for (devices_head_t device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; ++device_i)
+    return devices_exists_aem( device.AEM );
+}
+
+/// \brief Check if a device with $aem exists in $activeDevices.
+/// \param aem
+/// \return uint8 0 if FALSE, 1 if TRUE
+uint8_t devices_exists_aem(uint32_t aem)
+{
+    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem );
+    if ( -1 == aemIndex )
     {
-        if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) )
-            return 1;
+        return 0;
     }
 
-    return 0;
+    return CLIENT_AEM_ACTIVE_LIST[aemIndex] ? 1 : 0;
+
+//    return str_exists_aem( activeDevicesQueue.devices_aem_string, aem );
 }
 
 /// \brief Push $device to activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device)
 {
-    // Place device at activeDevices queue's tail
-    memcpy( (void *) ( activeDevicesQueue.devices + activeDevicesQueue.tail ), (void *) &device, sizeof( Device ) );
-
-    // Increment tail
-    if ( ++activeDevicesQueue.tail == ACTIVE_SOCKET_CONNECTIONS_MAX )
+    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
+    if ( -1 < aemIndex )
     {
-        activeDevicesQueue.tail = 0;
+        CLIENT_AEM_ACTIVE_LIST[aemIndex] = true;
     }
 
-    if ( activeDevicesQueue.tail == activeDevicesQueue.head )
-    {
-        activeDevicesQueue.tail = (devices_head_t) -1;
-    }
+//    str_append_aem( activeDevicesQueue.devices_aem_string, device.AEM, "_" );
 }
 
 /// \brief Remove $device from $activeDevices FIFO queue.
 /// \param device
 void devices_remove(Device device)
 {
-    // Remove device from queue's head
-    if ( 0 == isDeviceEqual( device, activeDevicesQueue.devices[activeDevicesQueue.head] ) )
+    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
+    if ( -1 < aemIndex )
     {
-        devices_head_t device_i;
-
-        // find device's index
-        for ( device_i = 0; device_i < ACTIVE_SOCKET_CONNECTIONS_MAX; device_i++ )
-            if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[device_i] ) ) break;
-
-        // Device that has to be removed is not located on queue's head ( as it should be supp. equal communication time )
-        // move all devices to the right and virtually place device in head
-        if ( activeDevicesQueue.head < activeDevicesQueue.tail )
-        {
-            if ( activeDevicesQueue.head < device_i && device_i <= activeDevicesQueue.tail )
-            {
-                // move all previous one position to the right
-                do
-                {
-                    // devices[device_i] <-- devices[device_i - 1]
-                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
-                }
-                while( --device_i >= activeDevicesQueue.head );
-            }
-            else
-            {
-                error( -1, "\tdevices_remove(): device_i is is not in range: [head + 1, tail]" );
-            }
-        }
-        else if ( activeDevicesQueue.head > activeDevicesQueue.tail )
-        {
-            if ( device_i <= activeDevicesQueue.head && device_i > activeDevicesQueue.tail )
-            {
-                error( -1, "\tdevices_remove(): device_i is is not in one of ranges: [head + 1, N] OR [0, tail]" );
-            }
-            else
-            {
-                // move all previous one position to the right
-                //  - 1 ... device_i
-                do
-                {
-                    // devices[device_i] <-- devices[device_i - 1]
-                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
-                }
-                while( --device_i > 0 );
-
-                //  - 0 <-- N
-                device_i = ACTIVE_SOCKET_CONNECTIONS_MAX - 1;
-                memcpy( activeDevicesQueue.devices, activeDevicesQueue.devices + device_i, sizeof( Device ) );
-
-                //  - head ... device_i
-                do
-                {
-                    // devices[device_i] <-- devices[device_i - 1]
-                    memcpy( activeDevicesQueue.devices + device_i, activeDevicesQueue.devices + device_i - 1, sizeof( Device ) );
-                }
-                while( --device_i >= activeDevicesQueue.head );
-            }
-        }
-        else
-        {
-            error( -1, "\tdevices_remove(): queue is empty ( head == tail )" );
-        }
-
-        for (devices_head_t i = (devices_head_t) (activeDevicesQueue.head + 1); i < ACTIVE_SOCKET_CONNECTIONS_MAX; ++i)
-        {
-            if ( 1 == isDeviceEqual( device, activeDevicesQueue.devices[i] ) )
-            {
-                break;
-            }
-        }
-    }
-    else
-    {
-        activeDevicesQueue.devices[activeDevicesQueue.head].AEM = 0;
+        CLIENT_AEM_ACTIVE_LIST[aemIndex] = false;
     }
 
-    if ( ++activeDevicesQueue.head == ACTIVE_SOCKET_CONNECTIONS_MAX )
-    {
-        activeDevicesQueue.head = 0;
-    }
+//    if ( devices_exists( device ) )
+//    {
+//        char aem[5];
+//        sprintf( aem, "%04d_", device.AEM );
+//
+//        str_remove( activeDevicesQueue.devices_aem_string, aem );
+//    }
 }
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
@@ -184,64 +120,85 @@ void messages_push(Message message)
     }
 }
 
+//#define BUFSIZE 277
+
 /// \brief Main server loop. Calls communication_thread() on each new connection.
 void listening_worker()
 {
-    int status, server_fd, socket_fd;
+    int server_socket_fd, client_socket_fd, opt_val, status;
     struct sockaddr_in serverAddress, clientAddress;
-    char ip[INET_ADDRSTRLEN];
-    socklen_t clientAddressLength;
-    pthread_t communicationThread;
+    char logMessage[255], serverIpAddress[100];
 
-    char logMessage[100];
+    // Create the server ( parent ) socket
+    server_socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (server_socket_fd < 0)
+        error(server_socket_fd, "ERROR opening socket");
 
-    status = socket(AF_INET, SOCK_STREAM, 0);
-    if ( status < 0 )
-        error( status, "\tserver_listen(): socket() failed" );
-    server_fd = status;
-
-    // Set server address ( forcefully attaching socket to selected socket port )
-    status = 1;
-    status = setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &status, sizeof(status) );
-    if ( status < 0 )
-        error( status, "\tserver_listen(): setsockopt() failed" );
-
+    // Build the server's Internet address
+    bzero((char *)&serverAddress, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
-    serverAddress.sin_addr.s_addr = INADDR_ANY;
-    serverAddress.sin_port = htons( SOCKET_PORT );
+    sprintf( serverIpAddress, "10.0.%02d.%02d", CLIENT_AEM / 100, CLIENT_AEM % 100 );
+    serverAddress.sin_addr.s_addr = inet_addr(serverIpAddress );
+    serverAddress.sin_port = htons((unsigned short)SOCKET_PORT);
 
-    // Bind socket
-    status = bind( server_fd, (struct sockaddr *) &serverAddress, sizeof(serverAddress) );
-    if ( status < 0 )
-        error( status, "\tserver_listen(): bind() failed" );
-
-    // Listen
-    status = listen( server_fd, 5 );
-    if ( status < 0 )
-        error( status, "\tserver_listen(): listen() failed" );
-
-    // Main server loop
-    log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
-    clientAddressLength = sizeof( clientAddress );
-    do
+    /* setsockopt: Handy debugging trick that lets
+     * us rerun the server immediately after we kill it;
+     * otherwise we have to wait about 20 secs.
+     * Eliminates "ERROR on binding: Address already in use" error.
+     */
+    opt_val = 1;
+    if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_REUSEPORT, (const void *)&opt_val, sizeof(int) ) < 0 )
     {
-        // Accept a new socket connection
-        status = accept( server_fd, (struct sockaddr *) &clientAddress, &clientAddressLength );
-        if ( status < 0 )
-            error( status, "\tserver_listen(): accept() failed" );
-        socket_fd = status;
+        perror("setsockopt ( SO_REUSEPORT )");
+    }
+
+    struct linger lin;
+    lin.l_onoff = 0;
+    lin.l_linger = 0;
+    if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_LINGER, (const void *)&lin, sizeof(struct linger) ) < 0 )
+    {
+        perror("setsockopt ( SO_LINGER )");
+    }
+
+    // Associate the parent socket with a port
+    if ((status = bind(server_socket_fd, (struct sockaddr *)&serverAddress,
+                       sizeof(serverAddress)) < 0))
+        error(status, "ERROR on binding");
+
+    listen(server_socket_fd, 4);
+    //----- CRITICAL SECTION
+    pthread_mutex_lock( &logLock );
+    log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
+    pthread_mutex_unlock( &logLock );
+    //-----:end
+
+    while (1)
+    {
+        client_socket_fd = accept(server_socket_fd, (struct sockaddr *) &clientAddress, &(socklen_t){ sizeof( struct sockaddr_in ) } );
+        if (client_socket_fd < 0)
+            error(client_socket_fd, "ERROR on accept");
 
         // Connected > OffLoad to communication worker
         //  - get client address
+        char ip[INET_ADDRSTRLEN];
         inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
 
         //  - format arguments
         Device device = {.AEM = ip2aem( ip )};
-        CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
+        CommunicationWorkerArgs args = {
+                .connected_socket_fd = (uint16_t) client_socket_fd,
+                .server = 1,
+                .concurrent = 0
+        };
+        memcpy( &args.connected_device, &device, sizeof( Device ) );
 
         // Log
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &logLock );
         sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
         log_info( logMessage, "listening_worker()", "socket.h > accept()" );
+        pthread_mutex_unlock( &logLock );
+        //-----:end
 
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
@@ -249,7 +206,7 @@ void listening_worker()
             //----- CRITICAL SECTION
             pthread_mutex_lock( &availableThreadsLock );
 
-            communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+            pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
             communicationThreadsAvailable--;
 
             pthread_mutex_unlock( &availableThreadsLock );
@@ -269,12 +226,15 @@ void listening_worker()
         {
             // run in main thread
             args.concurrent = 0;
-            communication_worker(&args);
+            communication_worker( &args );
         }
 
         // Log
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &logLock );
         sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
         log_info( logMessage, "listening_worker()", "socket.h > accept()" );
+        pthread_mutex_unlock( &logLock );
+        //-----:end
     }
-    while (1);
 }

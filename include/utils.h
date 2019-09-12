@@ -4,12 +4,16 @@
 #include "types.h"
 #include <arpa/inet.h>
 #include <errno.h>
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
 
+/// \brief Perform binary search in $haystack array for $needle and return index of $needle or -1.
+/// \param haystack
+/// \param N size of $haystack
+/// \param needle
+/// \return index [0, N-1] if found, -1 else
+uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle);
 
 /// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
 /// \param thread_args pointer to communicate_args_t type
@@ -25,29 +29,25 @@ void communication_receiver_worker(void *args);
 void communication_transmitter_worker(Device receiverDevice, int socket_fd);
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
+/// \param message the result message ( passes as a pointer )
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
-Message explode(const char *glue, MessageSerialized messageSerialized);
+void explode(Message *message, const char * glue, MessageSerialized messageSerialized);
 
-/// \brief Generates a new message from this device towards $recipient with $body as content.
+/// \brief Generates a new message from this client towards $recipient with $body as content.
+/// \param message result message ( passed as pointer )
 /// \param recipient message's recipient
 /// \param body message's body
-/// \return newly generated message of type message_t
-Message generateMessage(uint32_t recipient, const char * body);
+void generateMessage(Message *message, uint32_t recipient, const char * body);
 
 /// \brief Generates a new random message composed of:
 ///     - random recipient  ( 4 randomly generated digits: {1-9}{0-9}{0-9}{0-9} )
 ///     - random body       ( 256 randomly generated ascii characters )
 ///     - CLIENT_AEM as sender
 ///     - creation time_of_day as created_at timestamp
-/// \return newly generated message of type message_t
-Message generateRandomMessage();
-
-/// Convert HEX string to an array of bytes representing MAC address.
-/// \param hex HEX string ( successive bytes should be glued together using ':' )
-/// \param mac MAC address as array of bytes ( 'byte' is 'unsigned char' in C )
-void hex2mac(const char * hex, unsigned char * mac);
+/// \param message result message ( passed as pointer )
+void generateRandomMessage(Message *message);
 
 /// \brief Serializes a message ( of message_t type ) into a 277-characters string.
 /// \param glue the connective character(s); to be placed between successive message fields
@@ -66,27 +66,44 @@ void inspect(Message message, uint8_t metadata, FILE *fp);
 /// \return aem uint32_t
 uint32_t ip2aem(const char *ip);
 
-/// \brief Check if two devices have exactly the same values in ALL of their fields.
-/// \param device1
-/// \param device2
-/// \return
-uint8_t isDeviceEqual(Device device1, Device device2);
-
 /// \brief Check if two messages have exactly the same values in ALL of their fields ( metadata excluded ).
 /// \param message1
 /// \param message2
 /// \return
 uint8_t isMessageEqual(Message message1, Message message2);
 
-/// Convert MAC address from byte array to string ( adding ':' between successive bytes )
-/// \param mac mac address as array of bytes ( 'byte' is 'unsigned char' in C )
-/// \param hex pointer to the HEX string of the MAC address
-void mac2hex(const unsigned char *mac, char *hex);
-
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \return -1 on error, opened socket's file descriptor on success
 int socket_connect(const char * ip);
+
+/// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+/// \param base
+/// \param new
+void str_append( char *base, char *new );
+
+/// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+/// \param base
+/// \param aem
+/// \param sep separator character between successive AEMs
+void str_append_aem( char *base, uint32_t aem, const char *sep );
+
+/// \brief Check if $needle exists ( is substring ) in $haystack.
+/// \param haystack
+/// \param needle
+/// \return 0 ( false ) / 1 ( true )
+uint8_t str_exists(const char *haystack, const char *needle);
+
+/// Check if $aem exists in $haystack string.
+/// \param haystack
+/// \param aem
+/// \return
+uint8_t str_exists_aem(const char *haystack, uint32_t aem);
+
+/// \brief Removes $toRemove substring from $str haystack.
+/// \param str
+/// \param toRemove
+void str_remove(char *str, const char *toRemove);
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

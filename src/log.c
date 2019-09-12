@@ -121,7 +121,7 @@ void log_tearUp(const char *fileName)
                              "|--------------------------------------------------------------------------\n"
                              "|\n"
                              "| Date    : %s\n"
-                             "| Client  : %d\n"
+                             "| Client  : %04d\n"
                              "| FileName: %s\n"
                              "|\n"
                              "*/\n\n", nowAsString, CLIENT_AEM, fileName );
@@ -134,7 +134,7 @@ void log_tearUp(const char *fileName)
                              "|--------------------------------------------------------------------------\n"
                              "|\n"
                              "| Date    : %s\n"
-                             "| Client  : %d\n"
+                             "| Client  : %04d\n"
                              "| FileName: %s\n"
                              "|\n"
                              "*/\n\n", nowAsString, CLIENT_AEM, fileName );

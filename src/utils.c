@@ -5,11 +5,11 @@
 
 extern uint32_t CLIENT_AEM;
 
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+extern MessagesStats messagesStats;
+
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
-
-extern pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
-extern MessagesStats messagesStats;
 
 extern Message messages[ MESSAGES_SIZE ];
 
@@ -17,13 +17,49 @@ extern Message messages[ MESSAGES_SIZE ];
 //------------------------------------------------------------------------------------------------
 
 
+/// \brief Perform binary search in $haystack array for $needle and return index of $needle or -1.
+/// \param haystack
+/// \param N size of $haystack
+/// \param needle
+/// \return index [0, N-1] if found, -1 else
+uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
+{
+    size_t first, last, middle;
+
+    first = 0;
+    last = N - 1;
+    middle = ( first + last ) / 2;
+
+    do
+    {
+        if ( haystack[middle] < needle )
+        {
+            first = middle + 1;
+        }
+        else if ( haystack[middle] == needle )
+        {
+            // Found, index is $middle
+            return middle;
+        }
+        else
+        {
+            last = middle - 1;
+        }
+
+        middle = ( first + last ) / 2;
+    }
+    while ( first <= last );
+
+    // Not found
+    return -1;
+}
+
 /// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
 /// \param thread_args pointer to communicate_args_t type
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
     uint8_t deviceExists;
-    int status;
 
     char logMessage[100];
 
@@ -44,47 +80,10 @@ void communication_worker(void *thread_args)
     // If no active connection with given device exists
     if ( 0 == deviceExists )
     {
-        // Receiver Thread ( in a new thread )
-        if ( communicationThreadsAvailable > 2 )
-        {
-            pthread_t receiverThread;
-
-            //----- CRITICAL SECTION
-            pthread_mutex_lock( &availableThreadsLock );
-
-            receiverThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
-            communicationThreadsAvailable--;
-
-            pthread_mutex_unlock( &availableThreadsLock );
-            //-----:end
-
-            status = pthread_create( &receiverThread, NULL, (void *) communication_receiver_worker, &thread_args );
-            if ( status != 0 )
-                error( status, "\tcommunication_worker(): pthread_create() failed" );
-
-            // Transmitter Thread ( main thread )
-            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
-
-            // Wait receiver thread
-            status = pthread_join( receiverThread, NULL );
-            if ( status != 0 )
-                error( status, "\tcommunication_worker(): pthread_join() failed" );
-
-            // Update number of threads
-            //----- CRITICAL SECTION
-            pthread_mutex_lock( &availableThreadsLock );
-
-            communicationThreadsAvailable++;
-
-            pthread_mutex_unlock( &availableThreadsLock );
-            //-----:end
-        }
-        else
-        {
-            // Serial Execution
-            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+        // If device is server, act as transmitter, else act as receiver.
+        args->server ?
+            communication_transmitter_worker( args->connected_device, args->connected_socket_fd ):
             communication_receiver_worker( thread_args );
-        }
 
         // Update active devices
         //----- CRITICAL SECTION
@@ -97,12 +96,18 @@ void communication_worker(void *thread_args)
     }
     else
     {
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &logLock );
         sprintf( logMessage, "Active connection with device found: AEM = %04d. Skipping...", args->connected_device.AEM );
         log_error( logMessage, "communication_worker()", 0 );
+        pthread_mutex_unlock( &logLock );
+        //-----:end
     }
 
     // Close Socket
-    close( args->connected_socket_fd );
+    args->server ?
+        close( args->connected_socket_fd ):
+        shutdown( args->connected_socket_fd, SHUT_RDWR );
 
     // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
     if ( 1 == args->concurrent )
@@ -126,11 +131,21 @@ void communication_receiver_worker(void *thread_args)
     Message message;
     MessageSerialized messageSerialized;
 
+    char logMessage[512];
+
     messageSerialized = (char *) malloc( 277 );
-    next_loop: while ( read( args->connected_socket_fd , messageSerialized, 277 ) == 277 )
+    next_loop:
+    while ( read( args->connected_socket_fd , messageSerialized, 277 ) == 277 )
     {
+        //----- CRITICAL SECTION
+        pthread_mutex_lock( &logLock );
+        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
+        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
+        pthread_mutex_unlock( &logLock );
+        //-----:end
+
         // Reconstruct message
-        message = explode( "_", messageSerialized );
+        explode( &message, "_", messageSerialized );
 
         // Check for duplicates
         for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
@@ -142,6 +157,9 @@ void communication_receiver_worker(void *thread_args)
                 break;
         }
 
+        // Update message's transmitted devices to include sender ( so as not to send back )
+        str_append_aem( message.transmitted_device_aem_string, args->connected_device.AEM, "_" );
+
         // Store in $messages buffer
         //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesBufferLock );
@@ -152,7 +170,7 @@ void communication_receiver_worker(void *thread_args)
         //-----:end
 
         // Log received message
-        log_message( "communication_receiver_worker()", message );
+//        log_message( "communication_receiver_worker()", message );
 
         // Update stats
         //----- CRITICAL SECTION
@@ -175,19 +193,25 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
 {
     MessageSerialized messageSerialized;
 
-    char logMessage[100];
+    char logMessage[512];
 
     messageSerialized = (char *) malloc( 277 );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        if ( messages[message_i].created_at > 0 && 0 == isDeviceEqual( receiverDevice, messages[message_i].transmitted_device ) )
+        if ( messages[message_i].created_at > 0
+            && !str_exists_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM )
+        )
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
 
             // Log
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &logLock );
             sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
             log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
+            pthread_mutex_unlock( &logLock );
+            //-----:end
 
             // Transmit
             send( socket_fd , messageSerialized , 277, 0 );
@@ -197,7 +221,7 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
             pthread_mutex_lock( &messagesBufferLock );
 
             messages[message_i].transmitted = 1;
-            memcpy( &messages[message_i].transmitted_device, &receiverDevice, sizeof( Device ) );
+            str_append_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM, "_" );
 
             pthread_mutex_unlock( &messagesBufferLock );
             //-----:end
@@ -206,7 +230,7 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
             //----- CRITICAL SECTION
             pthread_mutex_lock( &messagesStatsLock );
 
-            messagesStats.produced++;
+            messagesStats.transmitted++;
 
             pthread_mutex_unlock( &messagesStatsLock );
             //-----:end
@@ -218,46 +242,42 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
 }
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
+/// \param message the result message ( passes as a pointer )
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
-Message explode(const char * glue, MessageSerialized messageSerialized)
+void explode(Message *message, const char * glue, MessageSerialized messageSerialized)
 {
-    Message message;
     MessageSerialized messageCopy = strdup( messageSerialized );
     void *messageCopyPointer = ( void * ) messageCopy;
 
     // Start exploding string
-    message.sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
-    message.recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
-    message.created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, 10 );
+    message->sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
+    message->recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
+    message->created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, 10 );
 
-    memcpy( message.body, strsep( &messageCopy, glue ), 256 );
+    memcpy( message->body, strsep( &messageCopy, glue ), 256 );
     free( messageCopyPointer );
 
     // Set message's metadata
-    message.transmitted = 0;
-
-    return message;
+    message->transmitted = 0;
+    strcpy( message->transmitted_device_aem_string, "" );
 }
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
+/// \param message result message ( passed as pointer )
 /// \param recipient message's recipient
 /// \param body message's body
-/// \return newly generated message of type message_t
-Message generateMessage(uint32_t recipient, const char * body)
+void generateMessage(Message *message, uint32_t recipient, const char * body)
 {
-    Message message;
+    // Fill
+    message->sender = CLIENT_AEM;
+    message->recipient = recipient;
+    message->created_at = (uint64) time( NULL );
 
-    message.sender = CLIENT_AEM;
-    message.recipient = recipient;
-    message.created_at = (uint64) time( NULL );
+    memcpy( message->body, body, 256 );
 
-    memcpy( message.body, body, 256 );
-
-    message.transmitted = 0;
-
-    return message;
+    message->transmitted = 0;
 }
 
 /// \brief Generates a new random message composed of:
@@ -265,47 +285,38 @@ Message generateMessage(uint32_t recipient, const char * body)
 ///     - random body       ( 256 randomly generated ascii characters )
 ///     - CLIENT_AEM as sender
 ///     - creation time_of_day as created_at timestamp
-/// \return newly generated message of type message_t
-Message generateRandomMessage()
+/// \param message result message ( passed as pointer )
+void generateRandomMessage(Message *message)
 {
     uint32_t recipient;
     char body[256];
 
-    //  - random recipient ( using sodium )
-    recipient = (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN);
+    srand( time( NULL ) );
 
-    //  - random body ( using sodium )
+    //  - random recipient
+    recipient = ( CLIENT_AEM_SOURCE == CLIENT_AEM_SOURCE_RANGE ) ?
+        (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN):
+        CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
+
+    //  - random body
     for ( int byte_i = 0; byte_i < 255; byte_i ++ )
     {
-        body[byte_i] = (char) ( rand() % (95 - 32 + 1) + 32);
+        char ch;
+        do
+        {
+            ch = (char) ( rand() % (95 - 32 + 1) + 32);
+        }
+        while( '_' == ch );
+
+        body[byte_i] = ch;
     }
     body[255] = '\0';
 
-    Message message = generateMessage( recipient, body );
+    generateMessage( message, recipient, body );
 
-    //  - random transmission status
-//    message.transmitted = (uint8_t) (rand() % 2 == 1 ? 1 : 0);
-    message.transmitted = 0;
-    if ( message.transmitted == 1 )
-    {
-        for( uint8_t byte_i = 0; byte_i < 6; byte_i++ )
-            message.transmitted_device.mac[byte_i] = (unsigned char) (rand() % 255);
-    }
-
-    return message;
-}
-
-/// Convert HEX string to an array of bytes representing MAC address.
-/// \param hex HEX string ( successive bytes should be glued together using ':' )
-/// \param mac MAC address as array of bytes ( 'byte' is 'unsigned char' in C )
-void hex2mac(const char * hex, unsigned char * mac)
-{
-    char *hexCopy = strdup( hex ), *token;
-    char glue = ':';
-    size_t b = 0;
-
-    while ( (token = strsep(&hexCopy, &glue) ) )
-        mac[b++] = (unsigned char) strtol(token, (char **)NULL, 16 );
+    //  - transmission status
+    message->transmitted = 0;
+//    strncpy( message->transmitted_device_aem_string, "", sizeof( message->transmitted_device_aem_string ) );
 }
 
 /// \brief Serializes a message ( of message_t type ) into a 277-characters string.
@@ -341,13 +352,8 @@ void inspect(const Message message, uint8_t metadata, FILE *fp)
     // Print metadata
     if ( metadata )
     {
-        char hex[18];
-
-        message.transmitted == 1 ?
-            mac2hex( message.transmitted_device.mac, hex ):
-            snprintf( hex, 18, "--:--:--:--:--:--" );
-
-        fprintf( fp, "\t---\n\ttransmitted = %d\n\ttransmitted_device = %s\n", message.transmitted, hex );
+//        fprintf( fp, "\t---\n\ttransmitted = %d\n\ttransmitted_devices = %s\n",
+//                message.transmitted, message.transmitted == 1 ? message.transmitted_device_aem_string : "" );
     }
 
     fprintf( fp, "}\n" );
@@ -378,15 +384,6 @@ uint32_t ip2aem(const char *ip)
     return aem;
 }
 
-/// \brief Check if two devices have exactly the same values in ALL of their fields.
-/// \param device1
-/// \param device2
-/// \return
-uint8_t isDeviceEqual(Device device1, Device device2)
-{
-    return (uint8_t) (device1.AEM == device2.AEM ? 1 : 0);
-}
-
 /// \brief Check if two messages have exactly the same values in ALL of their fields.
 /// \param message1
 /// \param message2
@@ -405,24 +402,18 @@ uint8_t isMessageEqual(Message message1, Message message2)
     return 1;
 }
 
-/// Convert MAC address from byte array to string ( adding ':' between successive bytes )
-/// \param mac mac address as array of bytes ( 'byte' is 'unsigned char' in C )
-/// \param hex pointer to the HEX string of the MAC address
-void mac2hex(const unsigned char *mac, char *hex)
-{
-    sprintf(hex, "%02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
-    hex[18] = '\0';
-}
-
-extern struct sockaddr_in socket_connect__serv_addr;
-
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect(const char * ip)
+int socket_connect(const char *ip)
 {
-    int socket_fd = 0, status;
-    char ipp[INET_ADDRSTRLEN];
+    uint32_t aem = ip2aem( ip );
+    if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
+        return -1;
+
+    int socket_fd;
+    int status;
+    struct sockaddr_in serverAddress;
 
     status = socket( AF_INET, SOCK_STREAM, 0 );
     if ( status < 0 )
@@ -430,18 +421,82 @@ int socket_connect(const char * ip)
 
     socket_fd = status;
 
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    sprintf( ipp, "%s", ip );
-    status = inet_pton( AF_INET, ipp, &( socket_connect__serv_addr.sin_addr ) );
-    if ( status < 0 )
-        error( status, "\tsocket_connect(): inet_pton() failed" );
-    else if ( 0 == status )
+    // Set "server" address
+    memset( &serverAddress, 0, sizeof(serverAddress) );
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_port = htons( SOCKET_PORT );
+    serverAddress.sin_addr.s_addr = inet_addr( ip );
+
+    return ( connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ) ?
+        socket_fd : -1;
+}
+
+/// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+/// \param base
+/// \param new
+void str_append( char *base, char *new )
+{
+    sprintf( base, "%s%s", base, new );
+}
+
+/// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+/// \param base
+/// \param aem
+/// \param sep separator character between successive AEMs
+void str_append_aem( char *base, uint32_t aem, const char *sep )
+{
+    char aemString[6];
+    sprintf( aemString, "%04d%c", aem, sep[0] );
+
+    return str_append( base, aemString );
+}
+
+/// \brief Check if $needle exists ( is substring ) in $haystack.
+/// \param haystack
+/// \param needle
+/// \return 0 ( false ) / 1 ( true )
+uint8_t str_exists(const char *haystack, const char *needle)
+{
+    char *p = strstr( haystack, needle );
+    return (p) ? 1 : 0;
+}
+
+/// Check if $aem exists in $haystack string.
+/// \param haystack
+/// \param aem
+/// \return
+uint8_t str_exists_aem(const char *haystack, uint32_t aem)
+{
+    char aemString[5];
+    sprintf( aemString, "%04d", aem );
+
+    return str_exists( haystack, aemString );
+}
+
+/// \brief Removes $toRemove substring from $str haystack.
+/// \param str
+/// \param toRemove
+void str_remove(char *str, const char *toRemove)
+{
+    if (NULL == (str = strstr(str, toRemove)))
     {
-        return -1;
+        // no match.
+        printf("No match in %s\n", str);
+        return;
     }
 
-    return ( 0 == connect( socket_fd, (struct sockaddr *)&socket_connect__serv_addr, sizeof(socket_connect__serv_addr) ) ) ?
-        socket_fd : -1;
+    // str points to toRemove in str now.
+    const size_t remLen = strlen(toRemove);
+    char *copyEnd;
+    char *copyFrom = str + remLen;
+    while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
+    {
+        //printf("match at %3ld in %s\n", copyEnd - str, str);
+        memmove(str, copyFrom, copyEnd - copyFrom);
+        str += copyEnd - copyFrom;
+        copyFrom = copyEnd + remLen;
+    }
+    memmove(str, copyFrom, 1 + strlen(copyFrom));
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.

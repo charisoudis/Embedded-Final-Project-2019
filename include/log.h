@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 #include <types.h>
 
 /// \brief Logs message after where/when information.

@@ -6,25 +6,35 @@
 
 #define error(status, msg) do { errno = status; perror(msg); exit(EXIT_FAILURE); } while (0)
 
+// start: Server.h
+typedef uint16_t messages_head_t;
+typedef uint8_t devices_head_t;
+
+typedef struct active_devices_queue_t {
+
+    char devices_aem_string[ACTIVE_SOCKET_CONNECTIONS_MAX<<2 + ACTIVE_SOCKET_CONNECTIONS_MAX];
+
+} DevicesQueue;
+// end
+
 // start: Utils.h
 typedef unsigned long uint64;
 typedef unsigned int uint;
 
 typedef struct device_t {
     uint32_t AEM;
-    unsigned char mac[6];           // MAC address of this device ( 6 bytes )
 } Device;
 
 typedef struct message_t {
     // Fundamental Message fields
-    uint32_t sender;                // ΑΕΜ αποστολέα:       uint32
-    uint32_t recipient;             // ΑΕΜ παραλήπτη:       uint32
-    uint64 created_at;              // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
-    char body[256];                 // Κείμενο μηνύματος:   ASCII[256]
+    uint32_t sender;                    // ΑΕΜ αποστολέα:       uint32
+    uint32_t recipient;                 // ΑΕΜ παραλήπτη:       uint32
+    uint64 created_at;                  // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    char body[256];                     // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
-    uint8_t transmitted;            // If the message was actually transmitted from this device
-    Device transmitted_device;      // Device that this message was transmitted to ( if transmitted from this device )
+    uint8_t transmitted;                // If the message was actually transmitted from this device
+    char transmitted_device_aem_string[50];   // Devices' AEMs that this message was transmitted to
 } Message;
 
 /* char[277] type */
@@ -36,21 +46,9 @@ typedef struct communication_worker_args_t {
     Device connected_device;
     uint16_t connected_socket_fd;
     uint8_t concurrent;
+    uint8_t server;
 
 } CommunicationWorkerArgs;
-// end
-
-// start: Server.h
-typedef uint16_t messages_head_t;
-typedef uint8_t devices_head_t;
-
-typedef struct active_devices_queue_t {
-
-    Device devices[ACTIVE_SOCKET_CONNECTIONS_MAX];
-    devices_head_t head;
-    devices_head_t tail;
-
-} ActiveDevicesQueue;
 // end
 
 // start: Log.h

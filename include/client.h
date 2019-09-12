@@ -11,9 +11,10 @@
 #include <net/if.h>
 #include <arpa/inet.h>
 
-/// \brief Fetches AEM of running device from "wlan0" network interface
+/// \brief Fetches AEM of running device from $interface network interface
+/// \param interface usually this is "wlan0"
 /// \return uint32_t ( 4-digits )
-uint32_t getClientAem(void);
+uint32_t getClientAem(const char *interface);
 
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void);

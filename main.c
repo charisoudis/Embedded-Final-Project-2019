@@ -1,51 +1,46 @@
 #include <signal.h>
+#include <utils.h>
 #include "conf.h"
 #include "client.h"
 #include "log.h"
 #include "server.h"
-#include "utils.h"
-
 
 //------------------------------------------------------------------------------------------------
 
-
-#define MAX_EXECUTION_TIME 7200                 // 2 hours
-static uint32_t executionTimeRequested;         // secs
+#define MAX_EXECUTION_TIME 100                 // 2 hours
+static uint32_t executionTimeRequested;       // secs
 static struct timespec executionTimeActualStart, executionTimeActualFinish;
-
-static pthread_t pollingThread, producerThread;
-pthread_mutex_t availableThreadsLock, messagesBufferLock, activeDevicesLock, messagesStatsLock;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 
-ActiveDevicesQueue activeDevicesQueue;
+static pthread_t pollingThread, producerThread;
+pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+
+DevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
 
 uint32_t CLIENT_AEM;
-struct sockaddr_in socket_connect__serv_addr;
-
 
 //------------------------------------------------------------------------------------------------
 
-
 extern messages_head_t messagesHead;
-
 
 /// \brief Handler of SIGALRM signal. Used to terminate sampling when totalSamplingTime finishes.
 /// \param signo
 /// \return void - Actually this function terminates program execution.
 static void onAlarm(int signo);
 
-
 int main( int argc, char **argv )
 {
     int status;
 
+    // Get AEM of running device
+    CLIENT_AEM = getClientAem("wlan0");
+    printf( "AEM = %d\n", CLIENT_AEM );
+
     // Initialize types
     messagesHead = 0;
-    activeDevicesQueue.head = 0;
-    activeDevicesQueue.tail = 0;
 
     // Initialize logger
     log_tearUp( "log.txt" );
@@ -60,21 +55,21 @@ int main( int argc, char **argv )
     srand((unsigned int) time(NULL ));
 
     // Initialize Locks
-    status = pthread_mutex_init( &availableThreadsLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( availableThreadsLock ) failed" );
     status = pthread_mutex_init( &messagesBufferLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesBufferLock ) failed" );
     status = pthread_mutex_init( &activeDevicesLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
+    status = pthread_mutex_init( &availableThreadsLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
     status = pthread_mutex_init( &messagesStatsLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
-
-    // Get AEM of running device
-    CLIENT_AEM = getClientAem();
+    status = pthread_mutex_init( &logLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
 
     // Start recording actual time
     clock_gettime(CLOCK_REALTIME, &executionTimeActualStart);
@@ -84,8 +79,6 @@ int main( int argc, char **argv )
     signal( SIGALRM, onAlarm );
 
     // Start polling client ( in a new thread )
-    socket_connect__serv_addr.sin_family = AF_INET;
-    socket_connect__serv_addr.sin_port = htons( SOCKET_PORT );
     status = pthread_create(&pollingThread, NULL, (void *) polling_worker, NULL);
     if ( status != 0 )
         error( status, "\tmain(): pthread_create( pollingThread ) failed" );
@@ -96,9 +89,7 @@ int main( int argc, char **argv )
         error( status, "\tmain(): pthread_create( producerThread ) failed" );
 
     // Start listening server ( main thread )
-//    listening_worker();
-
-    while(1){}
+    listening_worker();
 
     return EXIT_SUCCESS;
 }
@@ -149,36 +140,3 @@ static void onAlarm( int signo )
 
     exit( EXIT_SUCCESS );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,11 +2,46 @@
 #define FINAL_CONF_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 // start: Client.h
 #ifndef CLIENT_AEM_RANGE
     #define CLIENT_AEM_RANGE_MIN 8000
     #define CLIENT_AEM_RANGE_MAX 9050
+#endif
+
+#ifndef CLIENT_AEM_LIST
+    // Sorted list of AEMs
+    static int CLIENT_AEM_LIST[] = {
+            0001,
+            8000,
+            8600,
+            8723,
+            8859,
+            8888,
+            9005,
+            9026
+    };
+
+    // Active flag for each AEM
+    static bool CLIENT_AEM_ACTIVE_LIST[] = {
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+    };
+
+    #define CLIENT_AEM_LIST_LENGTH ( uint32_t )( sizeof( CLIENT_AEM_LIST ) / sizeof( int ) )
+#endif
+
+#ifndef CLIENT_AEM_SOURCE
+    #define CLIENT_AEM_SOURCE_RANGE 0
+    #define CLIENT_AEM_SOURCE_LIST 1
+    #define CLIENT_AEM_SOURCE CLIENT_AEM_SOURCE_LIST
 #endif
 
 #ifndef PRODUCER_DELAY_RANGE    // in minutes
@@ -19,7 +54,7 @@
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
     #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
     #define MESSAGES_PUSH_OVERRIDE_BLIND 1
-    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_SENT_ONLY
+    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_BLIND
 #endif
 
 #ifndef MESSAGES_SIZE

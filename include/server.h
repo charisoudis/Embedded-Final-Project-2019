@@ -13,6 +13,11 @@
 /// \return uint8 0 if FALSE, 1 if TRUE
 uint8_t devices_exists(Device device);
 
+/// \brief Check if a device with $aem exists in $activeDevices.
+/// \param aem
+/// \return uint8 0 if FALSE, 1 if TRUE
+uint8_t devices_exists_aem(uint32_t aem);
+
 /// \brief Push $device to $activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device);

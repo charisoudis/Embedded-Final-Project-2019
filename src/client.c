@@ -4,15 +4,22 @@
 #include <server.h>
 #include <utils.h>
 
+//------------------------------------------------------------------------------------------------
+
+extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
+extern MessagesStats messagesStats;
+extern Message messages[MESSAGES_SIZE];
+
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern pthread_mutex_t availableThreadsLock, messagesBufferLock;
-extern MessagesStats messagesStats;
+//------------------------------------------------------------------------------------------------
 
-/// \brief Fetches AEM of running device from "wlan0" network interface
-/// \return int ( 4-digits )
-uint32_t getClientAem(void)
+
+/// \brief Fetches AEM of running device from $interface network interface
+/// \param interface usually this is "wlan0"
+/// \return uint32_t ( 4-digits )
+uint32_t getClientAem(const char *interface)
 {
     int fd;
     struct ifreq ifr;
@@ -24,7 +31,7 @@ uint32_t getClientAem(void)
     ifr.ifr_addr.sa_family = AF_INET;
 
     /* I want IP address attached to "eth0" */
-    strncpy(ifr.ifr_name, "wlan0", IFNAMSIZ-1);
+    strncpy(ifr.ifr_name, interface, IFNAMSIZ-1);
 
     ioctl(fd, SIOCGIFADDR, &ifr);
 
@@ -33,25 +40,28 @@ uint32_t getClientAem(void)
     // Get IPv4 address as string
     sprintf( ip, "%s\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr) );
 
-    return ip2aem( ip );
+    uint32_t aem = ip2aem( ip );
+    return 0 != aem || 0 == strcmp( interface, "wlp6s0" ) ? aem : getClientAem( "wlp6s0" );
 }
 
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void)
 {
-    int status;
+    int status, listIndex = 0;
     uint16_t aem;
     char ip[12];
-    pthread_t communicationThread;
-
-    char logMessage[100];
+    char logMessage[255];
 
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
 
+    //----- CRITICAL SECTION
+    pthread_mutex_lock( &logLock );
     log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
+    pthread_mutex_unlock( &logLock );
+    //-----:end
 
-    aem = CLIENT_AEM_RANGE_MIN;
+    aem = ( CLIENT_AEM_SOURCE_RANGE == CLIENT_AEM_SOURCE ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
     do
     {
         // Format IP address
@@ -70,11 +80,19 @@ void *polling_worker(void)
             // Connected > OffLoad to communication worker
             //  - format arguments
             Device device = {.AEM = aem};
-            CommunicationWorkerArgs args = {.connected_device = device, .connected_socket_fd = (uint16_t) socket_fd};
+            CommunicationWorkerArgs args = {
+                    .connected_socket_fd = (uint16_t) socket_fd,
+                    .server = 0
+            };
+            memcpy( &args.connected_device, &device, sizeof( Device ) );
 
             // Log
-            sprintf( logMessage, "Connected: AEM = %04d", aem );
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &logLock );
+            sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
             log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
+            pthread_mutex_unlock( &logLock );
+            //-----:end
 
             //  - open thread
             if ( communicationThreadsAvailable > 0 )
@@ -82,7 +100,7 @@ void *polling_worker(void)
                 //----- CRITICAL SECTION
                 pthread_mutex_lock( &availableThreadsLock );
 
-                communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+                pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
                 communicationThreadsAvailable--;
 
                 pthread_mutex_unlock( &availableThreadsLock );
@@ -106,8 +124,12 @@ void *polling_worker(void)
             }
 
             // Log
+            //----- CRITICAL SECTION
+            pthread_mutex_lock( &logLock );
             sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
             log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
+            pthread_mutex_unlock( &logLock );
+            //-----:end
 
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
             if ( status != 0 )
@@ -120,10 +142,26 @@ void *polling_worker(void)
         }
 
         // Reset polling if reached AEMs range's maximum.
-        if ( ++aem > CLIENT_AEM_RANGE_MAX )
+        if ( CLIENT_AEM_SOURCE_RANGE == CLIENT_AEM_SOURCE )
         {
-            aem = CLIENT_AEM_RANGE_MIN;
-            log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
+            if ( ++aem > CLIENT_AEM_RANGE_MAX )
+            {
+                aem = CLIENT_AEM_RANGE_MIN;
+
+                //----- CRITICAL SECTION
+                pthread_mutex_lock( &logLock );
+                log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
+                pthread_mutex_unlock( &logLock );
+                //-----:end
+            }
+        }
+        else
+        {
+            if ( ++listIndex == CLIENT_AEM_LIST_LENGTH )
+            {
+                listIndex = 0;
+            }
+            aem = CLIENT_AEM_LIST[listIndex];
         }
     }
     while( 1 );
@@ -139,8 +177,8 @@ void *producer_worker(void)
     do
     {
         // Generate
-        message = generateRandomMessage();
-        inspect( message, 1, stdout );
+        generateRandomMessage( &message );
+//        inspect( message, 1, stdout );
 
         //----- NON-CANCELABLE SECTION
         status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -165,7 +203,7 @@ void *producer_worker(void)
 
         // Sleep
         delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
-        delay = (uint32_t) (60 * delay);
+//        delay = (uint32_t) (60 * delay);
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }

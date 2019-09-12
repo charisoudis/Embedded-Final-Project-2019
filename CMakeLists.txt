@@ -3,7 +3,7 @@ project(Final C)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES main.c include/types.h)
+set(SOURCE_FILES main.c)
 add_executable(Final ${SOURCE_FILES})
 
 include_directories(include)
