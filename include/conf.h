@@ -20,22 +20,15 @@
             8859,
             8888,
             9005,
-            9026
-    };
-
-    // Active flag for each AEM
-    static bool CLIENT_AEM_ACTIVE_LIST[] = {
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
+            9026,
+            9999
     };
 
     #define CLIENT_AEM_LIST_LENGTH ( uint32_t )( sizeof( CLIENT_AEM_LIST ) / sizeof( int ) )
+
+    // Active flag for each AEM
+    static bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
+
 #endif
 
 #ifndef CLIENT_AEM_SOURCE
