@@ -8,15 +8,6 @@ extern "C" {
 }
 
 
-//------------------------------------------------------------------------------------------------
-
-
-ActiveDevicesQueue activeDevicesQueue;
-
-
-//------------------------------------------------------------------------------------------------
-
-
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 extern messages_head_t messagesHead;
 
@@ -58,8 +49,7 @@ public:
             messages[message_i].sender = 0;
             messages[message_i].recipient = 0;
             messages[message_i].created_at = 0;
-            messages[message_i].transmitted = 0;
-            messages[message_i].transmitted_device.AEM = 0;
+            messages[message_i].transmitted = false;
         }
         //  - set $messagesHead
         messagesHead = 0;

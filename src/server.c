@@ -6,7 +6,6 @@
 
 extern MessagesStats messagesStats;
 extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
-extern DevicesQueue activeDevicesQueue;
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
@@ -23,7 +22,7 @@ Message messages[ MESSAGES_SIZE ];
 /// \brief Check if $device exists $activeDevices FIFO queue.
 /// \param device
 /// \return uint8 0 if FALSE, 1 if TRUE
-uint8_t devices_exists(Device device)
+bool devices_exists(Device device)
 {
     return devices_exists_aem( device.AEM );
 }
@@ -31,49 +30,34 @@ uint8_t devices_exists(Device device)
 /// \brief Check if a device with $aem exists in $activeDevices.
 /// \param aem
 /// \return uint8 0 if FALSE, 1 if TRUE
-uint8_t devices_exists_aem(uint32_t aem)
+bool devices_exists_aem(uint32_t aem)
 {
     uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem );
-    if ( -1 == aemIndex )
-    {
-        return 0;
-    }
-
-    return CLIENT_AEM_ACTIVE_LIST[aemIndex] ? 1 : 0;
-
-//    return str_exists_aem( activeDevicesQueue.devices_aem_string, aem );
+    return ( aemIndex > -1 ) ? CLIENT_AEM_ACTIVE_LIST[aemIndex] : false;
 }
 
 /// \brief Push $device to activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device)
 {
-    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
-    if ( -1 < aemIndex )
+    uint32_t aemIndex;
+
+    if ( ( aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM ) ) > -1 )
     {
         CLIENT_AEM_ACTIVE_LIST[aemIndex] = true;
     }
-
-//    str_append_aem( activeDevicesQueue.devices_aem_string, device.AEM, "_" );
 }
 
 /// \brief Remove $device from $activeDevices FIFO queue.
 /// \param device
 void devices_remove(Device device)
 {
-    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
-    if ( -1 < aemIndex )
-    {
-        CLIENT_AEM_ACTIVE_LIST[aemIndex] = false;
-    }
+    uint32_t aemIndex;
 
-//    if ( devices_exists( device ) )
-//    {
-//        char aem[5];
-//        sprintf( aem, "%04d_", device.AEM );
-//
-//        str_remove( activeDevicesQueue.devices_aem_string, aem );
-//    }
+    if ( ( aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM ) ) > -1 )
+    {
+        CLIENT_AEM_ACTIVE_LIST[aemIndex] = true;
+    }
 }
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
@@ -89,7 +73,7 @@ void messages_push(Message message)
         do
         {
             if ( 0 == messages[messagesHead].created_at ) break;    // found empty message: hole
-            if ( 1 == messages[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
+            if ( messages[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
         }
         while ( ++messagesHead < MESSAGES_SIZE );
 
@@ -101,7 +85,7 @@ void messages_push(Message message)
             while ( messagesHead < messagesHeadOriginal )
             {
                 if ( 0 == messages[messagesHead].created_at ) break;
-                if ( 1 == messages[messagesHead].transmitted ) break;
+                if ( messages[messagesHead].transmitted ) break;
 
                 messagesHead++;
             }
@@ -120,14 +104,15 @@ void messages_push(Message message)
     }
 }
 
-//#define BUFSIZE 277
-
 /// \brief Main server loop. Calls communication_thread() on each new connection.
 void listening_worker()
 {
-    int server_socket_fd, client_socket_fd, opt_val, status;
-    struct sockaddr_in serverAddress, clientAddress;
-    char logMessage[255], serverIpAddress[100];
+    int server_socket_fd;
+    int client_socket_fd;
+    int status;
+    struct sockaddr_in serverAddress;
+    struct sockaddr_in clientAddress;
+    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Create the server ( parent ) socket
     server_socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -137,8 +122,7 @@ void listening_worker()
     // Build the server's Internet address
     bzero((char *)&serverAddress, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
-    sprintf( serverIpAddress, "10.0.%02d.%02d", CLIENT_AEM / 100, CLIENT_AEM % 100 );
-    serverAddress.sin_addr.s_addr = inet_addr(serverIpAddress );
+    serverAddress.sin_addr.s_addr = inet_addr( aem2ip( CLIENT_AEM ) );
     serverAddress.sin_port = htons((unsigned short)SOCKET_PORT);
 
     /* setsockopt: Handy debugging trick that lets
@@ -146,8 +130,8 @@ void listening_worker()
      * otherwise we have to wait about 20 secs.
      * Eliminates "ERROR on binding: Address already in use" error.
      */
-    opt_val = 1;
-    if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_REUSEPORT, (const void *)&opt_val, sizeof(int) ) < 0 )
+    status = 1;
+    if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_REUSEPORT, (const void *)&status, sizeof(int) ) < 0 )
     {
         perror("setsockopt ( SO_REUSEPORT )");
     }
@@ -184,18 +168,21 @@ void listening_worker()
         inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
 
         //  - format arguments
-        Device device = {.AEM = ip2aem( ip )};
+        uint32_t clientAem = ip2aem(ip );
+        Device device = {
+                .AEM = clientAem,
+                .aemIndex = binary_search_index(CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, clientAem )
+        };
         CommunicationWorkerArgs args = {
                 .connected_socket_fd = (uint16_t) client_socket_fd,
-                .server = 1,
-                .concurrent = 0
+                .server = true
         };
         memcpy( &args.connected_device, &device, sizeof( Device ) );
 
         // Log
         //----- CRITICAL SECTION
         pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
+        sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
         log_info( logMessage, "listening_worker()", "socket.h > accept()" );
         pthread_mutex_unlock( &logLock );
         //-----:end
@@ -212,7 +199,7 @@ void listening_worker()
             pthread_mutex_unlock( &availableThreadsLock );
             //-----:end
 
-            args.concurrent = 1;
+            args.concurrent = true;
 
             status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
             if ( status != 0 )
@@ -225,7 +212,7 @@ void listening_worker()
         else
         {
             // run in main thread
-            args.concurrent = 0;
+            args.concurrent = false;
             communication_worker( &args );
         }
 

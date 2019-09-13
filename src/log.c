@@ -121,10 +121,10 @@ void log_tearUp(const char *fileName)
                              "|--------------------------------------------------------------------------\n"
                              "|\n"
                              "| Date    : %s\n"
-                             "| Client  : %04d\n"
+                             "| Client  : %s\n"
                              "| FileName: %s\n"
                              "|\n"
-                             "*/\n\n", nowAsString, CLIENT_AEM, fileName );
+                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
 
     if ( ALSO_LOG_TO_STDOUT )
     {
@@ -134,9 +134,9 @@ void log_tearUp(const char *fileName)
                              "|--------------------------------------------------------------------------\n"
                              "|\n"
                              "| Date    : %s\n"
-                             "| Client  : %04d\n"
+                             "| Client  : %s\n"
                              "| FileName: %s\n"
                              "|\n"
-                             "*/\n\n", nowAsString, CLIENT_AEM, fileName );
+                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
     }
 }

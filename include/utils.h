@@ -8,6 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/// \brief Constructs IPv4 address from given AEM.
+/// \param aem uint32_t
+/// \return ip string
+const char* aem2ip(uint32_t aem);
+
 /// \brief Perform binary search in $haystack array for $needle and return index of $needle or -1.
 /// \param haystack
 /// \param N size of $haystack
@@ -59,7 +64,7 @@ void implode(const char *glue, Message message, MessageSerialized messageSeriali
 /// \param message
 /// \param metadata show/hide metadata information from message
 /// \param fp file pointer to where to output inspection
-void inspect(Message message, uint8_t metadata, FILE *fp);
+void inspect(Message message, bool metadata, FILE *fp);
 
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )
@@ -70,40 +75,40 @@ uint32_t ip2aem(const char *ip);
 /// \param message1
 /// \param message2
 /// \return
-uint8_t isMessageEqual(Message message1, Message message2);
+bool isMessageEqual(Message message1, Message message2);
 
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \return -1 on error, opened socket's file descriptor on success
 int socket_connect(const char * ip);
 
-/// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-/// \param base
-/// \param new
-void str_append( char *base, char *new );
-
-/// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-/// \param base
-/// \param aem
-/// \param sep separator character between successive AEMs
-void str_append_aem( char *base, uint32_t aem, const char *sep );
-
-/// \brief Check if $needle exists ( is substring ) in $haystack.
-/// \param haystack
-/// \param needle
-/// \return 0 ( false ) / 1 ( true )
-uint8_t str_exists(const char *haystack, const char *needle);
-
-/// Check if $aem exists in $haystack string.
-/// \param haystack
-/// \param aem
-/// \return
-uint8_t str_exists_aem(const char *haystack, uint32_t aem);
-
-/// \brief Removes $toRemove substring from $str haystack.
-/// \param str
-/// \param toRemove
-void str_remove(char *str, const char *toRemove);
+///// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+///// \param base
+///// \param new
+//void str_append( char *base, char *new );
+//
+///// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+///// \param base
+///// \param aem
+///// \param sep separator character between successive AEMs
+//void str_append_aem( char *base, uint32_t aem, const char *sep );
+//
+///// \brief Check if $needle exists ( is substring ) in $haystack.
+///// \param haystack
+///// \param needle
+///// \return 0 ( false ) / 1 ( true )
+//bool str_exists(const char *haystack, const char *needle);
+//
+///// Check if $aem exists in $haystack string.
+///// \param haystack
+///// \param aem
+///// \return
+//bool str_exists_aem(const char *haystack, uint32_t aem);
+//
+///// \brief Removes $toRemove substring from $str haystack.
+///// \param str
+///// \param toRemove
+//void str_remove(char *str, const char *toRemove);
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

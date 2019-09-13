@@ -23,7 +23,7 @@ uint32_t getClientAem(const char *interface)
 {
     int fd;
     struct ifreq ifr;
-    char ip[15];
+    char ip[INET_ADDRSTRLEN];
 
     fd = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -38,7 +38,7 @@ uint32_t getClientAem(const char *interface)
     close(fd);
 
     // Get IPv4 address as string
-    sprintf( ip, "%s\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr) );
+    sprintf( ip, "%s\n", inet_ntoa( ((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr ) );
 
     uint32_t aem = ip2aem( ip );
     return 0 != aem || 0 == strcmp( interface, "wlp6s0" ) ? aem : getClientAem( "wlp6s0" );
@@ -47,10 +47,11 @@ uint32_t getClientAem(const char *interface)
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void)
 {
-    int status, listIndex = 0;
+    int status;
+    int listIndex;
     uint16_t aem;
-    char ip[12];
-    char logMessage[255];
+    const char *ip;
+    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
@@ -61,11 +62,12 @@ void *polling_worker(void)
     pthread_mutex_unlock( &logLock );
     //-----:end
 
+    listIndex = 0;
     aem = ( CLIENT_AEM_SOURCE_RANGE == CLIENT_AEM_SOURCE ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
     do
     {
         // Format IP address
-        snprintf( ip, 12, "10.0.%02d.%02d", (int) aem / 100, aem % 100 );
+        ip = aem2ip( aem );
         fprintf( stdout, "ip = %s\n", ip );
 
         // Try connecting
@@ -79,10 +81,14 @@ void *polling_worker(void)
 
             // Connected > OffLoad to communication worker
             //  - format arguments
-            Device device = {.AEM = aem};
+            uint32_t serverAem = ip2aem( ip );
+            Device device = {
+                    .AEM = serverAem,
+                    .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, serverAem )
+            };
             CommunicationWorkerArgs args = {
                     .connected_socket_fd = (uint16_t) socket_fd,
-                    .server = 0
+                    .server = false
             };
             memcpy( &args.connected_device, &device, sizeof( Device ) );
 
@@ -106,7 +112,7 @@ void *polling_worker(void)
                 pthread_mutex_unlock( &availableThreadsLock );
                 //-----:end
 
-                args.concurrent = 1;
+                args.concurrent = true;
 
                 status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
                 if ( status != 0 )
@@ -119,8 +125,8 @@ void *polling_worker(void)
             else
             {
                 // run in current thread
-                args.concurrent = 0;
-                communication_worker(&args);
+                args.concurrent = false;
+                communication_worker( &args );
             }
 
             // Log

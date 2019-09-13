@@ -8,14 +8,6 @@
 
 // start: Server.h
 typedef uint16_t messages_head_t;
-typedef uint8_t devices_head_t;
-
-typedef struct active_devices_queue_t {
-
-    char devices_aem_string[ACTIVE_SOCKET_CONNECTIONS_MAX<<2 + ACTIVE_SOCKET_CONNECTIONS_MAX];
-
-} DevicesQueue;
-// end
 
 // start: Utils.h
 typedef unsigned long uint64;
@@ -23,30 +15,32 @@ typedef unsigned int uint;
 
 typedef struct device_t {
     uint32_t AEM;
+    uint32_t aemIndex;
 } Device;
 
 typedef struct message_t {
-    // Fundamental Message fields
+    // Necessary fields
     uint32_t sender;                    // ΑΕΜ αποστολέα:       uint32
     uint32_t recipient;                 // ΑΕΜ παραλήπτη:       uint32
     uint64 created_at;                  // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
-    char body[256];                     // Κείμενο μηνύματος:   ASCII[256]
+    char body[MESSAGE_BODY_LEN];        // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
-    uint8_t transmitted;                // If the message was actually transmitted from this device
-    char transmitted_device_aem_string[50];   // Devices' AEMs that this message was transmitted to
+    bool transmitted;                // If the message was actually transmitted from this device
+    bool transmitted_devices[CLIENT_AEM_LIST_LENGTH];   // Boolean array, true if i-th device has received the message,
+                                                        // false otherwise
 } Message;
 
 /* char[277] type */
-typedef char *MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
+typedef char* MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
 
 /* pthread function arguments pointer */
 typedef struct communication_worker_args_t {
 
     Device connected_device;
     uint16_t connected_socket_fd;
-    uint8_t concurrent;
-    uint8_t server;
+    bool concurrent;
+    bool server;
 
 } CommunicationWorkerArgs;
 // end

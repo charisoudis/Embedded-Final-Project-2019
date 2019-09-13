@@ -3,6 +3,9 @@
 #include <log.h>
 #include <server.h>
 
+//------------------------------------------------------------------------------------------------
+
+
 extern uint32_t CLIENT_AEM;
 
 extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
@@ -17,6 +20,17 @@ extern Message messages[ MESSAGES_SIZE ];
 //------------------------------------------------------------------------------------------------
 
 
+/// \brief Constructs IPv4 address from given AEM.
+/// \param aem uint32_t
+/// \return ip string
+const char* aem2ip(uint32_t aem)
+{
+    static char ip[INET_ADDRSTRLEN];
+    sprintf( ip, "10.0.%02d.%02d", (int) aem / 100, aem % 100 );
+
+    return ip;
+}
+
 /// \brief Perform binary search in $haystack array for $needle and return index of $needle or -1.
 /// \param haystack
 /// \param N size of $haystack
@@ -24,7 +38,9 @@ extern Message messages[ MESSAGES_SIZE ];
 /// \return index [0, N-1] if found, -1 else
 uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
 {
-    size_t first, last, middle;
+    size_t first;
+    size_t last;
+    size_t middle;
 
     first = 0;
     last = N - 1;
@@ -59,16 +75,16 @@ uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-    uint8_t deviceExists;
+    bool deviceExists;
 
-    char logMessage[100];
+    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Check if there is an active connection with given device
     //----- CRITICAL SECTION
     pthread_mutex_lock( &activeDevicesLock );
 
     deviceExists = devices_exists( args->connected_device );
-    if ( 0 == deviceExists )
+    if ( !deviceExists )
     {
         // Update active devices
         devices_push( args->connected_device );
@@ -78,7 +94,7 @@ void communication_worker(void *thread_args)
     //-----:end
 
     // If no active connection with given device exists
-    if ( 0 == deviceExists )
+    if ( !deviceExists )
     {
         // If device is server, act as transmitter, else act as receiver.
         args->server ?
@@ -110,7 +126,7 @@ void communication_worker(void *thread_args)
         shutdown( args->connected_socket_fd, SHUT_RDWR );
 
     // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
-    if ( 1 == args->concurrent )
+    if ( args->concurrent )
     {
         //----- CRITICAL SECTION
         pthread_mutex_lock( &availableThreadsLock );
@@ -130,12 +146,11 @@ void communication_receiver_worker(void *thread_args)
 
     Message message;
     MessageSerialized messageSerialized;
+    char logMessage[LOG_MESSAGE_MAX_LEN];
 
-    char logMessage[512];
-
-    messageSerialized = (char *) malloc( 277 );
+    messageSerialized = (char *) malloc( MESSAGE_SERIALIZED_LEN );
     next_loop:
-    while ( read( args->connected_socket_fd , messageSerialized, 277 ) == 277 )
+    while ( read( args->connected_socket_fd , messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
     {
         //----- CRITICAL SECTION
         pthread_mutex_lock( &logLock );
@@ -158,7 +173,7 @@ void communication_receiver_worker(void *thread_args)
         }
 
         // Update message's transmitted devices to include sender ( so as not to send back )
-        str_append_aem( message.transmitted_device_aem_string, args->connected_device.AEM, "_" );
+        message.transmitted_devices[ args->connected_device.aemIndex ] = true;
 
         // Store in $messages buffer
         //----- CRITICAL SECTION
@@ -193,13 +208,13 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
 {
     MessageSerialized messageSerialized;
 
-    char logMessage[512];
+    char logMessage[LOG_MESSAGE_MAX_LEN];
 
-    messageSerialized = (char *) malloc( 277 );
+    messageSerialized = (char *) malloc( MESSAGE_SERIALIZED_LEN );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
         if ( messages[message_i].created_at > 0
-            && !str_exists_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM )
+//            && !str_exists_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM )
         )
         {
             // Serialize
@@ -214,14 +229,14 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
             //-----:end
 
             // Transmit
-            send( socket_fd , messageSerialized , 277, 0 );
+            send( socket_fd , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
 
             // Update Status in $messages buffer
             //----- CRITICAL SECTION
             pthread_mutex_lock( &messagesBufferLock );
 
-            messages[message_i].transmitted = 1;
-            str_append_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM, "_" );
+            messages[message_i].transmitted = true;
+//            str_append_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM, "_" );
 
             pthread_mutex_unlock( &messagesBufferLock );
             //-----:end
@@ -252,16 +267,16 @@ void explode(Message *message, const char * glue, MessageSerialized messageSeria
     void *messageCopyPointer = ( void * ) messageCopy;
 
     // Start exploding string
-    message->sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
-    message->recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, 10 );
-    message->created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, 10 );
+    message->sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    message->recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    message->created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
 
-    memcpy( message->body, strsep( &messageCopy, glue ), 256 );
+    memcpy( message->body, strsep( &messageCopy, glue ), MESSAGE_BODY_LEN );
     free( messageCopyPointer );
 
     // Set message's metadata
     message->transmitted = 0;
-    strcpy( message->transmitted_device_aem_string, "" );
+//    strcpy( message->transmitted_device_aem_string, "" );
 }
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
@@ -275,7 +290,7 @@ void generateMessage(Message *message, uint32_t recipient, const char * body)
     message->recipient = recipient;
     message->created_at = (uint64) time( NULL );
 
-    memcpy( message->body, body, 256 );
+    memcpy( message->body, body, MESSAGE_BODY_LEN );
 
     message->transmitted = 0;
 }
@@ -289,7 +304,7 @@ void generateMessage(Message *message, uint32_t recipient, const char * body)
 void generateRandomMessage(Message *message)
 {
     uint32_t recipient;
-    char body[256];
+    char body[MESSAGE_BODY_LEN];
 
     srand( time( NULL ) );
 
@@ -299,7 +314,7 @@ void generateRandomMessage(Message *message)
         CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
 
     //  - random body
-    for ( int byte_i = 0; byte_i < 255; byte_i ++ )
+    for ( int byte_i = 0; byte_i < MESSAGE_BODY_LEN - 1; byte_i ++ )
     {
         char ch;
         do
@@ -310,7 +325,7 @@ void generateRandomMessage(Message *message)
 
         body[byte_i] = ch;
     }
-    body[255] = '\0';
+    body[MESSAGE_BODY_LEN - 1] = '\0';
 
     generateMessage( message, recipient, body );
 
@@ -327,7 +342,7 @@ void implode(const char * glue, const Message message, MessageSerialized message
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
-    snprintf(messageSerialized, 277, "%04d%s%04d%s%010ld%s%s",
+    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010ld%s%s",
              message.sender, glue,
              message.recipient, glue,
              message.created_at, glue,
@@ -338,7 +353,7 @@ void implode(const char * glue, const Message message, MessageSerialized message
 /// \brief Log ( to file pointer ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
-void inspect(const Message message, uint8_t metadata, FILE *fp)
+void inspect(const Message message, bool metadata, FILE *fp)
 {
     // Parse timestamp
     char created_at_full[50];
@@ -371,10 +386,10 @@ uint32_t ip2aem(const char *ip)
     uint32_t aem;
 
     // Explode IP string
-    ipParts[0] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, 10 );
-    ipParts[1] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, 10 );
-    ipParts[2] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, 10 );
-    ipParts[3] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, 10 );
+    ipParts[0] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    ipParts[1] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    ipParts[2] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    ipParts[3] = (unsigned char) strtol( strsep( &ipCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
 
     // Compose AEM
     aem = (uint32_t) ( ipParts[2] * 100 );
@@ -388,7 +403,7 @@ uint32_t ip2aem(const char *ip)
 /// \param message1
 /// \param message2
 /// \return
-uint8_t isMessageEqual(Message message1, Message message2)
+bool isMessageEqual(Message message1, Message message2)
 {
     if ( message1.sender != message2.sender )
         return 0;
@@ -431,73 +446,73 @@ int socket_connect(const char *ip)
         socket_fd : -1;
 }
 
-/// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-/// \param base
-/// \param new
-void str_append( char *base, char *new )
-{
-    sprintf( base, "%s%s", base, new );
-}
-
-/// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-/// \param base
-/// \param aem
-/// \param sep separator character between successive AEMs
-void str_append_aem( char *base, uint32_t aem, const char *sep )
-{
-    char aemString[6];
-    sprintf( aemString, "%04d%c", aem, sep[0] );
-
-    return str_append( base, aemString );
-}
-
-/// \brief Check if $needle exists ( is substring ) in $haystack.
-/// \param haystack
-/// \param needle
-/// \return 0 ( false ) / 1 ( true )
-uint8_t str_exists(const char *haystack, const char *needle)
-{
-    char *p = strstr( haystack, needle );
-    return (p) ? 1 : 0;
-}
-
-/// Check if $aem exists in $haystack string.
-/// \param haystack
-/// \param aem
-/// \return
-uint8_t str_exists_aem(const char *haystack, uint32_t aem)
-{
-    char aemString[5];
-    sprintf( aemString, "%04d", aem );
-
-    return str_exists( haystack, aemString );
-}
-
-/// \brief Removes $toRemove substring from $str haystack.
-/// \param str
-/// \param toRemove
-void str_remove(char *str, const char *toRemove)
-{
-    if (NULL == (str = strstr(str, toRemove)))
-    {
-        // no match.
-        printf("No match in %s\n", str);
-        return;
-    }
-
-    // str points to toRemove in str now.
-    const size_t remLen = strlen(toRemove);
-    char *copyEnd;
-    char *copyFrom = str + remLen;
-    while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
-    {
-        //printf("match at %3ld in %s\n", copyEnd - str, str);
-        memmove(str, copyFrom, copyEnd - copyFrom);
-        str += copyEnd - copyFrom;
-        copyFrom = copyEnd + remLen;
-    }
-    memmove(str, copyFrom, 1 + strlen(copyFrom));
-}
+///// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+///// \param base
+///// \param new
+//void str_append( char *base, char *new )
+//{
+//    sprintf( base, "%s%s", base, new );
+//}
+//
+///// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
+///// \param base
+///// \param aem
+///// \param sep separator character between successive AEMs
+//void str_append_aem( char *base, uint32_t aem, const char *sep )
+//{
+//    char aemStringWithSep[6];
+//    sprintf(aemStringWithSep, "%04d%c", aem, sep[0] );
+//
+//    return str_append(base, aemStringWithSep );
+//}
+//
+///// \brief Check if $needle exists ( is substring ) in $haystack.
+///// \param haystack
+///// \param needle
+///// \return 0 ( false ) / 1 ( true )
+//bool str_exists(const char *haystack, const char *needle)
+//{
+//    char *p = strstr( haystack, needle );
+//    return (p) ? 1 : 0;
+//}
+//
+///// Check if $aem exists in $haystack string.
+///// \param haystack
+///// \param aem
+///// \return
+//bool str_exists_aem(const char *haystack, uint32_t aem)
+//{
+//    char aemString[5];
+//    sprintf( aemString, "%04d", aem );
+//
+//    return str_exists( haystack, aemString );
+//}
+//
+///// \brief Removes $toRemove substring from $str haystack.
+///// \param str
+///// \param toRemove
+//void str_remove(char *str, const char *toRemove)
+//{
+//    if (NULL == (str = strstr(str, toRemove)))
+//    {
+//        // no match.
+//        printf("No match in %s\n", str);
+//        return;
+//    }
+//
+//    // str points to toRemove in str now.
+//    const size_t remLen = strlen(toRemove);
+//    char *copyEnd;
+//    char *copyFrom = str + remLen;
+//    while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
+//    {
+//        //printf("match at %3ld in %s\n", copyEnd - str, str);
+//        memmove(str, copyFrom, copyEnd - copyFrom);
+//        str += copyEnd - copyFrom;
+//        copyFrom = copyEnd + remLen;
+//    }
+//    memmove(str, copyFrom, 1 + strlen(copyFrom));
+//}
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

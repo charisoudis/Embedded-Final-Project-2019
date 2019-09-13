@@ -28,7 +28,6 @@
 
     // Active flag for each AEM
     static bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
-
 #endif
 
 #ifndef CLIENT_AEM_SOURCE
@@ -41,13 +40,18 @@
     #define PRODUCER_DELAY_RANGE_MIN 1
     #define PRODUCER_DELAY_RANGE_MAX 5
 #endif
+
+#ifndef MESSAGE_SERIALIZED_LEN
+    #define MESSAGE_BODY_LEN 256
+    #define MESSAGE_SERIALIZED_LEN 277  // length = 4 + 4 + 10 + 256 = 277 characters
+#endif
 // end
 
 // start: Server.h
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
     #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
     #define MESSAGES_PUSH_OVERRIDE_BLIND 1
-    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_BLIND
+    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_SENT_ONLY
 #endif
 
 #ifndef MESSAGES_SIZE
@@ -66,11 +70,18 @@
 #ifndef COMMUNICATION_WORKERS_MAX
     #define COMMUNICATION_WORKERS_MAX (ACTIVE_SOCKET_CONNECTIONS_MAX - 2)   // 0 == serial socket communications
 #endif
+
+#ifndef STRSEP_BASE_10
+    #define STRSEP_BASE_10 10
+#endif
 // end
 
 // start: Log.h
 #ifndef ALSO_LOG_TO_STDOUT
     #define ALSO_LOG_TO_STDOUT 1
+#endif
+#ifndef LOG_MESSAGE_MAX_LEN
+    #define LOG_MESSAGE_MAX_LEN 512
 #endif
 // end
 

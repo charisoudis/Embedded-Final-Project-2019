@@ -17,7 +17,7 @@ uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 static pthread_t pollingThread, producerThread;
 pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
 
-DevicesQueue activeDevicesQueue;
+//DevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
 
 uint32_t CLIENT_AEM;
