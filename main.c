@@ -23,8 +23,8 @@ MessagesStats messagesStats;
 uint32_t CLIENT_AEM;
 
 // Communication time for each device
-struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT] = {0.0, 0.0};
-struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT] = {0.0, 0.0};
+struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT] = {0, 0};
+struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT] = {0, 0};
 uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH] = {0};
 
 //------------------------------------------------------------------------------------------------
@@ -101,7 +101,9 @@ int main( int argc, char **argv )
 
 static void onAlarm( int signo )
 {
-    log_info( "Caught the SIGALRM signal", "onAlarm", "-" );
+    char logMessage[LOG_MESSAGE_MAX_LEN];
+    sprintf( logMessage, "Caught the SIGALRM signal ( signo = %d )", signo );
+    log_info( logMessage, "onAlarm", "-" );
 
     int status;
 

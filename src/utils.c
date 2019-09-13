@@ -41,7 +41,7 @@ const char* aem2ip(uint32_t aem)
 /// \param N size of $haystack
 /// \param needle
 /// \return index [0, N-1] if found, -1 else
-uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
+int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
 {
     size_t first;
     size_t last;
@@ -81,8 +81,6 @@ void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
     char logMessage[LOG_MESSAGE_MAX_LEN];
-    struct timeval connTimeStart;
-    struct timeval connTimeEnd;
     bool deviceExists;
 
     // Check if there is an active connection with given device

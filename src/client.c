@@ -49,7 +49,7 @@ void *polling_worker(void)
 {
     int status;
     int listIndex;
-    uint16_t aem;
+    uint32_t aem;
     const char *ip;
     char logMessage[LOG_MESSAGE_MAX_LEN];
 
