@@ -1,9 +1,8 @@
-#include <signal.h>
-#include <utils.h>
 #include "conf.h"
 #include "client.h"
 #include "log.h"
 #include "server.h"
+#include <signal.h>
 
 //------------------------------------------------------------------------------------------------
 
