@@ -2,11 +2,16 @@
 #include <utils.h>
 #include <log.h>
 #include <server.h>
+#include <stdbool.h>
+#include <sys/time.h>
 
 //------------------------------------------------------------------------------------------------
 
 
 extern uint32_t CLIENT_AEM;
+extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
+extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
+extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
 extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
 extern MessagesStats messagesStats;
@@ -75,66 +80,74 @@ uint32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
+    char logMessage[LOG_MESSAGE_MAX_LEN];
+    struct timeval connTimeStart;
+    struct timeval connTimeEnd;
     bool deviceExists;
 
-    char logMessage[LOG_MESSAGE_MAX_LEN];
-
     // Check if there is an active connection with given device
-    //----- CRITICAL SECTION
+    // Update active devices
     pthread_mutex_lock( &activeDevicesLock );
-
-    deviceExists = devices_exists( args->connected_device );
-    if ( !deviceExists )
-    {
-        // Update active devices
-        devices_push( args->connected_device );
-    }
-
+        deviceExists = devices_exists( args->connected_device );
+        if ( !deviceExists )
+            devices_push( args->connected_device );
     pthread_mutex_unlock( &activeDevicesLock );
-    //-----:end
 
     // If no active connection with given device exists
-    if ( !deviceExists )
+    if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
     {
+        gettimeofday( &(CLIENT_AEM_CONN_START_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
+
         // If device is server, act as transmitter, else act as receiver.
-        args->server ?
-            communication_transmitter_worker( args->connected_device, args->connected_socket_fd ):
+        //  - forward communication
+        if ( args->server )
+        {
+            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+            shutdown( args->connected_socket_fd, SHUT_WR );
+
             communication_receiver_worker( thread_args );
+            shutdown( args->connected_socket_fd, SHUT_RD );
+        }
+        //  - reverse communication
+        else
+        {
+            communication_receiver_worker( thread_args );
+            shutdown( args->connected_socket_fd, SHUT_RD );
+
+            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+            shutdown( args->connected_socket_fd, SHUT_WR );
+        }
+
+        // Update connection time stats
+        gettimeofday( &(CLIENT_AEM_CONN_END_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
+
+        // Update connection time stats
+        CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]++;
 
         // Update active devices
-        //----- CRITICAL SECTION
         pthread_mutex_lock( &activeDevicesLock );
-
-        devices_remove( args->connected_device );
-
+            devices_remove( args->connected_device );
         pthread_mutex_unlock( &activeDevicesLock );
-        //-----:end
     }
     else
     {
-        //----- CRITICAL SECTION
         pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "Active connection with device found: AEM = %04d. Skipping...", args->connected_device.AEM );
-        log_error( logMessage, "communication_worker()", 0 );
+            sprintf( logMessage, deviceExists ?
+                "Active connection with device found: AEM = %04d. Skipping...":
+                "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
+            log_error( logMessage, "communication_worker()", 0 );
         pthread_mutex_unlock( &logLock );
-        //-----:end
     }
 
     // Close Socket
-    args->server ?
-        close( args->connected_socket_fd ):
-        shutdown( args->connected_socket_fd, SHUT_RDWR );
+    close( args->connected_socket_fd );
 
     // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
     if ( args->concurrent )
     {
-        //----- CRITICAL SECTION
         pthread_mutex_lock( &availableThreadsLock );
-
-        communicationThreadsAvailable++;
-
+            communicationThreadsAvailable++;
         pthread_mutex_unlock( &availableThreadsLock );
-        //-----:end
     }
 }
 
@@ -173,28 +186,20 @@ void communication_receiver_worker(void *thread_args)
         }
 
         // Update message's transmitted devices to include sender ( so as not to send back )
-        message.transmitted_devices[ args->connected_device.aemIndex ] = true;
+        message.transmitted_devices[ args->connected_device.aemIndex ] = 1;
 
         // Store in $messages buffer
-        //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesBufferLock );
-
-        messages_push( message );
-
+            messages_push( message );
         pthread_mutex_unlock( &messagesBufferLock );
-        //-----:end
 
         // Log received message
 //        log_message( "communication_receiver_worker()", message );
 
         // Update stats
-        //----- CRITICAL SECTION
         pthread_mutex_lock( &messagesStatsLock );
-
-        messagesStats.received++;
-
+            messagesStats.received++;
         pthread_mutex_unlock( &messagesStatsLock );
-        //-----:end
     }
 
     // Free resources
@@ -204,7 +209,7 @@ void communication_receiver_worker(void *thread_args)
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
 /// \param receiverDevice connected device that will receive messages
 /// \param socket_fd socket file descriptor with connected device
-inline void communication_transmitter_worker(Device receiverDevice, int socket_fd)
+void communication_transmitter_worker(Device receiverDevice, int socket_fd)
 {
     MessageSerialized messageSerialized;
 
@@ -213,42 +218,37 @@ inline void communication_transmitter_worker(Device receiverDevice, int socket_f
     messageSerialized = (char *) malloc( MESSAGE_SERIALIZED_LEN );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
+        if ( -1 == receiverDevice.aemIndex )
+        {
+            error(-1, "receiverDevice.aemIndex equals -1. Exiting...");
+        }
+
         if ( messages[message_i].created_at > 0
-//            && !str_exists_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM )
+            && 0 == messages[message_i].transmitted_devices[ receiverDevice.aemIndex ]
         )
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
 
             // Log
-            //----- CRITICAL SECTION
             pthread_mutex_lock( &logLock );
-            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
-            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
+                sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
+                log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
             pthread_mutex_unlock( &logLock );
-            //-----:end
 
             // Transmit
             send( socket_fd , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
 
             // Update Status in $messages buffer
-            //----- CRITICAL SECTION
             pthread_mutex_lock( &messagesBufferLock );
-
-            messages[message_i].transmitted = true;
-//            str_append_aem( messages[message_i].transmitted_device_aem_string, receiverDevice.AEM, "_" );
-
+                messages[message_i].transmitted = 1;
+                messages[message_i].transmitted_devices[ receiverDevice.aemIndex ] = 1;
             pthread_mutex_unlock( &messagesBufferLock );
-            //-----:end
 
             // Update stats
-            //----- CRITICAL SECTION
             pthread_mutex_lock( &messagesStatsLock );
-
-            messagesStats.transmitted++;
-
+                messagesStats.transmitted++;
             pthread_mutex_unlock( &messagesStatsLock );
-            //-----:end
         }
     }
 
@@ -276,7 +276,8 @@ void explode(Message *message, const char * glue, MessageSerialized messageSeria
 
     // Set message's metadata
     message->transmitted = 0;
-//    strcpy( message->transmitted_device_aem_string, "" );
+    for ( uint32_t device_i = 0; device_i < CLIENT_AEM_LIST_LENGTH; device_i++ )
+        message->transmitted_devices[device_i] = 0;
 }
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
@@ -285,7 +286,6 @@ void explode(Message *message, const char * glue, MessageSerialized messageSeria
 /// \param body message's body
 void generateMessage(Message *message, uint32_t recipient, const char * body)
 {
-    // Fill
     message->sender = CLIENT_AEM;
     message->recipient = recipient;
     message->created_at = (uint64) time( NULL );
@@ -293,6 +293,8 @@ void generateMessage(Message *message, uint32_t recipient, const char * body)
     memcpy( message->body, body, MESSAGE_BODY_LEN );
 
     message->transmitted = 0;
+    for ( uint32_t device_i = 0; device_i < CLIENT_AEM_LIST_LENGTH; device_i++ )
+        message->transmitted_devices[device_i] = 0;
 }
 
 /// \brief Generates a new random message composed of:
@@ -314,24 +316,15 @@ void generateRandomMessage(Message *message)
         CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
 
     //  - random body
+    char ch;
     for ( int byte_i = 0; byte_i < MESSAGE_BODY_LEN - 1; byte_i ++ )
     {
-        char ch;
-        do
-        {
-            ch = (char) ( rand() % (95 - 32 + 1) + 32);
-        }
-        while( '_' == ch );
-
+        do { ch = (char) ( rand() % (95 - 32 + 1) + 32); } while( '_' == ch );
         body[byte_i] = ch;
     }
     body[MESSAGE_BODY_LEN - 1] = '\0';
 
     generateMessage( message, recipient, body );
-
-    //  - transmission status
-    message->transmitted = 0;
-//    strncpy( message->transmitted_device_aem_string, "", sizeof( message->transmitted_device_aem_string ) );
 }
 
 /// \brief Serializes a message ( of message_t type ) into a 277-characters string.
@@ -360,18 +353,58 @@ void inspect(const Message message, bool metadata, FILE *fp)
     timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
 
     // Print main fields
-    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
-            message.sender, message.recipient, message.created_at, created_at_full, message.body
-    );
+//    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
+//            message.sender, message.recipient, message.created_at, created_at_full, message.body
+//    );
 
     // Print metadata
     if ( metadata )
     {
-//        fprintf( fp, "\t---\n\ttransmitted = %d\n\ttransmitted_devices = %s\n",
-//                message.transmitted, message.transmitted == 1 ? message.transmitted_device_aem_string : "" );
+        if ( 0 == message.transmitted )
+            fprintf( fp, "\t---\n\ttransmitted = FALSE\n\ttransmitted_devices = -\n" );
+        else
+        {
+            char transmittedDevicesString[ CLIENT_AEM_LIST_LENGTH * 6 ];
+            uint32_t writePosition;
+            uint32_t aem_i;
+
+            for ( writePosition = 0, aem_i = 0; aem_i < CLIENT_AEM_LIST_LENGTH; aem_i++ )
+            {
+                if ( 1 == message.transmitted_devices[ aem_i ] )
+                {
+                    snprintf( transmittedDevicesString + writePosition, 6, "%04d,", CLIENT_AEM_LIST[aem_i] );
+                    writePosition += 5;
+                }
+            }
+
+            fprintf( fp, "\t---\n\ttransmitted = TRUE\n\ttransmitted_devices = %s\n", transmittedDevicesString );
+        }
     }
 
     fprintf( fp, "}\n" );
+}
+
+/// \brief Inspect all messages in $messages buffer.
+/// \param inspect_each
+void inspect_messages(bool inspect_each)
+{
+    fprintf( stdout, "\n\ninspection:start\n" );
+    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
+    {
+        if ( messages[message_i].created_at > 0 )
+        {
+            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %ld ) \n",
+                     message_i, messages[message_i].sender,
+                     messages[message_i].recipient, messages[message_i].created_at
+            );
+
+            if ( inspect_each )
+            {
+                inspect(messages[message_i], true, stdout );
+            }
+        }
+    }
+    fprintf( stdout, "\n\ninspection:end\n" );
 }
 
 /// \brief Extracts AEM from given IPv4 address.
@@ -406,15 +439,15 @@ uint32_t ip2aem(const char *ip)
 bool isMessageEqual(Message message1, Message message2)
 {
     if ( message1.sender != message2.sender )
-        return 0;
+        return false;
     if ( message1.recipient != message2.recipient )
-        return 0;
+        return false;
     if ( message1.created_at != message2.created_at )
-        return 0;
+        return false;
     if ( 0 != strcmp( message1.body, message2.body ) )
-        return 0;
+        return false;
 
-    return 1;
+    return true;
 }
 
 /// \brief Tries to connect via socket to given IP address & port.

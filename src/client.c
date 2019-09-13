@@ -95,7 +95,7 @@ void *polling_worker(void)
             // Log
             //----- CRITICAL SECTION
             pthread_mutex_lock( &logLock );
-            sprintf( logMessage, "Connected: AEM = %04d", device.AEM );
+            sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
             log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
             pthread_mutex_unlock( &logLock );
             //-----:end
@@ -184,7 +184,7 @@ void *producer_worker(void)
     {
         // Generate
         generateRandomMessage( &message );
-//        inspect( message, 1, stdout );
+        inspect( message, true, stdout );
 
         //----- NON-CANCELABLE SECTION
         status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -209,7 +209,7 @@ void *producer_worker(void)
 
         // Sleep
         delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
-//        delay = (uint32_t) (60 * delay);
+        delay = (uint32_t) (10 * delay);
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }

@@ -13,27 +13,21 @@
 #ifndef CLIENT_AEM_LIST
     // Sorted list of AEMs
     static int CLIENT_AEM_LIST[] = {
-            0001,
-            8000,
-            8600,
-            8723,
-            8859,
-            8888,
-            9005,
-            9026,
-            9999
+            0001, 7051, 8001, 8011, 8032, 8600, 8723, 8859,
+            8869, 8888, 8998, 8999, 9005, 9026, 9028, 9999
     };
 
     #define CLIENT_AEM_LIST_LENGTH ( uint32_t )( sizeof( CLIENT_AEM_LIST ) / sizeof( int ) )
-
-    // Active flag for each AEM
-    static bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
 #endif
 
 #ifndef CLIENT_AEM_SOURCE
     #define CLIENT_AEM_SOURCE_RANGE 0
     #define CLIENT_AEM_SOURCE_LIST 1
     #define CLIENT_AEM_SOURCE CLIENT_AEM_SOURCE_LIST
+#endif
+
+#ifndef MAX_CONNECTIONS_WITH_SAME_CLIENT
+    #define MAX_CONNECTIONS_WITH_SAME_CLIENT 100
 #endif
 
 #ifndef PRODUCER_DELAY_RANGE    // in minutes
@@ -51,7 +45,7 @@
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
     #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
     #define MESSAGES_PUSH_OVERRIDE_BLIND 1
-    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_SENT_ONLY
+    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_BLIND
 #endif
 
 #ifndef MESSAGES_SIZE
@@ -65,7 +59,7 @@
 #endif
 
 #ifndef ACTIVE_SOCKET_CONNECTIONS_MAX
-    #define ACTIVE_SOCKET_CONNECTIONS_MAX 4     // >=2: 1 ( server ) + 1 ( client ) + ...( other concurrent sockets )...
+    #define ACTIVE_SOCKET_CONNECTIONS_MAX 2     // >=2: 1 ( server ) + 1 ( client ) + ...( other concurrent sockets )...
 #endif
 #ifndef COMMUNICATION_WORKERS_MAX
     #define COMMUNICATION_WORKERS_MAX (ACTIVE_SOCKET_CONNECTIONS_MAX - 2)   // 0 == serial socket communications
@@ -73,6 +67,12 @@
 
 #ifndef STRSEP_BASE_10
     #define STRSEP_BASE_10 10
+#endif
+
+#ifndef COMMUNICATION_WORKER_POLICY
+    #define COMMUNICATION_WORKER_POLICY_DIFF 0
+    #define COMMUNICATION_WORKER_POLICY_SAME 1
+    #define COMMUNICATION_WORKER_POLICY COMMUNICATION_WORKER_POLICY_SAME
 #endif
 // end
 

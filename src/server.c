@@ -18,13 +18,21 @@ extern uint32_t CLIENT_AEM;
 messages_head_t messagesHead;
 Message messages[ MESSAGES_SIZE ];
 
+// Active flag for each AEM
+bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
+
 
 /// \brief Check if $device exists $activeDevices FIFO queue.
 /// \param device
 /// \return uint8 0 if FALSE, 1 if TRUE
 bool devices_exists(Device device)
 {
-    return devices_exists_aem( device.AEM );
+    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
+        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
+
+    return ( device.aemIndex > -1 ) ?
+        ( CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] == 1 ? true : false ):
+        false;
 }
 
 /// \brief Check if a device with $aem exists in $activeDevices.
@@ -32,32 +40,30 @@ bool devices_exists(Device device)
 /// \return uint8 0 if FALSE, 1 if TRUE
 bool devices_exists_aem(uint32_t aem)
 {
-    uint32_t aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem );
-    return ( aemIndex > -1 ) ? CLIENT_AEM_ACTIVE_LIST[aemIndex] : false;
+    Device testDevice = {.AEM = aem};
+    return devices_exists( testDevice );
 }
 
 /// \brief Push $device to activeDevices FIFO queue.
 /// \param device
 void devices_push(Device device)
 {
-    uint32_t aemIndex;
+    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
+        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
 
-    if ( ( aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM ) ) > -1 )
-    {
-        CLIENT_AEM_ACTIVE_LIST[aemIndex] = true;
-    }
+    if ( device.aemIndex > -1 )
+        CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] = 1;
 }
 
 /// \brief Remove $device from $activeDevices FIFO queue.
 /// \param device
 void devices_remove(Device device)
 {
-    uint32_t aemIndex;
+    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
+        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
 
-    if ( ( aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM ) ) > -1 )
-    {
-        CLIENT_AEM_ACTIVE_LIST[aemIndex] = true;
-    }
+    if ( device.aemIndex > -1 )
+        CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] = 0;
 }
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
@@ -102,6 +108,10 @@ void messages_push(Message message)
     {
         messagesHead = 0;
     }
+
+    pthread_mutex_lock( &logLock );
+        inspect_messages( true );
+    pthread_mutex_unlock( &logLock );
 }
 
 /// \brief Main server loop. Calls communication_thread() on each new connection.
@@ -149,7 +159,8 @@ void listening_worker()
                        sizeof(serverAddress)) < 0))
         error(status, "ERROR on binding");
 
-    listen(server_socket_fd, 4);
+    listen(server_socket_fd, 5);
+
     //----- CRITICAL SECTION
     pthread_mutex_lock( &logLock );
     log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
@@ -182,8 +193,8 @@ void listening_worker()
         // Log
         //----- CRITICAL SECTION
         pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
-        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
+            sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
+            log_info( logMessage, "listening_worker()", "socket.h > accept()" );
         pthread_mutex_unlock( &logLock );
         //-----:end
 

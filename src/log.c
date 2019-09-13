@@ -3,6 +3,9 @@
 #include <utils.h>
 
 extern uint32_t CLIENT_AEM;
+extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
+extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
+extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 static FILE *logFilePointer;
 
 
@@ -98,6 +101,28 @@ void log_tearDown(const uint executionTimeRequested, const double executionTimeA
 
     // Close file pointer
     fclose( logFilePointer );
+
+    // Inspect all messages that are in $messages buffer's final state
+    inspect_messages( true );
+
+    // Inspect connections
+    fprintf( stdout, "\n\n-------------------- start: DEVICES INSPECTION --------------------\n" );
+    for ( uint32_t device_i = 0; device_i < CLIENT_AEM_LIST_LENGTH; device_i++ )
+    {
+        uint32_t aem = CLIENT_AEM_LIST[device_i];
+        fprintf( stdout, "\t- %04d\n", aem );
+
+        for ( uint8_t n = 0; n < CLIENT_AEM_CONN_N_LIST[device_i]; n++ )
+        {
+            fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lf )\n",
+                CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
+                CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
+                (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) +
+                (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-6
+            );
+        }
+    }
+    fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
 }
 
 /// Creates / Opens file and add the new session message.

@@ -33,6 +33,10 @@ void communication_receiver_worker(void *args);
 /// \param socket_fd socket file descriptor with connected device
 void communication_transmitter_worker(Device receiverDevice, int socket_fd);
 
+/// \brief Receiver & Transmitter ( combined )  sub-worker of communication worker ( POSIX thread compatible function ).
+/// \param thread_args pointer to communicate_args_t type
+void communication_transmitter_receiver_worker(void *thread_args);
+
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param message the result message ( passes as a pointer )
 /// \param glue the connective character(s); acts as the separator between successive message fields
@@ -65,6 +69,10 @@ void implode(const char *glue, Message message, MessageSerialized messageSeriali
 /// \param metadata show/hide metadata information from message
 /// \param fp file pointer to where to output inspection
 void inspect(Message message, bool metadata, FILE *fp);
+
+/// \brief Inspect all messages in $messages buffer.
+/// \param inspect_each
+void inspect_messages(bool inspect_each);
 
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )

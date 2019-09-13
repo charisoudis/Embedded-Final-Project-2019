@@ -26,8 +26,8 @@ typedef struct message_t {
     char body[MESSAGE_BODY_LEN];        // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
-    bool transmitted;                // If the message was actually transmitted from this device
-    bool transmitted_devices[CLIENT_AEM_LIST_LENGTH];   // Boolean array, true if i-th device has received the message,
+    uint8_t transmitted;                // If the message was actually transmitted from this device
+    uint8_t transmitted_devices[CLIENT_AEM_LIST_LENGTH];   // Boolean array, true if i-th device has received the message,
                                                         // false otherwise
 } Message;
 
