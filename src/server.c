@@ -4,6 +4,8 @@
 #include <utils.h>
 #include <netdb.h>
 
+//------------------------------------------------------------------------------------------------
+
 extern MessagesStats messagesStats;
 extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
 
@@ -71,7 +73,7 @@ void devices_remove(Device device)
 void messages_push(Message message)
 {
     // Find where to place new message
-    if ( MESSAGES_PUSH_OVERRIDE_POLICY == MESSAGES_PUSH_OVERRIDE_SENT_ONLY )
+    if ( !strcmp( "sent_only", MESSAGES_PUSH_OVERRIDE_POLICY ) )
     {
         messages_head_t messagesHeadOriginal = messagesHead;
 
@@ -142,31 +144,23 @@ void listening_worker()
      */
     status = 1;
     if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_REUSEPORT, (const void *)&status, sizeof(int) ) < 0 )
-    {
         perror("setsockopt ( SO_REUSEPORT )");
-    }
 
     struct linger lin;
     lin.l_onoff = 0;
     lin.l_linger = 0;
     if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_LINGER, (const void *)&lin, sizeof(struct linger) ) < 0 )
-    {
         perror("setsockopt ( SO_LINGER )");
-    }
 
     // Associate the parent socket with a port
-    if ((status = bind(server_socket_fd, (struct sockaddr *)&serverAddress,
-                       sizeof(serverAddress)) < 0))
+    if ( ( status = bind( server_socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr_in) ) < 0 ) )
         error(status, "ERROR on binding");
 
-    listen(server_socket_fd, 5);
+    listen( server_socket_fd, SOCKET_LISTEN_QUEUE_LEN );
 
-    //----- CRITICAL SECTION
     pthread_mutex_lock( &logLock );
-    log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
+        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
     pthread_mutex_unlock( &logLock );
-    //-----:end
-
     while (1)
     {
         client_socket_fd = accept(server_socket_fd, (struct sockaddr *) &clientAddress, &(socklen_t){ sizeof( struct sockaddr_in ) } );

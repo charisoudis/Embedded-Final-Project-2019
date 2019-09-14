@@ -10,9 +10,6 @@
 typedef uint16_t messages_head_t;
 
 // start: Utils.h
-typedef unsigned long uint64;
-typedef unsigned int uint;
-
 typedef struct device_t {
     uint32_t AEM;
     uint32_t aemIndex;
@@ -22,7 +19,7 @@ typedef struct message_t {
     // Necessary fields
     uint32_t sender;                    // ΑΕΜ αποστολέα:       uint32
     uint32_t recipient;                 // ΑΕΜ παραλήπτη:       uint32
-    uint64 created_at;                  // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    uint64_t created_at;                // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
     char body[MESSAGE_BODY_LEN];        // Κείμενο μηνύματος:   ASCII[256]
 
     // Metadata
@@ -31,14 +28,11 @@ typedef struct message_t {
                                                         // false otherwise
 } Message;
 
-/* char[277] type */
-typedef char* MessageSerialized;    // length = 4 + 4 + 10 + 256 = 277 characters
-
 /* pthread function arguments pointer */
 typedef struct communication_worker_args_t {
 
     Device connected_device;
-    uint16_t connected_socket_fd;
+    int32_t connected_socket_fd;
     bool concurrent;
     bool server;
 

@@ -25,24 +25,21 @@ int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle);
 void communication_worker(void *args);
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param thread_args pointer to communicate_args_t type
-void communication_receiver_worker(void *args);
+/// \param connectedSocket socket file descriptor with connected device
+/// \param connectedDevice connected device that will send messages
+void communication_receiver_worker(int32_t connectedSocket, Device connectedDevice);
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param receiverDevice connected device that will receive messages
-/// \param socket_fd socket file descriptor with connected device
-void communication_transmitter_worker(Device receiverDevice, int socket_fd);
-
-/// \brief Receiver & Transmitter ( combined )  sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param thread_args pointer to communicate_args_t type
-void communication_transmitter_receiver_worker(void *thread_args);
+/// \param connectedSocket socket file descriptor with connected device
+/// \param connectedDevice connected device that will receive messages
+void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice);
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param message the result message ( passes as a pointer )
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
-void explode(Message *message, const char * glue, MessageSerialized messageSerialized);
+void explode(Message *message, const char * glue, char * messageSerialized);
 
 /// \brief Generates a new message from this client towards $recipient with $body as content.
 /// \param message result message ( passed as pointer )
@@ -62,7 +59,7 @@ void generateRandomMessage(Message *message);
 /// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized
 /// \param messageSerialized a string containing all message fields glued together using $glue
-void implode(const char *glue, Message message, MessageSerialized messageSerialized);
+void implode(const char *glue, Message message, char *messageSerialized);
 
 /// \brief Log ( to stdout ) message's fields.
 /// \param message
@@ -122,6 +119,6 @@ int socket_connect(const char * ip);
 /// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
 /// \param string the resulting datetime string
-void timestamp2ftime( uint64 timestamp, const char *format, char *string );
+void timestamp2ftime(uint64_t timestamp, const char *format, char *string );
 
 #endif //FINAL_UTILS_H

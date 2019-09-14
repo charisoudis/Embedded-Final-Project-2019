@@ -2,12 +2,16 @@
 #include <log.h>
 #include <utils.h>
 
+//------------------------------------------------------------------------------------------------
+
 extern uint32_t CLIENT_AEM;
 extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
-static FILE *logFilePointer;
 
+//------------------------------------------------------------------------------------------------
+
+static FILE *logFilePointer;
 
 /// Logs error with errno found in status after where/when information.
 /// \param functionName
@@ -15,8 +19,8 @@ static FILE *logFilePointer;
 /// \param status
 void log_error(const char* functionName, const char* actionName, const int* status )
 {
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+    char nowAsString[ STRFTIME_STR_LEN ];
+    timestamp2ftime((uint64_t) time(NULL), "%FT%TZ", nowAsString );
 
     fprintf( logFilePointer, "[ERR]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, strerror( *status ) );
     if ( ALSO_LOG_TO_STDOUT )
@@ -32,8 +36,8 @@ void log_error(const char* functionName, const char* actionName, const int* stat
 /// \param actionName
 void log_info(const char* message, const char* functionName, const char* actionName)
 {
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+    char nowAsString[ STRFTIME_STR_LEN ];
+    timestamp2ftime((uint64_t) time(NULL), "%FT%TZ", nowAsString );
 
     fprintf( logFilePointer, "[INF]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, message );
     if ( ALSO_LOG_TO_STDOUT )
@@ -49,17 +53,12 @@ void log_message(const char* functionName, const Message message )
     log_info( "Message Inspection\n<<<RAW", functionName, "-" );
     inspect( message, 1, logFilePointer );
     fprintf( logFilePointer, "RAW>>>" );
-    if ( ALSO_LOG_TO_STDOUT )
-    {
-        inspect(message, 1, stdout);
-        fprintf(stdout, "RAW>>>");
-    }
 }
 
 /// Append end of session message and closes log file pointer.
 /// \param executionTimeRequested
 /// \param messagesStats
-void log_tearDown(const uint executionTimeRequested, const double executionTimeActual, const MessagesStats *messagesStats) {
+void log_tearDown(const uint32_t executionTimeRequested, const double executionTimeActual, const MessagesStats *messagesStats) {
     // End new session
     fprintf( logFilePointer, "\n/*\n"
                              "|--------------------------------------------------------------------------\n"
@@ -136,8 +135,8 @@ void log_tearUp(const char *fileName)
                      fopen( fileName, "w" ):
                      fopen( fileName, "a" );
 
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time( NULL ), "%a, %d %b %Y @ %T", nowAsString );
+    char nowAsString[ STRFTIME_STR_LEN ];
+    timestamp2ftime((uint64_t) time(NULL ), "%a, %d %b %Y @ %T", nowAsString );
 
     // Start new session
     fprintf( logFilePointer, "/*\n"
