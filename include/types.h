@@ -12,7 +12,7 @@ typedef uint16_t messages_head_t;
 // start: Utils.h
 typedef struct device_t {
     uint32_t AEM;
-    uint32_t aemIndex;
+    int32_t aemIndex;
 } Device;
 
 typedef struct message_t {

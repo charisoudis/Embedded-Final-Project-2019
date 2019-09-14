@@ -38,7 +38,7 @@ const char* aem2ip(uint32_t aem)
 /// \param N size of $haystack
 /// \param needle
 /// \return index [0, N-1] if found, -1 else
-int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
+int32_t binary_search_index(const uint32_t *haystack, size_t N, uint32_t needle)
 {
     size_t first;
     size_t last;
@@ -57,7 +57,7 @@ int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
         else if ( haystack[middle] == needle )
         {
             // Found, index is $middle
-            return middle;
+            return ( int32_t ) middle;
         }
         else
         {
@@ -292,7 +292,7 @@ void generateRandomMessage(Message *message)
     uint32_t recipient;
     char body[MESSAGE_BODY_LEN];
 
-    srand( time( NULL ) );
+    srand( (unsigned int) time(NULL) );
 
     //  - random recipient
     recipient = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ?

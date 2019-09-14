@@ -12,7 +12,7 @@
 
 #ifndef CLIENT_AEM_LIST_LENGTH
     // Sorted list of AEMs
-    static const int CLIENT_AEM_LIST[] = {
+    static const uint32_t CLIENT_AEM_LIST[] = {
         0001, 7051, 8001, 8011, 8032, 8600, 8723, 8859,
         8869, 8888, 8998, 8999, 9005, 9026, 9028, 9999
     };

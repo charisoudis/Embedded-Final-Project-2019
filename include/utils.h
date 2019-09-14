@@ -18,7 +18,7 @@ const char* aem2ip(uint32_t aem);
 /// \param N size of $haystack
 /// \param needle
 /// \return index [0, N-1] if found, -1 else
-int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle);
+int32_t binary_search_index(const uint32_t *haystack, size_t N, uint32_t needle);
 
 /// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
 /// \param thread_args pointer to communicate_args_t type
