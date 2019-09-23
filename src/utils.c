@@ -530,10 +530,10 @@ int socket_connect(const char *ip)
 //}
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
-/// \param timestamp UNIX timestamp ( uint64 )
+/// \param timestamp UNIX timestamp ( uint64_t )
 /// \param format strftime-compatible format
 /// \return the resulting datetime string
-const char* timestamp2ftime( const unsigned long timestamp, const char *format )
+const char* timestamp2ftime( const uint64_t timestamp, const char *format )
 {
 //    // Format datetime stings in Greek
 //    setlocale( LC_TIME, "el_GR.UTF-8" );

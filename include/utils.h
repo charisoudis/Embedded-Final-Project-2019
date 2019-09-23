@@ -119,6 +119,6 @@ int socket_connect(const char * ip);
 /// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
 /// \return the resulting datetime string
-const char * timestamp2ftime( uint64 timestamp, const char *format );
+const char * timestamp2ftime( uint64_t timestamp, const char *format );
 
 #endif //FINAL_UTILS_H
