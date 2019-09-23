@@ -7,7 +7,6 @@
 
 //------------------------------------------------------------------------------------------------
 
-
 extern uint32_t CLIENT_AEM;
 extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
@@ -21,9 +20,7 @@ extern uint8_t communicationThreadsAvailable;
 
 extern Message messages[ MESSAGES_SIZE ];
 
-
 //------------------------------------------------------------------------------------------------
-
 
 /// \brief Constructs IPv4 address from given AEM.
 /// \param aem uint32_t
@@ -41,7 +38,7 @@ const char* aem2ip(uint32_t aem)
 /// \param N size of $haystack
 /// \param needle
 /// \return index [0, N-1] if found, -1 else
-int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
+int32_t binary_search_index(const uint32_t *haystack, size_t N, uint32_t needle)
 {
     size_t first;
     size_t last;
@@ -60,7 +57,7 @@ int32_t binary_search_index(const int32_t *haystack, size_t N, int32_t needle)
         else if ( haystack[middle] == needle )
         {
             // Found, index is $middle
-            return middle;
+            return ( int32_t ) middle;
         }
         else
         {
@@ -100,19 +97,19 @@ void communication_worker(void *thread_args)
         //  - forward communication
         if ( args->server )
         {
-            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
             shutdown( args->connected_socket_fd, SHUT_WR );
 
-            communication_receiver_worker( thread_args );
+            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
             shutdown( args->connected_socket_fd, SHUT_RD );
         }
         //  - reverse communication
         else
         {
-            communication_receiver_worker( thread_args );
+            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
             shutdown( args->connected_socket_fd, SHUT_RD );
 
-            communication_transmitter_worker( args->connected_device, args->connected_socket_fd );
+            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
             shutdown( args->connected_socket_fd, SHUT_WR );
         }
 
@@ -150,18 +147,16 @@ void communication_worker(void *thread_args)
 }
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param thread_args pointer to communicate_args_t type
-void communication_receiver_worker(void *thread_args)
+/// \param connectedSocket socket file descriptor with connected device
+/// \param connectedDevice connected device that will send messages
+void communication_receiver_worker(int32_t connectedSocket, Device connectedDevice)
 {
-    CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-
     Message message;
-    MessageSerialized messageSerialized;
+    char messageSerialized[MESSAGE_SERIALIZED_LEN];
     char logMessage[LOG_MESSAGE_MAX_LEN];
 
-    messageSerialized = (char *) malloc( MESSAGE_SERIALIZED_LEN );
     next_loop:
-    while ( read( args->connected_socket_fd , messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
+    while ( read( connectedSocket, messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
     {
         //----- CRITICAL SECTION
         pthread_mutex_lock( &logLock );
@@ -184,7 +179,7 @@ void communication_receiver_worker(void *thread_args)
         }
 
         // Update message's transmitted devices to include sender ( so as not to send back )
-        message.transmitted_devices[ args->connected_device.aemIndex ] = 1;
+        message.transmitted_devices[ connectedDevice.aemIndex ] = 1;
 
         // Store in $messages buffer
         pthread_mutex_lock( &messagesBufferLock );
@@ -192,37 +187,32 @@ void communication_receiver_worker(void *thread_args)
         pthread_mutex_unlock( &messagesBufferLock );
 
         // Log received message
-//        log_message( "communication_receiver_worker()", message );
+        log_message( "communication_receiver_worker()", message );
 
         // Update stats
         pthread_mutex_lock( &messagesStatsLock );
             messagesStats.received++;
         pthread_mutex_unlock( &messagesStatsLock );
     }
-
-    // Free resources
-    free( messageSerialized );
 }
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param receiverDevice connected device that will receive messages
-/// \param socket_fd socket file descriptor with connected device
-void communication_transmitter_worker(Device receiverDevice, int socket_fd)
+/// \param connectedSocket socket file descriptor with connected device
+/// \param connectedDevice connected device that will receive messages
+void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice)
 {
-    MessageSerialized messageSerialized;
-
+    char messageSerialized[MESSAGE_SERIALIZED_LEN];
     char logMessage[LOG_MESSAGE_MAX_LEN];
 
-    messageSerialized = (char *) malloc( MESSAGE_SERIALIZED_LEN );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        if ( -1 == receiverDevice.aemIndex )
+        if (-1 == connectedDevice.aemIndex )
         {
-            error(-1, "receiverDevice.aemIndex equals -1. Exiting...");
+            error(-1, "connectedDevice.aemIndex equals -1. Exiting...");
         }
 
         if ( messages[message_i].created_at > 0
-            && 0 == messages[message_i].transmitted_devices[ receiverDevice.aemIndex ]
+            && 0 == messages[message_i].transmitted_devices[ connectedDevice.aemIndex ]
         )
         {
             // Serialize
@@ -235,12 +225,12 @@ void communication_transmitter_worker(Device receiverDevice, int socket_fd)
             pthread_mutex_unlock( &logLock );
 
             // Transmit
-            send( socket_fd , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
+            send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
 
             // Update Status in $messages buffer
             pthread_mutex_lock( &messagesBufferLock );
                 messages[message_i].transmitted = 1;
-                messages[message_i].transmitted_devices[ receiverDevice.aemIndex ] = 1;
+                messages[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
             pthread_mutex_unlock( &messagesBufferLock );
 
             // Update stats
@@ -249,9 +239,6 @@ void communication_transmitter_worker(Device receiverDevice, int socket_fd)
             pthread_mutex_unlock( &messagesStatsLock );
         }
     }
-
-    // Free resources
-    free( messageSerialized );
 }
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
@@ -259,18 +246,17 @@ void communication_transmitter_worker(Device receiverDevice, int socket_fd)
 /// \param glue the connective character(s); acts as the separator between successive message fields
 /// \param messageSerialized string containing all message fields glued together using $glue
 /// \return a message struct of type message_t
-void explode(Message *message, const char * glue, MessageSerialized messageSerialized)
+void explode(Message *message, const char *glue, char *messageSerialized)
 {
-    MessageSerialized messageCopy = strdup( messageSerialized );
-    void *messageCopyPointer = ( void * ) messageCopy;
+    char *messageCopy = strdup( messageSerialized );
 
     // Start exploding string
     message->sender = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
     message->recipient = (uint32_t) strtol( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
-    message->created_at = (uint64) strtoll( strsep( &messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
+    message->created_at = (uint64_t) strtoll(strsep(&messageCopy, glue ), (char **)NULL, STRSEP_BASE_10 );
 
     memcpy( message->body, strsep( &messageCopy, glue ), MESSAGE_BODY_LEN );
-    free( messageCopyPointer );
+    free( messageCopy );
 
     // Set message's metadata
     message->transmitted = 0;
@@ -286,7 +272,7 @@ void generateMessage(Message *message, uint32_t recipient, const char * body)
 {
     message->sender = CLIENT_AEM;
     message->recipient = recipient;
-    message->created_at = (uint64) time( NULL );
+    message->created_at = (uint64_t) time(NULL );
 
     memcpy( message->body, body, MESSAGE_BODY_LEN );
 
@@ -306,10 +292,10 @@ void generateRandomMessage(Message *message)
     uint32_t recipient;
     char body[MESSAGE_BODY_LEN];
 
-    srand( time( NULL ) );
+    srand( (unsigned int) time(NULL) );
 
     //  - random recipient
-    recipient = ( CLIENT_AEM_SOURCE == CLIENT_AEM_SOURCE_RANGE ) ?
+    recipient = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ?
         (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN):
         CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
 
@@ -317,7 +303,7 @@ void generateRandomMessage(Message *message)
     char ch;
     for ( int byte_i = 0; byte_i < MESSAGE_BODY_LEN - 1; byte_i ++ )
     {
-        do { ch = (char) ( rand() % (95 - 32 + 1) + 32); } while( '_' == ch );
+        do { ch = (char) ( rand() % (MESSAGE_BODY_ASCII_MAX - MESSAGE_BODY_ASCII_MIN + 1) + MESSAGE_BODY_ASCII_MIN); } while( '_' == ch );
         body[byte_i] = ch;
     }
     body[MESSAGE_BODY_LEN - 1] = '\0';
@@ -329,7 +315,7 @@ void generateRandomMessage(Message *message)
 /// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized
 /// \param messageSerialized a string containing all message fields glued together using $glue
-void implode(const char * glue, const Message message, MessageSerialized messageSerialized)
+void implode(const char * glue, const Message message, char *messageSerialized)
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
@@ -359,7 +345,7 @@ void inspect(const Message message, bool metadata, FILE *fp)
             fprintf( fp, "\t---\n\ttransmitted = FALSE\n\ttransmitted_devices = -\n" );
         else
         {
-            char transmittedDevicesString[ CLIENT_AEM_LIST_LENGTH * 6 ];
+            char transmittedDevicesString[CLIENT_AEM_LIST_LENGTH * 6];
             uint32_t writePosition;
             uint32_t aem_i;
 
@@ -372,6 +358,7 @@ void inspect(const Message message, bool metadata, FILE *fp)
                 }
             }
 
+            *( transmittedDevicesString + writePosition - 1 ) = '\0';
             fprintf( fp, "\t---\n\ttransmitted = TRUE\n\ttransmitted_devices = %s\n", transmittedDevicesString );
         }
     }

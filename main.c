@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------------------------------------
 
-#define MAX_EXECUTION_TIME 100                 // 2 hours
+#define MAX_EXECUTION_TIME 7200               // 2 hours
 static uint32_t executionTimeRequested;       // secs
 static struct timespec executionTimeActualStart, executionTimeActualFinish;
 
@@ -57,7 +57,7 @@ int main( int argc, char **argv )
     messagesStats.transmitted = 0;
 
     // Set max execution time ( in seconds )
-    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, 10 );
+    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
 
     // Initialize RNG
     srand((unsigned int) time(NULL ));
@@ -136,10 +136,10 @@ static void onAlarm( int signo )
     if (executionTimeActualStart.tv_nsec > executionTimeActualFinish.tv_nsec)   // clock underflow
     {
         --executionTimeActualSeconds;
-        executionTimeActualNanoSeconds += 1000000000;
+        executionTimeActualNanoSeconds += 1e9;
     }
 
-    double executionTimeActual = (double)executionTimeActualSeconds + (double)executionTimeActualNanoSeconds/(double)1000000000;
+    double executionTimeActual = (double)executionTimeActualSeconds + (double)executionTimeActualNanoSeconds/(double)1e9;
 
     log_info( "Exiting now...", "onAlarm", "-" );
 

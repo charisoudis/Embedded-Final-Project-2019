@@ -27,7 +27,7 @@ void log_message(const char* functionName, Message message );
 /// \param executionTimeRequested
 /// \param executionTimeActual
 /// \param messagesStats
-void log_tearDown(uint executionTimeRequested, double executionTimeActual, const MessagesStats* messagesStats);
+void log_tearDown(uint32_t executionTimeRequested, double executionTimeActual, const MessagesStats* messagesStats);
 
 /// \brief Creates / Opens file and add the new session message.
 /// \param fileName

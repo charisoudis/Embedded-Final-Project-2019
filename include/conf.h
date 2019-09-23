@@ -10,20 +10,18 @@
     #define CLIENT_AEM_RANGE_MAX 9050
 #endif
 
-#ifndef CLIENT_AEM_LIST
+#ifndef CLIENT_AEM_LIST_LENGTH
     // Sorted list of AEMs
-    static int CLIENT_AEM_LIST[] = {
-            0001, 7051, 8001, 8011, 8032, 8600, 8723, 8859,
-            8869, 8888, 8998, 8999, 9005, 9026, 9028, 9999
+    static const uint32_t CLIENT_AEM_LIST[] = {
+        0001, 7051, 8001, 8011, 8032, 8600, 8723, 8859,
+        8869, 8888, 8998, 8999, 9005, 9026, 9028, 9999
     };
 
     #define CLIENT_AEM_LIST_LENGTH ( uint32_t )( sizeof( CLIENT_AEM_LIST ) / sizeof( int ) )
 #endif
 
 #ifndef CLIENT_AEM_SOURCE
-    #define CLIENT_AEM_SOURCE_RANGE 0
-    #define CLIENT_AEM_SOURCE_LIST 1
-    #define CLIENT_AEM_SOURCE CLIENT_AEM_SOURCE_LIST
+    #define CLIENT_AEM_SOURCE "list"    // "list", "range"
 #endif
 
 #ifndef MAX_CONNECTIONS_WITH_SAME_CLIENT
@@ -43,13 +41,15 @@
 
 // start: Server.h
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
-    #define MESSAGES_PUSH_OVERRIDE_SENT_ONLY 0
-    #define MESSAGES_PUSH_OVERRIDE_BLIND 1
-    #define MESSAGES_PUSH_OVERRIDE_POLICY MESSAGES_PUSH_OVERRIDE_BLIND
+    #define MESSAGES_PUSH_OVERRIDE_POLICY "sent_only"   // "sent_only", "blind"
 #endif
 
 #ifndef MESSAGES_SIZE
     #define MESSAGES_SIZE 2000
+#endif
+
+#ifndef SOCKET_LISTEN_QUEUE_LEN
+    #define SOCKET_LISTEN_QUEUE_LEN 5
 #endif
 // end
 
@@ -69,10 +69,13 @@
     #define STRSEP_BASE_10 10
 #endif
 
-#ifndef COMMUNICATION_WORKER_POLICY
-    #define COMMUNICATION_WORKER_POLICY_DIFF 0
-    #define COMMUNICATION_WORKER_POLICY_SAME 1
-    #define COMMUNICATION_WORKER_POLICY COMMUNICATION_WORKER_POLICY_SAME
+#ifndef STRFTIME_STR_LEN
+    #define STRFTIME_STR_LEN 50
+#endif
+
+#ifndef MESSAGE_BODY_ASCII_MIN
+    #define MESSAGE_BODY_ASCII_MIN 32
+    #define MESSAGE_BODY_ASCII_MAX 95
 #endif
 // end
 
@@ -80,6 +83,7 @@
 #ifndef ALSO_LOG_TO_STDOUT
     #define ALSO_LOG_TO_STDOUT 1
 #endif
+
 #ifndef LOG_MESSAGE_MAX_LEN
     #define LOG_MESSAGE_MAX_LEN 512
 #endif
