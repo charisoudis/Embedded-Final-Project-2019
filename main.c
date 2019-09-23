@@ -3,6 +3,7 @@
 #include "log.h"
 #include "server.h"
 #include <signal.h>
+#include <utils.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -38,6 +39,9 @@ static void onAlarm(int signo);
 int main( int argc, char **argv )
 {
     int status;
+
+//    fprintf(stdout, "%s\n", timestamp2ftime( time(NULL), "%a, %d %b %Y @ %T" ));
+//    return 1;
 
     // Get AEM of running device
     CLIENT_AEM = getClientAem("wlan0");

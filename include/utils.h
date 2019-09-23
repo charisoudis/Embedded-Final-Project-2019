@@ -121,7 +121,7 @@ int socket_connect(const char * ip);
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
-/// \param string the resulting datetime string
-void timestamp2ftime( uint64 timestamp, const char *format, char *string );
+/// \return the resulting datetime string
+const char * timestamp2ftime( uint64 timestamp, const char *format );
 
 #endif //FINAL_UTILS_H

@@ -15,8 +15,7 @@ static FILE *logFilePointer;
 /// \param status
 void log_error(const char* functionName, const char* actionName, const int* status )
 {
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+    const char* nowAsString = timestamp2ftime( (uint64) time(NULL), "%FT%TZ" );
 
     fprintf( logFilePointer, "[ERR]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, strerror( *status ) );
     if ( ALSO_LOG_TO_STDOUT )
@@ -32,8 +31,7 @@ void log_error(const char* functionName, const char* actionName, const int* stat
 /// \param actionName
 void log_info(const char* message, const char* functionName, const char* actionName)
 {
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time(NULL), "%FT%TZ", nowAsString );
+    const char* nowAsString = timestamp2ftime( (uint64) time(NULL), "%FT%TZ" );
 
     fprintf( logFilePointer, "[INF]| %s | %s | %s |\n\t%s\n", nowAsString, functionName, actionName, message );
     if ( ALSO_LOG_TO_STDOUT )
@@ -136,8 +134,7 @@ void log_tearUp(const char *fileName)
                      fopen( fileName, "w" ):
                      fopen( fileName, "a" );
 
-    char nowAsString[50];
-    timestamp2ftime( (uint64) time( NULL ), "%a, %d %b %Y @ %T", nowAsString );
+    const char* nowAsString = timestamp2ftime( (uint64) time(NULL), "%FT%TZ" );
 
     // Start new session
     fprintf( logFilePointer, "/*\n"

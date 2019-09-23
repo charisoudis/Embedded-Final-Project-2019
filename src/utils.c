@@ -346,13 +346,10 @@ void implode(const char * glue, const Message message, MessageSerialized message
 /// \param metadata show/hide metadata information from message
 void inspect(const Message message, bool metadata, FILE *fp)
 {
-    // Parse timestamp
-    char created_at_full[50];
-    timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T", created_at_full );
-
     // Print main fields
 //    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
-//            message.sender, message.recipient, message.created_at, created_at_full, message.body
+//            message.sender, message.recipient, message.created_at,
+//            timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T" ), message.body
 //    );
 
     // Print metadata
@@ -548,21 +545,27 @@ int socket_connect(const char *ip)
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )
 /// \param format strftime-compatible format
-/// \param string the resulting datetime string
-inline void timestamp2ftime( const unsigned long timestamp, const char *format, char *string )
+/// \return the resulting datetime string
+const char* timestamp2ftime( const unsigned long timestamp, const char *format )
 {
 //    // Format datetime stings in Greek
 //    setlocale( LC_TIME, "el_GR.UTF-8" );
 
-    struct tm *tmp = localtime((const time_t *) &( timestamp ));
+    static char* returnString;
+    struct tm* tmp;
+
+    returnString = malloc( 50 * sizeof( char ) );
+    tmp = localtime((const time_t *) &( timestamp ));
     if ( tmp == NULL )
     {
         perror( "\ttimestamp2ftime(): localtime() error" );
         exit( EXIT_FAILURE );
     }
-    if ( 0 == strftime( string, UINT32_MAX, format, tmp ) )
+    if ( 0 == strftime( returnString, UINT32_MAX, format, tmp ) )
     {
         fprintf( stderr, "\ttimestamp2ftime(): strftime() error" );
         exit( EXIT_FAILURE );
     }
+
+    return returnString;
 }
