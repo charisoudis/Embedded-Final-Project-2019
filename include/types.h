@@ -24,8 +24,8 @@ typedef struct message_t {
 
     // Metadata
     uint8_t transmitted;                // If the message was actually transmitted from this device
-    uint8_t transmitted_devices[CLIENT_AEM_LIST_LENGTH];   // Boolean array, true if i-th device has received the message,
-                                                        // false otherwise
+    uint8_t transmitted_devices[CLIENT_AEM_LIST_LENGTH];    // Boolean array, 1 if i-th device has received the message,
+                                                            // 0 otherwise
 } Message;
 
 /* pthread function arguments pointer */
