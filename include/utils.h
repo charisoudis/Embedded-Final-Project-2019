@@ -2,7 +2,6 @@
 #define FINAL_UTILS_H
 
 #include "types.h"
-#include <arpa/inet.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,20 +18,6 @@ const char* aem2ip(uint32_t aem);
 /// \param needle
 /// \return index [0, N-1] if found, -1 else
 int32_t binary_search_index(const uint32_t *haystack, size_t N, uint32_t needle);
-
-/// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
-/// \param thread_args pointer to communicate_args_t type
-void communication_worker(void *args);
-
-/// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param connectedSocket socket file descriptor with connected device
-/// \param connectedDevice connected device that will send messages
-void communication_receiver_worker(int32_t connectedSocket, Device connectedDevice);
-
-/// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param connectedSocket socket file descriptor with connected device
-/// \param connectedDevice connected device that will receive messages
-void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice);
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
 /// \param message the result message ( passes as a pointer )
@@ -84,36 +69,9 @@ bool isMessageEqual(Message message1, Message message2);
 
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
+/// \param port
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect(const char * ip);
-
-///// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-///// \param base
-///// \param new
-//void str_append( char *base, char *new );
-//
-///// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-///// \param base
-///// \param aem
-///// \param sep separator character between successive AEMs
-//void str_append_aem( char *base, uint32_t aem, const char *sep );
-//
-///// \brief Check if $needle exists ( is substring ) in $haystack.
-///// \param haystack
-///// \param needle
-///// \return 0 ( false ) / 1 ( true )
-//bool str_exists(const char *haystack, const char *needle);
-//
-///// Check if $aem exists in $haystack string.
-///// \param haystack
-///// \param aem
-///// \return
-//bool str_exists_aem(const char *haystack, uint32_t aem);
-//
-///// \brief Removes $toRemove substring from $str haystack.
-///// \param str
-///// \param toRemove
-//void str_remove(char *str, const char *toRemove);
+int socket_connect(const char * ip, uint16_t port);
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

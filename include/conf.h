@@ -4,6 +4,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+// start: main
+#define MAX_EXECUTION_TIME 7200               // 2 hours
+#define SETUP_DATETIME_AEM 0001               // Device with AEM = 0001 will setup datetime with all connected devices
+#define SETUP_DATETIME_TIMEOUT 30             // secs
+// end
+
 // start: Client.h
 #ifndef CLIENT_AEM_RANGE
     #define CLIENT_AEM_RANGE_MIN 8000

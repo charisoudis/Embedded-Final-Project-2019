@@ -1,8 +1,9 @@
-#include <conf.h>
-#include <client.h>
-#include <log.h>
-#include <server.h>
-#include <utils.h>
+#include "conf.h"
+#include "client.h"
+#include "log.h"
+#include "server.h"
+#include "utils.h"
+#include "communication.h"
 
 //------------------------------------------------------------------------------------------------
 
@@ -68,7 +69,7 @@ void *polling_worker(void)
         fprintf( stdout, "ip = %s\n", ip );
 
         // Try connecting
-        int socket_fd = socket_connect( ip );
+        int socket_fd = socket_connect( ip, SOCKET_PORT );
         if ( -1 != socket_fd )
         {
             //----- NON-CANCELABLE SECTION

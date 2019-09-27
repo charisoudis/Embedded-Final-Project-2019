@@ -1,9 +1,9 @@
-#include <conf.h>
-#include <utils.h>
-#include <log.h>
-#include <server.h>
+#include "conf.h"
+#include "utils.h"
+#include "log.h"
+#include "server.h"
+#include <arpa/inet.h>
 #include <stdbool.h>
-#include <sys/time.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -70,175 +70,6 @@ int32_t binary_search_index(const uint32_t *haystack, size_t N, uint32_t needle)
 
     // Not found
     return -1;
-}
-
-/// \brief Handle communication staff with connected device ( POSIX thread compatible function ).
-/// \param thread_args pointer to communicate_args_t type
-void communication_worker(void *thread_args)
-{
-    CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-    char logMessage[LOG_MESSAGE_MAX_LEN];
-    bool deviceExists;
-
-    // Check if there is an active connection with given device
-    // Update active devices
-    pthread_mutex_lock( &activeDevicesLock );
-        deviceExists = devices_exists( args->connected_device );
-        if ( !deviceExists )
-            devices_push( args->connected_device );
-    pthread_mutex_unlock( &activeDevicesLock );
-
-    // If no active connection with given device exists
-    if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
-    {
-        gettimeofday( &(CLIENT_AEM_CONN_START_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
-
-        // If device is server, act as transmitter, else act as receiver.
-        //  - forward communication
-        if ( args->server )
-        {
-            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_WR );
-
-            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_RD );
-        }
-        //  - reverse communication
-        else
-        {
-            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_RD );
-
-            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_WR );
-        }
-
-        // Update connection time stats
-        gettimeofday( &(CLIENT_AEM_CONN_END_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
-
-        // Update connection time stats
-        CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]++;
-
-        // Update active devices
-        pthread_mutex_lock( &activeDevicesLock );
-            devices_remove( args->connected_device );
-        pthread_mutex_unlock( &activeDevicesLock );
-    }
-    else
-    {
-        pthread_mutex_lock( &logLock );
-            sprintf( logMessage, deviceExists ?
-                "Active connection with device found: AEM = %04d. Skipping...":
-                "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
-            log_error( logMessage, "communication_worker()", 0 );
-        pthread_mutex_unlock( &logLock );
-    }
-
-    // Close Socket
-    close( args->connected_socket_fd );
-
-    // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
-    if ( args->concurrent )
-    {
-        pthread_mutex_lock( &availableThreadsLock );
-            communicationThreadsAvailable++;
-        pthread_mutex_unlock( &availableThreadsLock );
-    }
-}
-
-/// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param connectedSocket socket file descriptor with connected device
-/// \param connectedDevice connected device that will send messages
-void communication_receiver_worker(int32_t connectedSocket, Device connectedDevice)
-{
-    Message message;
-    char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
-
-    next_loop:
-    while ( read( connectedSocket, messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
-    {
-        //----- CRITICAL SECTION
-        pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
-        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-        pthread_mutex_unlock( &logLock );
-        //-----:end
-
-        // Reconstruct message
-        explode( &message, "_", messageSerialized );
-
-        // Check for duplicates
-        for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
-        {
-            if ( 1 == isMessageEqual( message, messages[message_i] ) )
-                goto next_loop;
-
-            if ( messages[message_i].created_at == 0 )
-                break;
-        }
-
-        // Update message's transmitted devices to include sender ( so as not to send back )
-        message.transmitted_devices[ connectedDevice.aemIndex ] = 1;
-
-        // Store in $messages buffer
-        pthread_mutex_lock( &messagesBufferLock );
-            messages_push( message );
-        pthread_mutex_unlock( &messagesBufferLock );
-
-        // Log received message
-        log_message( "communication_receiver_worker()", message );
-
-        // Update stats
-        pthread_mutex_lock( &messagesStatsLock );
-            messagesStats.received++;
-        pthread_mutex_unlock( &messagesStatsLock );
-    }
-}
-
-/// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
-/// \param connectedSocket socket file descriptor with connected device
-/// \param connectedDevice connected device that will receive messages
-void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice)
-{
-    char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
-
-    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
-    {
-        if (-1 == connectedDevice.aemIndex )
-        {
-            error(-1, "connectedDevice.aemIndex equals -1. Exiting...");
-        }
-
-        if ( messages[message_i].created_at > 0
-            && 0 == messages[message_i].transmitted_devices[ connectedDevice.aemIndex ]
-        )
-        {
-            // Serialize
-            implode( "_", messages[message_i], messageSerialized );
-
-            // Log
-            pthread_mutex_lock( &logLock );
-                sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
-                log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-            pthread_mutex_unlock( &logLock );
-
-            // Transmit
-            send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
-
-            // Update Status in $messages buffer
-            pthread_mutex_lock( &messagesBufferLock );
-                messages[message_i].transmitted = 1;
-                messages[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
-            pthread_mutex_unlock( &messagesBufferLock );
-
-            // Update stats
-            pthread_mutex_lock( &messagesStatsLock );
-                messagesStats.transmitted++;
-            pthread_mutex_unlock( &messagesStatsLock );
-        }
-    }
 }
 
 /// \brief Un-serializes message-as-a-string, re-creating initial message.
@@ -434,8 +265,9 @@ bool isMessageEqual(Message message1, Message message2)
 
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
+/// \param port
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect(const char *ip)
+int socket_connect(const char *ip, uint16_t port)
 {
     uint32_t aem = ip2aem( ip );
     if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
@@ -454,80 +286,12 @@ int socket_connect(const char *ip)
     // Set "server" address
     memset( &serverAddress, 0, sizeof(serverAddress) );
     serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons( SOCKET_PORT );
+    serverAddress.sin_port = htons( port );
     serverAddress.sin_addr.s_addr = inet_addr( ip );
 
     return ( connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ) ?
         socket_fd : -1;
 }
-
-///// \brief Append $new string to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-///// \param base
-///// \param new
-//void str_append( char *base, char *new )
-//{
-//    sprintf( base, "%s%s", base, new );
-//}
-//
-///// \brief Append $aem to $base string ( supp. that $base has been pre-malloc'ed to fit both ).
-///// \param base
-///// \param aem
-///// \param sep separator character between successive AEMs
-//void str_append_aem( char *base, uint32_t aem, const char *sep )
-//{
-//    char aemStringWithSep[6];
-//    sprintf(aemStringWithSep, "%04d%c", aem, sep[0] );
-//
-//    return str_append(base, aemStringWithSep );
-//}
-//
-///// \brief Check if $needle exists ( is substring ) in $haystack.
-///// \param haystack
-///// \param needle
-///// \return 0 ( false ) / 1 ( true )
-//bool str_exists(const char *haystack, const char *needle)
-//{
-//    char *p = strstr( haystack, needle );
-//    return (p) ? 1 : 0;
-//}
-//
-///// Check if $aem exists in $haystack string.
-///// \param haystack
-///// \param aem
-///// \return
-//bool str_exists_aem(const char *haystack, uint32_t aem)
-//{
-//    char aemString[5];
-//    sprintf( aemString, "%04d", aem );
-//
-//    return str_exists( haystack, aemString );
-//}
-//
-///// \brief Removes $toRemove substring from $str haystack.
-///// \param str
-///// \param toRemove
-//void str_remove(char *str, const char *toRemove)
-//{
-//    if (NULL == (str = strstr(str, toRemove)))
-//    {
-//        // no match.
-//        printf("No match in %s\n", str);
-//        return;
-//    }
-//
-//    // str points to toRemove in str now.
-//    const size_t remLen = strlen(toRemove);
-//    char *copyEnd;
-//    char *copyFrom = str + remLen;
-//    while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
-//    {
-//        //printf("match at %3ld in %s\n", copyEnd - str, str);
-//        memmove(str, copyFrom, copyEnd - copyFrom);
-//        str += copyEnd - copyFrom;
-//        copyFrom = copyEnd + remLen;
-//    }
-//    memmove(str, copyFrom, 1 + strlen(copyFrom));
-//}
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64_t )

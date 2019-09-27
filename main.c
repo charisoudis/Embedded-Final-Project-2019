@@ -2,25 +2,26 @@
 #include "client.h"
 #include "log.h"
 #include "server.h"
+#include "utils.h"
+#include "communication.h"
 #include <signal.h>
-#include <utils.h>
 
 //------------------------------------------------------------------------------------------------
 
-#define MAX_EXECUTION_TIME 7200               // 2 hours
 static uint32_t executionTimeRequested;       // secs
 static struct timespec executionTimeActualStart, executionTimeActualFinish;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 
-static pthread_t pollingThread, producerThread;
+static pthread_t pollingThread, producerThread, datetimeListenerThread;
 pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
 
 //DevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
 
 uint32_t CLIENT_AEM;
+uint32_t setupDatetimeAem;
 
 // Communication time for each device
 struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT] = {0, 0};
@@ -31,11 +32,21 @@ uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH] = {0};
 
 extern messages_head_t messagesHead;
 
-/// \brief Handler of SIGALRM signal. Used to terminate sampling when totalSamplingTime finishes.
+/// \brief Handler of SIGALRM signal. Used to terminate execution when MAX_EXECUTION_TIME finishes.
 /// \param signo
 /// \return void - Actually this function terminates program execution.
 static void onAlarm(int signo);
 
+/// \brief Handler of SIGALRM signal. Used to terminate setup process if exceeds timeout.
+/// \param signo
+/// \return void - This function terminates program execution.
+static void onSetupAlarm(int signo);
+
+/// \brief
+/// \example ./Final [MAX_EXECUTION_TIME] [SETUP_DATE_TIME_AEM]
+/// \param argc
+/// \param argv
+/// \return
 int main( int argc, char **argv )
 {
     int status;
@@ -46,6 +57,29 @@ int main( int argc, char **argv )
     // Get AEM of running device
     CLIENT_AEM = getClientAem("wlan0");
     printf( "AEM = %d\n", CLIENT_AEM );
+
+    // Setup datetime
+    setupDatetimeAem = ( argc < 3 ) ? SETUP_DATETIME_AEM : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
+    if ( setupDatetimeAem > 0 )
+    {
+        if ( CLIENT_AEM == setupDatetimeAem )
+        {
+            // Start datetime transmitter server ( in a new thread )
+            status = pthread_create( &datetimeListenerThread, NULL, (void *) communication_datetime_listener_worker, NULL );
+            if ( status != 0 )
+                error( status, "\tmain(): pthread_create( datetimeListenerThread ) failed" );
+        }
+        else
+        {
+            // Setup alarm for setup
+            alarm( SETUP_DATETIME_TIMEOUT );
+            signal( SIGALRM, onSetupAlarm );
+
+            // Receive & set datetime from datetime server
+            if ( false == communication_datetime_receiver() )
+                error( -1, "\tmain(): communication_datetime_receiver() failed" );
+        }
+    }
 
     // Initialize types
     messagesHead = 0;
@@ -128,6 +162,18 @@ static void onAlarm( int signo )
     if ( status != 0 )
         error( status, "\tonAlarm(): pthread_join() on pollingThread failed" );
 
+    // Kill Datetime Listener Thread
+    if ( CLIENT_AEM == setupDatetimeAem )
+    {
+        status = pthread_cancel( datetimeListenerThread );
+        if ( status != 0 )
+            error( status, "\tonAlarm(): pthread_cancel() on datetimeListenerThread failed" );
+
+        status = pthread_join( datetimeListenerThread, NULL );
+        if ( status != 0 )
+            error( status, "\tonAlarm(): pthread_join() on datetimeListenerThread failed" );
+    }
+
     // Find actual execution time
     clock_gettime(CLOCK_REALTIME, &executionTimeActualFinish);
     long executionTimeActualSeconds = executionTimeActualFinish.tv_sec - executionTimeActualStart.tv_sec;
@@ -149,4 +195,10 @@ static void onAlarm( int signo )
     log_tearDown( executionTimeRequested, executionTimeActual, &messagesStats );
 
     exit( EXIT_SUCCESS );
+}
+
+static void onSetupAlarm( int signo )
+{
+    fprintf( stderr, "onSetupAlarm(): Setup timeout (%d sec) reached! Exiting...\n", SETUP_DATETIME_TIMEOUT );
+    exit( EXIT_FAILURE );
 }
