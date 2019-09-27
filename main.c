@@ -78,6 +78,8 @@ int main( int argc, char **argv )
             // Receive & set datetime from datetime server
             if ( false == communication_datetime_receiver() )
                 error( -1, "\tmain(): communication_datetime_receiver() failed" );
+
+            fprintf( stdout, "RECEIVED DATETIME FROM DATETIME SERVER" );
         }
     }
 
