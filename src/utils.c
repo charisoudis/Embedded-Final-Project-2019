@@ -150,7 +150,7 @@ void implode(const char * glue, const Message message, char *messageSerialized)
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
-    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010ld%s%s",
+    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010lld%s%s",
              message.sender, glue,
              message.recipient, glue,
              message.created_at, glue,
@@ -206,7 +206,7 @@ void inspect_messages(bool inspect_each)
     {
         if ( messages[message_i].created_at > 0 )
         {
-            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %ld ) \n",
+            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %lld ) \n",
                      message_i, messages[message_i].sender,
                      messages[message_i].recipient, messages[message_i].created_at
             );

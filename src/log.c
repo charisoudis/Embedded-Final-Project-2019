@@ -161,3 +161,5 @@ void log_tearUp(const char *fileName)
                              "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
     }
 }
+
+void

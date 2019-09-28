@@ -2,6 +2,7 @@
 #include "communication.h"
 #include "log.h"
 #include "server.h"
+//#include <env.h>
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
@@ -13,7 +14,7 @@ extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CON
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
-extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock, logEventLock;
 extern MessagesStats messagesStats;
 
 extern pthread_t communicationThreads[ COMMUNICATION_WORKERS_MAX ];
@@ -24,7 +25,7 @@ extern Message messages[ MESSAGES_SIZE ];
 //------------------------------------------------------------------------------------------------
 
 /// \brief Datetime transmitter loop. Transmits current datetime on each new connection.
-void communication_datetime_listener_worker()
+void communication_datetime_listener_worker(void)
 {
     struct timeval tv;
     struct timezone tz;
@@ -67,19 +68,11 @@ void communication_datetime_listener_worker()
 
     listen( server_socket_fd, SOCKET_LISTEN_QUEUE_LEN );
 
-    pthread_mutex_lock( &logLock );
-    log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
-    pthread_mutex_unlock( &logLock );
     while (1)
     {
         client_socket_fd = accept(server_socket_fd, (struct sockaddr *) &clientAddress, &(socklen_t){ sizeof( struct sockaddr_in ) } );
         if (client_socket_fd < 0)
             error(client_socket_fd, "ERROR on accept");
-
-        // Connected
-//        //  - get client address
-//        char ip[INET_ADDRSTRLEN];
-//        inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
 
         //  - close read stream
         shutdown( client_socket_fd, SHUT_RD );
@@ -88,13 +81,14 @@ void communication_datetime_listener_worker()
         gettimeofday( &tv, &tz );
 
         //  - send time
-        send( client_socket_fd, &tv, sizeof(tv), 0 );
-        send( client_socket_fd, &tz, sizeof(tz), 0 );
+        send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
+//        send( client_socket_fd, &tz, sizeof(struct timezone), 0 );
 
         //  - close write stream
         shutdown( client_socket_fd, SHUT_WR );
 
-        fprintf( stdout, "SENT DATETIME TO CLIENT\n" );
+//        fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
+        fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
     }
 }
 
@@ -102,12 +96,15 @@ void communication_datetime_listener_worker()
 /// \return TRUE on success, FALSE on failure
 bool communication_datetime_receiver()
 {
-    struct timeval tv;
-    struct timezone tz;
+    struct timeval tv = {0, 0};
+    struct timezone tz = {0, 0};
 
     int socket_fd;
     bool result;
     const char *ip;
+
+    uint64_t previous_now;
+    uint64_t new_now;
 
     // Format setter's IP address
     ip = aem2ip( SETUP_DATETIME_AEM );
@@ -118,22 +115,44 @@ bool communication_datetime_receiver()
         socket_fd = socket_connect( ip, SOCKET_PORT + 1 );
         if ( -1 != socket_fd )
         {
+            pthread_mutex_lock( &logEventLock );
+            log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
+
             //  - close write stream
             shutdown( socket_fd, SHUT_WR );
 
             //  - get time
-            result = read( socket_fd, &tv, sizeof(tv) ) && read( socket_fd, &tz, sizeof(tz) );
+            result = read( socket_fd, &tv, sizeof(struct timeval) ) == sizeof(struct timeval);
+//                    read( socket_fd, &tz, sizeof(struct timezone) ) == sizeof(struct timezone);
 
             //  - get time
             if ( result )
             {
-                settimeofday( &tv, &tz );
+                previous_now = (uint64_t) time(NULL);
+
+                // Set timezone
+                setenv( "TZ", "Europe/Athens", 1 );
+                tzset();
+
+                // Set timeval
+                settimeofday( &tv, NULL );
+
+                new_now = (uint64_t) time(NULL);
+                log_event_message_datetime( "datetime", previous_now, new_now );
+            }
+            else
+            {
+                fprintf( stderr, "ERROR\n" );
             }
 
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
 
-            fprintf( stdout, "RECEIVED DATETIME FROM SERVER\n" );
+//            fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
+            fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
+
+            log_event_end( 0 );
+            pthread_mutex_unlock( &logEventLock );
 
             break;
         }

@@ -15,7 +15,7 @@ pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 
 static pthread_t pollingThread, producerThread, datetimeListenerThread;
-pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock, logEventLock;
 
 //DevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
@@ -54,6 +54,32 @@ int main( int argc, char **argv )
 //    fprintf(stdout, "%s\n", timestamp2ftime( time(NULL), "%a, %d %b %Y @ %T" ));
 //    return 1;
 
+    // Set max execution time ( in seconds )
+    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
+
+    // Initialize RNG
+    srand((unsigned int) time(NULL ));
+
+    // Initialize Locks
+    status = pthread_mutex_init( &messagesBufferLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( messagesBufferLock ) failed" );
+    status = pthread_mutex_init( &activeDevicesLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
+    status = pthread_mutex_init( &availableThreadsLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
+    status = pthread_mutex_init( &messagesStatsLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
+    status = pthread_mutex_init( &logLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
+    status = pthread_mutex_init( &logEventLock, NULL );
+    if ( status != 0 )
+        error( status, "\tmain(): pthread_mutex_init( logEventLock ) failed" );
+
     // Get AEM of running device
     CLIENT_AEM = getClientAem("wlan0");
     printf( "AEM = %d\n", CLIENT_AEM );
@@ -78,8 +104,6 @@ int main( int argc, char **argv )
             // Receive & set datetime from datetime server
             if ( false == communication_datetime_receiver() )
                 error( -1, "\tmain(): communication_datetime_receiver() failed" );
-
-            fprintf( stdout, "RECEIVED DATETIME FROM DATETIME SERVER" );
         }
     }
 
@@ -91,29 +115,6 @@ int main( int argc, char **argv )
     messagesStats.produced = 0;
     messagesStats.received = 0;
     messagesStats.transmitted = 0;
-
-    // Set max execution time ( in seconds )
-    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
-
-    // Initialize RNG
-    srand((unsigned int) time(NULL ));
-
-    // Initialize Locks
-    status = pthread_mutex_init( &messagesBufferLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( messagesBufferLock ) failed" );
-    status = pthread_mutex_init( &activeDevicesLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
-    status = pthread_mutex_init( &availableThreadsLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( activeDevicesLock ) failed" );
-    status = pthread_mutex_init( &messagesStatsLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
-    status = pthread_mutex_init( &logLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
 
     // Start recording actual time
     clock_gettime(CLOCK_REALTIME, &executionTimeActualStart);
