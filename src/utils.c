@@ -134,7 +134,8 @@ void generateRandomMessage(Message *message)
     char ch;
     for ( int byte_i = 0; byte_i < MESSAGE_BODY_LEN - 1; byte_i ++ )
     {
-        do { ch = (char) ( rand() % (MESSAGE_BODY_ASCII_MAX - MESSAGE_BODY_ASCII_MIN + 1) + MESSAGE_BODY_ASCII_MIN); } while( '_' == ch );
+        do { ch = (char) ( rand() % (MESSAGE_BODY_ASCII_MAX - MESSAGE_BODY_ASCII_MIN + 1) + MESSAGE_BODY_ASCII_MIN); }
+        while( '_' == ch || '\\' == ch || '"' == ch );
         body[byte_i] = ch;
     }
     body[MESSAGE_BODY_LEN - 1] = '\0';

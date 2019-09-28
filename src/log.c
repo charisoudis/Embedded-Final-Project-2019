@@ -27,7 +27,7 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
     gettimeofday( &lastEventStart, NULL );
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [,},",
+    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [",
             timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), type,
             server, client );
 }
@@ -37,7 +37,6 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 /// \param message
 void log_event_message( const char* action, const Message* message )
 {
-    removeTrailingCommaFromJson();
     fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\", \"transmitted\": \"%s\", \"transmitted_devices\": \"%s\"},",
              timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), action,
              message->sender, message->recipient, timestamp2ftime( message->created_at, "%FT%TZ" ), message->body,
@@ -49,7 +48,6 @@ void log_event_message( const char* action, const Message* message )
 /// \param new_now
 void log_event_message_datetime( uint64_t previous_now, uint64_t new_now )
 {
-    removeTrailingCommaFromJson();
     fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"previous_now\": \"%s\", \"new_now\": \"%s\"},",
              timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), "datetime",
              timestamp2ftime( previous_now, "%FT%TZ" ), timestamp2ftime( new_now, "%FT%TZ" ) );

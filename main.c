@@ -8,7 +8,7 @@
 
 //------------------------------------------------------------------------------------------------
 
-static uint32_t executionTimeRequested;       // secs
+uint32_t executionTimeRequested;       // secs
 static struct timespec executionTimeActualStart, executionTimeActualFinish;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
@@ -55,7 +55,8 @@ int main( int argc, char **argv )
 //    return 1;
 
     // Set max execution time ( in seconds )
-    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
+    executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME :
+            (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
 
     // Initialize RNG
     srand((unsigned int) time(NULL ));
@@ -84,6 +85,15 @@ int main( int argc, char **argv )
     CLIENT_AEM = getClientAem("wlan0");
     printf( "AEM = %d\n", CLIENT_AEM );
 
+    // Initialize types
+    messagesHead = 0;
+
+    // Initialize logger
+    log_tearUp( "log.txt" );
+    messagesStats.produced = 0;
+    messagesStats.received = 0;
+    messagesStats.transmitted = 0;
+
     // Setup datetime
     setupDatetimeAem = ( argc < 3 ) ? SETUP_DATETIME_AEM : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
     if ( setupDatetimeAem > 0 )
@@ -106,15 +116,6 @@ int main( int argc, char **argv )
                 error( -1, "\tmain(): communication_datetime_receiver() failed" );
         }
     }
-
-    // Initialize types
-    messagesHead = 0;
-
-    // Initialize logger
-    log_tearUp( "log.txt" );
-    messagesStats.produced = 0;
-    messagesStats.received = 0;
-    messagesStats.transmitted = 0;
 
     // Start recording actual time
     clock_gettime(CLOCK_REALTIME, &executionTimeActualStart);
@@ -191,6 +192,8 @@ static void onAlarm( int signo )
     double executionTimeActual = (double)executionTimeActualSeconds + (double)executionTimeActualNanoSeconds/(double)1e9;
 
     log_info( "Exiting now...", "onAlarm", "-" );
+
+    log_event_stop();
 
     // Close logger
     messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
