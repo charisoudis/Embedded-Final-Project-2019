@@ -158,6 +158,29 @@ void implode(const char * glue, const Message message, char *messageSerialized)
     );
 }
 
+/// \brief Get a string with CSV of transmitted devices of given $message
+/// \param message
+/// \return
+const char* getTransmittedDevicesString( const Message* message )
+{
+    static char transmittedDevicesString[CLIENT_AEM_LIST_LENGTH * 6];
+    uint32_t writePosition;
+    uint32_t aem_i;
+
+    for ( writePosition = 0, aem_i = 0; aem_i < CLIENT_AEM_LIST_LENGTH; aem_i++ )
+    {
+        if ( 1 == message->transmitted_devices[ aem_i ] )
+        {
+            snprintf( transmittedDevicesString + writePosition, 6, "%04d,", CLIENT_AEM_LIST[aem_i] );
+            writePosition += 5;
+        }
+    }
+
+    *( transmittedDevicesString + writePosition - 1 ) = '\0';
+
+    return transmittedDevicesString;
+}
+
 /// \brief Log ( to file pointer ) message's fields.
 /// \param message
 /// \param metadata show/hide metadata information from message
@@ -176,20 +199,7 @@ void inspect(const Message message, bool metadata, FILE *fp)
             fprintf( fp, "\t---\n\ttransmitted = FALSE\n\ttransmitted_devices = -\n" );
         else
         {
-            char transmittedDevicesString[CLIENT_AEM_LIST_LENGTH * 6];
-            uint32_t writePosition;
-            uint32_t aem_i;
-
-            for ( writePosition = 0, aem_i = 0; aem_i < CLIENT_AEM_LIST_LENGTH; aem_i++ )
-            {
-                if ( 1 == message.transmitted_devices[ aem_i ] )
-                {
-                    snprintf( transmittedDevicesString + writePosition, 6, "%04d,", CLIENT_AEM_LIST[aem_i] );
-                    writePosition += 5;
-                }
-            }
-
-            *( transmittedDevicesString + writePosition - 1 ) = '\0';
+            const char* transmittedDevicesString = getTransmittedDevicesString( &message );
             fprintf( fp, "\t---\n\ttransmitted = TRUE\n\ttransmitted_devices = %s\n", transmittedDevicesString );
         }
     }

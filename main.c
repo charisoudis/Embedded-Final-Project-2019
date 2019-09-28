@@ -195,7 +195,7 @@ static void onAlarm( int signo )
     // Close logger
     messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
     messagesStats.producedDelayAvg /= 60.0;                             // sec --> min
-    log_tearDown( executionTimeRequested, executionTimeActual, &messagesStats );
+    log_tearDown(executionTimeActual, &messagesStats);
 
     exit( EXIT_SUCCESS );
 }

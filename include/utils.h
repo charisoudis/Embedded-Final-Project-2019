@@ -40,6 +40,11 @@ void generateMessage(Message *message, uint32_t recipient, const char * body);
 /// \param message result message ( passed as pointer )
 void generateRandomMessage(Message *message);
 
+/// \brief Get a string with CSV of transmitted devices of given $message
+/// \param message
+/// \return
+const char* getTransmittedDevicesString( const Message* message );
+
 /// \brief Serializes a message ( of message_t type ) into a 277-characters string.
 /// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized

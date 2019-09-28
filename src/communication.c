@@ -138,7 +138,7 @@ bool communication_datetime_receiver()
                 settimeofday( &tv, NULL );
 
                 new_now = (uint64_t) time(NULL);
-                log_event_message_datetime( "datetime", previous_now, new_now );
+                log_event_message_datetime( previous_now, new_now );
             }
             else
             {
@@ -151,7 +151,7 @@ bool communication_datetime_receiver()
 //            fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
             fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
 
-            log_event_end( 0 );
+            log_event_stop();
             pthread_mutex_unlock( &logEventLock );
 
             break;
@@ -177,6 +177,10 @@ void communication_worker(void *thread_args)
     if ( !deviceExists )
         devices_push( args->connected_device );
     pthread_mutex_unlock( &activeDevicesLock );
+
+    pthread_mutex_lock( &logEventLock );
+    log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
+                     args->server ? args->connected_device.AEM : CLIENT_AEM );
 
     // If no active connection with given device exists
     if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
@@ -234,6 +238,11 @@ void communication_worker(void *thread_args)
         communicationThreadsAvailable++;
         pthread_mutex_unlock( &availableThreadsLock );
     }
+
+    // Finalize event log
+    log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
+                     args->server ? args->connected_device.AEM : CLIENT_AEM );
+    pthread_mutex_lock( &logEventLock );
 }
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
@@ -278,6 +287,7 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 
         // Log received message
         log_message( "communication_receiver_worker()", message );
+        log_event_message( "received", &message );
 
         // Update stats
         pthread_mutex_lock( &messagesStatsLock );
@@ -327,6 +337,8 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             pthread_mutex_lock( &messagesStatsLock );
             messagesStats.transmitted++;
             pthread_mutex_unlock( &messagesStatsLock );
+
+            log_event_message( "transmitted", &messages[message_i] );
         }
     }
 }

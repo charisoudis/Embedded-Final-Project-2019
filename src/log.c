@@ -1,6 +1,7 @@
 #include <conf.h>
 #include <log.h>
 #include <utils.h>
+#include <sys/time.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -8,10 +9,63 @@ extern uint32_t CLIENT_AEM;
 extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
+extern uint32_t executionTimeRequested;
 
 //------------------------------------------------------------------------------------------------
 
 static FILE *logFilePointer;
+static FILE *jsonFilePointer;
+
+struct timeval lastEventStart, lastEventStop;
+
+/// \brief Logs the start of a new event in session.json file
+/// \param type
+/// \param server
+/// \param client
+void log_event_start( const char* type, uint32_t server, uint32_t client )
+{
+    gettimeofday( &lastEventStart, NULL );
+
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [,},",
+            timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), type,
+            server, client );
+}
+
+/// \brief Logs $message to session.json file
+/// \param action
+/// \param message
+void log_event_message( const char* action, const Message* message )
+{
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\", \"transmitted\": \"%s\", \"transmitted_devices\": \"%s\"},",
+             timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), action,
+             message->sender, message->recipient, timestamp2ftime( message->created_at, "%FT%TZ" ), message->body,
+             message->transmitted == 1 ? "TRUE" : "FALSE", getTransmittedDevicesString( message ) );
+}
+
+/// \brief Logs datetime syncing to session.json file
+/// \param previous_now
+/// \param new_now
+void log_event_message_datetime( uint64_t previous_now, uint64_t new_now )
+{
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"previous_now\": \"%s\", \"new_now\": \"%s\"},",
+             timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), "datetime",
+             timestamp2ftime( previous_now, "%FT%TZ" ), timestamp2ftime( new_now, "%FT%TZ" ) );
+}
+
+/// \brief Logs the end of a new event in session.json file
+void log_event_stop(void)
+{
+    gettimeofday( &lastEventStop, NULL );
+
+    double duration = (double) ( lastEventStop.tv_sec - lastEventStart.tv_sec ) * 1000 +
+            (double) ( lastEventStop.tv_usec - lastEventStart.tv_usec ) / 1000;
+
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "], \"duration\": \"%f ms\"},", duration );
+}
 
 /// Logs error with errno found in status after where/when information.
 /// \param functionName
@@ -56,7 +110,7 @@ void log_message(const char* functionName, const Message message )
 /// Append end of session message and closes log file pointer.
 /// \param executionTimeRequested
 /// \param messagesStats
-void log_tearDown(const uint32_t executionTimeRequested, const double executionTimeActual, const MessagesStats *messagesStats) {
+void log_tearDown(const double executionTimeActual, const MessagesStats *messagesStats) {
     // End new session
     fprintf( logFilePointer, "\n/*\n"
                              "|--------------------------------------------------------------------------\n"
@@ -99,6 +153,13 @@ void log_tearDown(const uint32_t executionTimeRequested, const double executionT
     // Close file pointer
     fclose( logFilePointer );
 
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\"}",
+            executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
+
+    // Close json file pointer
+    fclose( jsonFilePointer );
+
     // Inspect all messages that are in $messages buffer's final state
     inspect_messages( true );
 
@@ -122,16 +183,23 @@ void log_tearDown(const uint32_t executionTimeRequested, const double executionT
     fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
 }
 
-/// Creates / Opens file and add the new session message.
+/// Creates / Opens file and add the new session messages
 /// \param fileName
 void log_tearUp(const char *fileName)
 {
-    // Check if file exists
+    // Check if log file exists
     //  - yes: new session
     //  - no : new file + new session
     logFilePointer = ( access( fileName, F_OK ) == -1 ) ?
                      fopen( fileName, "w" ):
                      fopen( fileName, "a" );
+
+    // Check if session.json file exists
+    if ( access( "session.json", F_OK ) != -1 )
+    {
+        remove( "session.json" );
+    }
+    jsonFilePointer = fopen( "session.json", "w+" );
 
     const char* nowAsString = timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" );
 
@@ -160,6 +228,14 @@ void log_tearUp(const char *fileName)
                              "|\n"
                              "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
     }
+
+    // JSON file start
+    fprintf( jsonFilePointer, "{\"start\": \"%s\", \"requested_duration\":\"%u secs\", \"events\": [,", nowAsString, executionTimeRequested );
 }
 
-void
+/// \brief Removes last character from session.json file
+void removeTrailingCommaFromJson(void)
+{
+    fseeko( jsonFilePointer, -1, SEEK_END );
+    ftruncate( fileno( jsonFilePointer ), ftello( jsonFilePointer ) );
+}
