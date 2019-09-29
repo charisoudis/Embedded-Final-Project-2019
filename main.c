@@ -51,9 +51,6 @@ int main( int argc, char **argv )
 {
     int status;
 
-//    fprintf(stdout, "%s\n", timestamp2ftime( time(NULL), "%a, %d %b %Y @ %T" ));
-//    return 1;
-
     // Set max execution time ( in seconds )
     executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME :
             (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
@@ -89,7 +86,7 @@ int main( int argc, char **argv )
     messagesHead = 0;
 
     // Initialize logger
-    log_tearUp( "log.txt" );
+    log_tearUp( "log.txt", "session1.json" );
     messagesStats.produced = 0;
     messagesStats.received = 0;
     messagesStats.transmitted = 0;

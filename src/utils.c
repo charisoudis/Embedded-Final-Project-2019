@@ -188,10 +188,10 @@ const char* getTransmittedDevicesString( const Message* message )
 void inspect(const Message message, bool metadata, FILE *fp)
 {
     // Print main fields
-//    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
-//            message.sender, message.recipient, message.created_at,
-//            timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T" ), message.body
-//    );
+    fprintf( fp, "message = {\n\tsender = %04d,\n\trecipient = %04d,\n\tcreated_at = %lu ( %s ),\n\tbody = %s\n",
+            message.sender, message.recipient, message.created_at,
+            timestamp2ftime( message.created_at, "%a, %d %b %Y @ %T" ), message.body
+    );
 
     // Print metadata
     if ( metadata )

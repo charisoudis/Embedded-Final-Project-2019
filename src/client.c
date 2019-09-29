@@ -7,12 +7,14 @@
 
 //------------------------------------------------------------------------------------------------
 
-extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
+extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock, logEventLock;
 extern MessagesStats messagesStats;
 extern Message messages[MESSAGES_SIZE];
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
+
+extern uint32_t CLIENT_AEM;
 
 //------------------------------------------------------------------------------------------------
 
@@ -167,6 +169,9 @@ void *producer_worker(void)
 
     do
     {
+        pthread_mutex_lock( &logEventLock );
+        log_event_start( "production", 0, 0 );
+
         // Generate
         generateRandomMessage( &message );
 //        inspect( message, true, stdout );
@@ -180,6 +185,10 @@ void *producer_worker(void)
         pthread_mutex_lock( &messagesBufferLock );
             messages_push( message );
         pthread_mutex_unlock( &messagesBufferLock );
+
+        // Log to session.json
+        log_event_message( "produced", &message );
+        pthread_mutex_unlock( &logEventLock );
 
         messagesStats.produced++;
 

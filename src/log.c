@@ -182,27 +182,26 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
 }
 
 /// Creates / Opens file and add the new session messages
-/// \param fileName
-void log_tearUp(const char *fileName)
+/// \param logFileName
+/// \param jsonFileName
+void log_tearUp(const char *logFileName, const char *jsonFileName)
 {
     // Check if log file exists
     //  - yes: new session
     //  - no : new file + new session
-    logFilePointer = ( access( fileName, F_OK ) == -1 ) ?
-                     fopen( fileName, "w" ):
-                     fopen( fileName, "a" );
+    logFilePointer = (access(logFileName, F_OK ) == -1 ) ?
+                     fopen(logFileName, "w" ) :
+                     fopen(logFileName, "a" );
 
     // Check if session.json file exists
-    if ( access( "session.json", F_OK ) != -1 )
-    {
-        remove( "session.json" );
-    }
-    jsonFilePointer = fopen( "session.json", "w+" );
+    if ( access( jsonFileName, F_OK ) != -1 )
+        remove( jsonFileName );
+    jsonFilePointer = fopen( jsonFileName, "w+" );
 
     const char* nowAsString = timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" );
 
     // Start new session
-    fprintf( logFilePointer, "/*\n"
+    fprintf(logFilePointer, "/*\n"
                              "|--------------------------------------------------------------------------\n"
                              "| start: NEW SESSION\n"
                              "|--------------------------------------------------------------------------\n"
@@ -211,11 +210,11 @@ void log_tearUp(const char *fileName)
                              "| Client  : %s\n"
                              "| FileName: %s\n"
                              "|\n"
-                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
+                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), logFileName );
 
     if ( ALSO_LOG_TO_STDOUT )
     {
-        fprintf( stdout, "/*\n"
+        fprintf(stdout, "/*\n"
                              "|--------------------------------------------------------------------------\n"
                              "| start: NEW SESSION\n"
                              "|--------------------------------------------------------------------------\n"
@@ -224,7 +223,7 @@ void log_tearUp(const char *fileName)
                              "| Client  : %s\n"
                              "| FileName: %s\n"
                              "|\n"
-                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), fileName );
+                             "*/\n\n", nowAsString, aem2ip( CLIENT_AEM ), logFileName );
     }
 
     // JSON file start

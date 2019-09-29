@@ -48,8 +48,9 @@ void log_message(const char* functionName, Message message );
 void log_tearDown( double executionTimeActual, const MessagesStats *messagesStats );
 
 /// \brief Creates / Opens file and add the new session message
-/// \param fileName
-void log_tearUp(const char *fileName);
+/// \param logFileName
+/// \param jsonFileName
+void log_tearUp(const char *logFileName, const char *jsonFileName);
 
 /// \brief Removes last character from session.json file
 void removeTrailingCommaFromJson(void);

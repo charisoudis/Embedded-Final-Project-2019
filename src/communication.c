@@ -74,6 +74,10 @@ void communication_datetime_listener_worker(void)
         if (client_socket_fd < 0)
             error(client_socket_fd, "ERROR on accept");
 
+        //  - get client address
+        char ip[INET_ADDRSTRLEN];
+        inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
+
         //  - close read stream
         shutdown( client_socket_fd, SHUT_RD );
 
@@ -86,6 +90,10 @@ void communication_datetime_listener_worker(void)
 
         //  - close write stream
         shutdown( client_socket_fd, SHUT_WR );
+
+        log_event_message_datetime( ( uint64_t ) time(NULL), ( uint64_t ) time(NULL) );
+        log_event_stop();
+        pthread_mutex_unlock( &logEventLock );
 
 //        fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
@@ -115,7 +123,6 @@ bool communication_datetime_receiver()
         socket_fd = socket_connect( ip, SOCKET_PORT + 1 );
         if ( -1 != socket_fd )
         {
-            pthread_mutex_lock( &logEventLock );
             log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
 
             //  - close write stream
@@ -152,7 +159,6 @@ bool communication_datetime_receiver()
             fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
 
             log_event_stop();
-            pthread_mutex_unlock( &logEventLock );
 
             break;
         }
@@ -240,9 +246,8 @@ void communication_worker(void *thread_args)
     }
 
     // Finalize event log
-    log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
-                     args->server ? args->connected_device.AEM : CLIENT_AEM );
-    pthread_mutex_lock( &logEventLock );
+    log_event_stop();
+    pthread_mutex_unlock( &logEventLock );
 }
 
 /// \brief Receiver sub-worker of communication worker ( POSIX thread compatible function ).
@@ -285,14 +290,14 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
         messages_push( message );
         pthread_mutex_unlock( &messagesBufferLock );
 
-        // Log received message
-        log_message( "communication_receiver_worker()", message );
-        log_event_message( "received", &message );
-
         // Update stats
         pthread_mutex_lock( &messagesStatsLock );
         messagesStats.received++;
         pthread_mutex_unlock( &messagesStatsLock );
+
+        // Log received message
+        log_message( "communication_receiver_worker()", message );
+        log_event_message( "received", &message );
     }
 }
 
