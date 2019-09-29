@@ -28,7 +28,7 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 
     removeTrailingCommaFromJson();
     fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [",
-            timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), type,
+            timestamp2ftime( (uint64_t) time(NULL), "%H:%M:%S" ), type,
             server, client );
 }
 
