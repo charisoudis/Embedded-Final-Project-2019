@@ -26,7 +26,6 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 {
     gettimeofday( &lastEventStart, NULL );
 
-    removeTrailingCommaFromJson();
     fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [",
             timestamp2ftime( (uint64_t) time(NULL), "%H:%M:%S" ), type,
             server, client );
@@ -227,12 +226,20 @@ void log_tearUp(const char *logFileName, const char *jsonFileName)
     }
 
     // JSON file start
-    fprintf( jsonFilePointer, "{\"start\": \"%s\", \"requested_duration\":\"%u secs\", \"events\": [,", nowAsString, executionTimeRequested );
+    fprintf( jsonFilePointer, "{\"start\": \"%s\", \"requested_duration\":\"%u secs\", \"events\": [", nowAsString, executionTimeRequested );
 }
 
 /// \brief Removes last character from session.json file
 void removeTrailingCommaFromJson(void)
 {
+    // Go to last position
     fseeko( jsonFilePointer, -1, SEEK_END );
+
+//    // Check last character
+//    char lastCharacter = (char) fgetc( jsonFilePointer );
+//    if ( ',' != lastCharacter )
+//        return;
+
+    // Truncate file
     ftruncate( fileno( jsonFilePointer ), ftello( jsonFilePointer ) );
 }

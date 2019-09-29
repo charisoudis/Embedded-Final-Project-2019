@@ -91,9 +91,9 @@ void communication_datetime_listener_worker(void)
         //  - close write stream
         shutdown( client_socket_fd, SHUT_WR );
 
-        log_event_message_datetime( ( uint64_t ) time(NULL), ( uint64_t ) time(NULL) );
-        log_event_stop();
-        pthread_mutex_unlock( &logEventLock );
+//        log_event_message_datetime( ( uint64_t ) time(NULL), ( uint64_t ) time(NULL) );
+//        log_event_stop();
+//        pthread_mutex_unlock( &logEventLock );
 
 //        fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
@@ -155,10 +155,10 @@ bool communication_datetime_receiver()
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
 
+            log_event_stop();
+
 //            fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
             fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
-
-            log_event_stop();
 
             break;
         }

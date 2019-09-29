@@ -188,6 +188,7 @@ void *producer_worker(void)
 
         // Log to session.json
         log_event_message( "produced", &message );
+        log_event_stop();
         pthread_mutex_unlock( &logEventLock );
 
         messagesStats.produced++;

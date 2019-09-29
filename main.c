@@ -190,8 +190,6 @@ static void onAlarm( int signo )
 
     log_info( "Exiting now...", "onAlarm", "-" );
 
-    log_event_stop();
-
     // Close logger
     messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
     messagesStats.producedDelayAvg /= 60.0;                             // sec --> min
