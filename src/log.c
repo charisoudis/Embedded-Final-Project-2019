@@ -226,7 +226,8 @@ void log_tearUp(const char *logFileName, const char *jsonFileName)
     }
 
     // JSON file start
-    fprintf( jsonFilePointer, "{\"start\": \"%s\", \"requested_duration\":\"%u secs\", \"events\": [", nowAsString, executionTimeRequested );
+    fprintf( jsonFilePointer, "{\"start\": \"%s\", \"client_aem\": \"%d\", \"requested_duration\":\"%u secs\", \"events\": [",
+            nowAsString, CLIENT_AEM, executionTimeRequested );
 }
 
 /// \brief Removes last character from session.json file
