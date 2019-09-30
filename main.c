@@ -93,9 +93,9 @@ int main( int argc, char **argv )
     status = pthread_mutex_init( &messagesStatsLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
-    status = pthread_mutex_init( &logLock, NULL );
-    if ( status != 0 )
-        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
+//    status = pthread_mutex_init( &logLock, NULL );
+//    if ( status != 0 )
+//        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
     status = pthread_mutex_init( &logEventLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( logEventLock ) failed" );

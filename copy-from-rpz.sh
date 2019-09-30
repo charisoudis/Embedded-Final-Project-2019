@@ -1,7 +1,8 @@
 #!/bin/bash
 
+# Git pass: 3X69EhVrEj7MTgg&rp&q3ds9h4A2DwCT
+
 clear
-#sleep 1s
 JSONSSPATH="/home/argiris/Desktop/HY3604/Project 2 - Final/report/Timeline/Sessions/"
 
 # Empty JSONs directory

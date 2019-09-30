@@ -234,13 +234,17 @@ void log_tearUp(const char *logFileName, const char *jsonFileName)
 void removeTrailingCommaFromJson(void)
 {
     fpos_t lastFilePosition;
+    fpos_t endFilePosition;
 
-    // Go to last position
+    // Get end file position
+    fgetpos( jsonFilePointer, &endFilePosition );
+
+    // Go to last character's position
     fseeko( jsonFilePointer, -1, SEEK_END );
 
     // Get last character's position in session.json file
     fgetpos ( jsonFilePointer, &lastFilePosition );
 
-    // Set new write position to last character's position to overwrite character
-    fsetpos ( jsonFilePointer, &lastFilePosition );
+    // Set new write position to last character's position to overwrite character ( if it was comma )
+    fsetpos ( jsonFilePointer, ',' == (char) fgetc( jsonFilePointer ) ? &lastFilePosition : &endFilePosition );
 }

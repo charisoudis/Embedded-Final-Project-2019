@@ -226,12 +226,12 @@ void communication_worker(void *thread_args)
     }
     else
     {
-        pthread_mutex_lock( &logLock );
-        sprintf( logMessage, deviceExists ?
-                             "Active connection with device found: AEM = %04d. Skipping...":
-                             "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
-        log_error( logMessage, "communication_worker()", 0 );
-        pthread_mutex_unlock( &logLock );
+//        pthread_mutex_lock( &logLock );
+//        sprintf( logMessage, deviceExists ?
+//                             "Active connection with device found: AEM = %04d. Skipping...":
+//                             "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
+//        log_error( logMessage, "communication_worker()", 0 );
+//        pthread_mutex_unlock( &logLock );
     }
 
     // Close Socket
@@ -263,10 +263,10 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
     while ( read( connectedSocket, messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
     {
         //----- CRITICAL SECTION
-        pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
-        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-        pthread_mutex_unlock( &logLock );
+//        pthread_mutex_lock( &logLock );
+//        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
+//        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
+//        pthread_mutex_unlock( &logLock );
         //-----:end
 
         // Reconstruct message
@@ -324,10 +324,10 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             implode( "_", messages[message_i], messageSerialized );
 
             // Log
-            pthread_mutex_lock( &logLock );
-            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
-            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-            pthread_mutex_unlock( &logLock );
+//            pthread_mutex_lock( &logLock );
+//            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
+//            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
+//            pthread_mutex_unlock( &logLock );
 
             // Transmit
             send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );

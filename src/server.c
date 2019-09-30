@@ -112,9 +112,9 @@ void messages_push(Message message)
         messagesHead = 0;
     }
 
-    pthread_mutex_lock( &logLock );
-        inspect_messages( true );
-    pthread_mutex_unlock( &logLock );
+//    pthread_mutex_lock( &logLock );
+//        inspect_messages( true );
+//    pthread_mutex_unlock( &logLock );
 }
 
 /// \brief Main server loop. Calls communication_thread() on each new connection.
@@ -159,9 +159,9 @@ void listening_worker()
 
     listen( server_socket_fd, SOCKET_LISTEN_QUEUE_LEN );
 
-    pthread_mutex_lock( &logLock );
-        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
-    pthread_mutex_unlock( &logLock );
+//    pthread_mutex_lock( &logLock );
+//        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
+//    pthread_mutex_unlock( &logLock );
     while (1)
     {
         client_socket_fd = accept(server_socket_fd, (struct sockaddr *) &clientAddress, &(socklen_t){ sizeof( struct sockaddr_in ) } );
@@ -186,12 +186,10 @@ void listening_worker()
         memcpy( &args.connected_device, &device, sizeof( Device ) );
 
         // Log
-        //----- CRITICAL SECTION
-        pthread_mutex_lock( &logLock );
-            sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
-            log_info( logMessage, "listening_worker()", "socket.h > accept()" );
-        pthread_mutex_unlock( &logLock );
-        //-----:end
+//        pthread_mutex_lock( &logLock );
+//            sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
+//            log_info( logMessage, "listening_worker()", "socket.h > accept()" );
+//        pthread_mutex_unlock( &logLock );
 
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
@@ -223,11 +221,9 @@ void listening_worker()
         }
 
         // Log
-        //----- CRITICAL SECTION
-        pthread_mutex_lock( &logLock );
-        sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
-        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
-        pthread_mutex_unlock( &logLock );
-        //-----:end
+//        pthread_mutex_lock( &logLock );
+//        sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
+//        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
+//        pthread_mutex_unlock( &logLock );
     }
 }

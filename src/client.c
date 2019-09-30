@@ -58,9 +58,9 @@ void *polling_worker(void)
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
 
-    pthread_mutex_lock( &logLock );
-        log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
-    pthread_mutex_unlock( &logLock );
+//    pthread_mutex_lock( &logLock );
+//        log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
+//    pthread_mutex_unlock( &logLock );
 
     listIndex = 0;
     aem = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
@@ -93,10 +93,10 @@ void *polling_worker(void)
             memcpy( &args.connected_device, &device, sizeof( Device ) );
 
             // Log
-            pthread_mutex_lock( &logLock );
-                sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
-                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
-            pthread_mutex_unlock( &logLock );
+//            pthread_mutex_lock( &logLock );
+//                sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
+//                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
+//            pthread_mutex_unlock( &logLock );
 
             //  - open thread
             if ( communicationThreadsAvailable > 0 )
@@ -124,10 +124,10 @@ void *polling_worker(void)
             }
 
             // Log
-            pthread_mutex_lock( &logLock );
-                sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
-                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
-            pthread_mutex_unlock( &logLock );
+//            pthread_mutex_lock( &logLock );
+//                sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
+//                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
+//            pthread_mutex_unlock( &logLock );
 
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
             if ( status != 0 )
@@ -142,9 +142,9 @@ void *polling_worker(void)
             {
                 aem = CLIENT_AEM_RANGE_MIN;
 
-                pthread_mutex_lock( &logLock );
-                    log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
-                pthread_mutex_unlock( &logLock );
+//                pthread_mutex_lock( &logLock );
+//                    log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
+//                pthread_mutex_unlock( &logLock );
             }
         }
         else
@@ -200,7 +200,7 @@ void *producer_worker(void)
 
         // Sleep
         delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
-        delay = (uint32_t) ( (delay << 6) - (delay << 2) );     // 60 * delay = 64 * delay - 4 * delay
+        delay = (uint32_t) ( 60 * delay );
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }
