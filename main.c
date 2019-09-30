@@ -51,6 +51,28 @@ int main( int argc, char **argv )
 {
     int status;
 
+//    Message message;
+//    MessagesStats messagesStats1 = {0, 0,0, 0.0F};
+//
+//    log_tearUp( "log.txt", "session1.json" );
+//    log_event_start( "connnection", 9026, 8600 );
+//
+//    generateRandomMessage( &message );
+//    log_event_message( "received", &message );
+//    generateRandomMessage( &message );
+//    log_event_message( "received", &message );
+//
+//    generateRandomMessage( &message );
+//    log_event_message( "transmitted", &message );
+//    generateRandomMessage( &message );
+//    log_event_message( "transmitted", &message );
+//
+//    log_event_stop();
+//    log_tearDown( 0.0, &messagesStats1 );
+//
+//    return 1;
+
+
     // Set max execution time ( in seconds )
     executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME :
             (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );

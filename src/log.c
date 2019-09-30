@@ -232,14 +232,14 @@ void log_tearUp(const char *logFileName, const char *jsonFileName)
 /// \brief Removes last character from session.json file
 void removeTrailingCommaFromJson(void)
 {
+    fpos_t lastFilePosition;
+
     // Go to last position
     fseeko( jsonFilePointer, -1, SEEK_END );
 
-//    // Check last character
-//    char lastCharacter = (char) fgetc( jsonFilePointer );
-//    if ( ',' != lastCharacter )
-//        return;
+    // Get last character's position in session.json file
+    fgetpos ( jsonFilePointer, &lastFilePosition );
 
-    // Truncate file
-    ftruncate( fileno( jsonFilePointer ), ftello( jsonFilePointer ) );
+    // Set new write position to last character's position to overwrite character
+    fsetpos ( jsonFilePointer, &lastFilePosition );
 }
