@@ -151,14 +151,12 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     fclose( logFilePointer );
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\"}",
-            executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
-
-    // Close json file pointer
-    fclose( jsonFilePointer );
+    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\", \"transmitted\": \"%d\", \"producedDelayAvg\": \"%.2fs\", \"devices\": [",
+            executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ),
+            messagesStats->produced, messagesStats->received, messagesStats->transmitted, messagesStats->producedDelayAvg );
 
     // Inspect all messages that are in $messages buffer's final state
-    inspect_messages( true );
+//    inspect_messages( true );
 
     // Inspect connections
     fprintf( stdout, "\n\n-------------------- start: DEVICES INSPECTION --------------------\n" );
@@ -167,17 +165,38 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
         uint32_t aem = CLIENT_AEM_LIST[device_i];
         fprintf( stdout, "\t- %04d\n", aem );
 
-        for ( uint8_t n = 0; n < CLIENT_AEM_CONN_N_LIST[device_i]; n++ )
+        if ( 0 < CLIENT_AEM_CONN_N_LIST[device_i] )
         {
-            fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lf )\n",
-                CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
-                CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
-                (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) +
-                (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-6
-            );
+            fprintf( jsonFilePointer, "{ \"aem\": \"%04d\", \"connections\": [", aem );
+
+            for ( uint8_t n = 0; n < CLIENT_AEM_CONN_N_LIST[device_i]; n++ )
+            {
+                double duration = (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) +
+                        (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-6;
+
+                fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lf )\n",
+                    CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
+                    CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
+                    duration
+                );
+
+                fprintf( stdout, "{\"start\": \"{%s.%03d}\", \"end\": \"{%s.%03d}\", \"duration\": \"%fms\" },",
+                    timestamp2ftime( CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-3),
+                    timestamp2ftime( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-3),
+                    duration
+                );
+            }
+
+            removeTrailingCommaFromJson();
+            fprintf( jsonFilePointer, "]}," );
         }
     }
     fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
+
+    // Finalize & close json file pointer
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "]}}" );
+    fclose( jsonFilePointer );
 }
 
 /// Creates / Opens file and add the new session messages
