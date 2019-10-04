@@ -173,16 +173,16 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
 
             for ( uint8_t n = 0; n < CLIENT_AEM_CONN_N_LIST[device_i]; n++ )
             {
-                double duration = (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) +
-                        (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-6;
+                double duration = (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) * 1e3 +
+                        (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-3;
 
-                fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lf )\n",
+                fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lfms )\n",
                     CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
                     CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
                     duration
                 );
 
-                fprintf( stdout, "{\"start\": \"{%s.%03d}\", \"end\": \"{%s.%03d}\", \"duration\": \"%fms\" },",
+                fprintf( jsonFilePointer, "{\"start\": \"%s.%03d\", \"end\": \"%s.%03d\", \"duration\": \"%.2fms\" },",
                     timestamp2ftime( CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-3),
                     timestamp2ftime( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-3),
                     duration
