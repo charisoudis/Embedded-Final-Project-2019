@@ -179,6 +179,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
         {
             fprintf( jsonFilePointer, "{ \"aem\": \"%04d\", \"connections\": [", aem );
 
+            double averageDuration = 0.0;
             for ( uint8_t n = 0; n < CLIENT_AEM_CONN_N_LIST[device_i]; n++ )
             {
                 double duration = (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) * 1e3 +
@@ -195,10 +196,12 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
                     timestamp2ftime( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-3),
                     duration
                 );
+
+                averageDuration += duration;
             }
 
             removeTrailingCommaFromJson();
-            fprintf( jsonFilePointer, "]}," );
+            fprintf( jsonFilePointer, "], \"average_duration\": \"%.2fms\"},", averageDuration / (double) CLIENT_AEM_CONN_N_LIST[device_i] );
         }
     }
     fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
