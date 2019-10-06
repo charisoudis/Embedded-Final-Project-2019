@@ -26,6 +26,7 @@ typedef struct message_t {
     uint8_t transmitted;                // If the message was actually transmitted from this device
     uint8_t transmitted_devices[CLIENT_AEM_LIST_LENGTH];    // Boolean array, 1 if i-th device has received the message,
                                                             // 0 otherwise
+    uint8_t transmitted_to_recipient;
 } Message;
 
 /* pthread function arguments pointer */
@@ -45,7 +46,9 @@ typedef struct messages_stats_t {
     // Total
     uint16_t produced;
     uint16_t received;
+    uint16_t received_for_me;
     uint16_t transmitted;
+    uint16_t transmitted_to_recipient;
 
     // Time
     float producedDelayAvg;

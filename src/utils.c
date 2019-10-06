@@ -91,6 +91,7 @@ void explode(Message *message, const char *glue, char *messageSerialized)
 
     // Set message's metadata
     message->transmitted = 0;
+    message->transmitted_to_recipient = 0;
     for ( uint32_t device_i = 0; device_i < CLIENT_AEM_LIST_LENGTH; device_i++ )
         message->transmitted_devices[device_i] = 0;
 }
@@ -126,9 +127,13 @@ void generateRandomMessage(Message *message)
     srand( (unsigned int) time(NULL) );
 
     //  - random recipient
-    recipient = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ?
-        (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN):
-        CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
+    do
+    {
+        recipient = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ?
+                    (uint32_t) (rand() % (CLIENT_AEM_RANGE_MAX + 1 - CLIENT_AEM_RANGE_MIN ) + CLIENT_AEM_RANGE_MIN):
+                    CLIENT_AEM_LIST[( rand() % CLIENT_AEM_LIST_LENGTH )];
+    }
+    while( recipient == CLIENT_AEM );
 
     //  - random body
     char ch;
@@ -288,9 +293,12 @@ int socket_connect(const char *ip, uint16_t port)
     int status;
     struct sockaddr_in serverAddress;
 
-    status = socket( AF_INET, SOCK_STREAM, 0 );
+    status = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
     if ( status < 0 )
-        error( status, "\tsocket_connect(): socket() failed" );
+    {
+        perror("\tsocket_connect(): socket() failed" );
+        return -1;
+    }
 
     socket_fd = status;
 

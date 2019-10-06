@@ -183,7 +183,7 @@ void *producer_worker(void)
 
         // Store
         pthread_mutex_lock( &messagesBufferLock );
-            messages_push( message );
+            messages_push( &message );
         pthread_mutex_unlock( &messagesBufferLock );
 
         // Log to session.json

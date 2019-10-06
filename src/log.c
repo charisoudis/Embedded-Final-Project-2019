@@ -38,10 +38,12 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 /// \param message
 void log_event_message( const char* action, const Message* message )
 {
-    fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\", \"transmitted\": \"%s\", \"transmitted_devices\": \"%s\"},",
-             timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), action,
-             message->sender, message->recipient, timestamp2ftime( message->created_at, "%FT%TZ" ), message->body,
-             message->transmitted == 1 ? "TRUE" : "FALSE", getTransmittedDevicesString( message ) );
+    fprintf( jsonFilePointer, "{\"saved_at\": \"%s\", \"action\": \"%s\", \"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\", \"transmitted\": \"%s\", \"transmitted_devices\": \"%s\", \"transmitted_to_recipient\": \"%s\"},",
+     timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ), action,
+         message->sender, message->recipient, timestamp2ftime( message->created_at, "%FT%TZ" ), message->body,
+         message->transmitted == 1 ? "TRUE" : "FALSE", getTransmittedDevicesString( message ),
+         message->transmitted_to_recipient == 1 ? "TRUE" : "FALSE"
+     );
 }
 
 /// \brief Logs datetime syncing to session.json file
@@ -121,12 +123,14 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
                              "| Devices Connected   : %d\n"
                              "|\n"
                              "| Messages Produced   : %u ( avg. delay = %.03f min )\n"
-                             "| Messages Received   : %u\n"
-                             "| Messages Transmitted: %u\n"
+                             "| Messages Received   : %u (for me: %u)\n"
+                             "| Messages Transmitted: %u (to recipient: %u)\n"
                              "|\n"
                              "*/\n\n\n",
              executionTimeActual, executionTimeRequested, 0,
-             messagesStats->produced, messagesStats->producedDelayAvg, messagesStats->received, messagesStats->transmitted );
+             messagesStats->produced, messagesStats->producedDelayAvg,
+             messagesStats->received, messagesStats->received_for_me,
+             messagesStats->transmitted, messagesStats->transmitted_to_recipient );
 
     if ( ALSO_LOG_TO_STDOUT )
     {

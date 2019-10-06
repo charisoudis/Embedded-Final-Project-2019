@@ -2,7 +2,6 @@
 #include "communication.h"
 #include "log.h"
 #include "server.h"
-//#include <env.h>
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
@@ -287,12 +286,12 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 
         // Store in $messages buffer
         pthread_mutex_lock( &messagesBufferLock );
-        messages_push( message );
+            messages_push( &message );
         pthread_mutex_unlock( &messagesBufferLock );
 
         // Update stats
         pthread_mutex_lock( &messagesStatsLock );
-        messagesStats.received++;
+            messagesStats.received++;
         pthread_mutex_unlock( &messagesStatsLock );
 
         // Log received message
@@ -318,7 +317,8 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
 
         if ( messages[message_i].created_at > 0
              && 0 == messages[message_i].transmitted_devices[ connectedDevice.aemIndex ]
-                )
+             && 0 == messages[message_i].transmitted_to_recipient
+        )
         {
             // Serialize
             implode( "_", messages[message_i], messageSerialized );
@@ -334,13 +334,21 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
 
             // Update Status in $messages buffer
             pthread_mutex_lock( &messagesBufferLock );
-            messages[message_i].transmitted = 1;
-            messages[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
+                messages[message_i].transmitted = 1;
+                messages[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
+                if ( connectedDevice.AEM == messages[message_i].recipient )
+                {
+                    messages[message_i].transmitted_to_recipient = 1;
+                }
             pthread_mutex_unlock( &messagesBufferLock );
 
             // Update stats
             pthread_mutex_lock( &messagesStatsLock );
-            messagesStats.transmitted++;
+                messagesStats.transmitted++;
+                if ( connectedDevice.AEM == messages[message_i].recipient )
+                {
+                    messagesStats.transmitted_to_recipient++;
+                }
             pthread_mutex_unlock( &messagesStatsLock );
 
             log_event_message( "transmitted", &messages[message_i] );

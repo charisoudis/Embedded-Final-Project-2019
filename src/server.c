@@ -19,7 +19,10 @@ extern uint32_t CLIENT_AEM;
 
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 messages_head_t messagesHead;
+messages_head_t messagesForMeHead;
 Message messages[ MESSAGES_SIZE ];
+Message *messagesForMe;
+uint16_t MESSAGES_FOR_ME_SIZE = MESSAGES_SIZE;
 
 // Active flag for each AEM
 bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
@@ -69,10 +72,49 @@ void devices_remove(Device device)
         CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] = 0;
 }
 
+void messages_for_me_push(Message *message)
+{
+    // Check if message exists
+    for ( uint16_t message_i = 0; message_i < messagesForMeHead; message_i++ )
+    {
+        if ( 1 == isMessageEqual( *message, messagesForMe[message_i] ) )
+            return;
+
+        if ( messagesForMe[message_i].created_at == 0 )
+            break;
+    }
+
+    // Place message at buffer's head
+    memcpy( (void *) ( messagesForMe + messagesForMeHead ), (void *) message, sizeof( Message ) );
+
+    // Increment head
+    messagesForMeHead++;
+
+    // Update stats
+    messagesStats.received_for_me++;
+
+    // Check buffer overflow
+    if ( messagesForMeHead == MESSAGES_FOR_ME_SIZE )
+    {
+        // If reached buffer's size, double buffer size by reallocating memory
+        messagesForMe = (Message *) realloc( messagesForMe, (MESSAGES_FOR_ME_SIZE * 2) * sizeof( Message ) );
+
+        // Update size
+        MESSAGES_FOR_ME_SIZE *= 2;
+    }
+}
+
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message
-void messages_push(Message message)
+void messages_push(Message *message)
 {
+    // Check where the message should be saved
+    if ( CLIENT_AEM == message->recipient )
+    {
+        messages_for_me_push( message );
+        return;
+    }
+
     // Find where to place new message
     if ( !strcmp( "sent_only", MESSAGES_PUSH_OVERRIDE_POLICY ) )
     {
@@ -104,7 +146,7 @@ void messages_push(Message message)
     }
 
     // Place message at buffer's head
-    memcpy( (void *) ( messages + messagesHead ), (void *) &message, sizeof( Message ) );
+    memcpy( (void *) ( messages + messagesHead ), (void *) message, sizeof( Message ) );
 
     // Increment head
     if ( ++messagesHead == MESSAGES_SIZE )

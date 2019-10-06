@@ -26,9 +26,13 @@ void devices_push(Device device);
 /// \param device
 void devices_remove(Device device);
 
+/// \brief Push $message to $messagesForMe circle buffer. Updates $messageForMeHead accordingly.
+/// \param message
+void messages_for_me_push(Message *message);
+
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message
-void messages_push(Message message);
+void messages_push(Message *message);
 
 /// \brief Main server loop. Calls communication_thread() on each new connection.
 void listening_worker();

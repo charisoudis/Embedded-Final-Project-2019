@@ -31,6 +31,8 @@ uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH] = {0};
 //------------------------------------------------------------------------------------------------
 
 extern messages_head_t messagesHead;
+extern messages_head_t messagesForMeHead;
+extern Message *messagesForMe;
 
 /// \brief Handler of SIGALRM signal. Used to terminate execution when MAX_EXECUTION_TIME finishes.
 /// \param signo
@@ -106,12 +108,19 @@ int main( int argc, char **argv )
 
     // Initialize types
     messagesHead = 0;
+    messagesForMeHead = 0;
+
+    // Initialize messagesForMe buffer
+    messagesForMe = (Message *) malloc( MESSAGES_SIZE * sizeof( Message ) );
+//    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ ) messagesForMe[message_i].created_at = 0;
 
     // Initialize logger
     log_tearUp( "log.txt", "session1.json" );
     messagesStats.produced = 0;
     messagesStats.received = 0;
+    messagesStats.received_for_me = 0;
     messagesStats.transmitted = 0;
+    messagesStats.transmitted_to_recipient = 0;
 
     // Setup datetime
     setupDatetimeAem = ( argc < 3 ) ? SETUP_DATETIME_AEM : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
