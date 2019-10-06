@@ -34,9 +34,9 @@
     #define MAX_CONNECTIONS_WITH_SAME_CLIENT 100
 #endif
 
-#ifndef PRODUCER_DELAY_RANGE    // in minutes
-    #define PRODUCER_DELAY_RANGE_MIN 1
-    #define PRODUCER_DELAY_RANGE_MAX 5
+#ifndef PRODUCER_DELAY_RANGE    // in seconds
+    #define PRODUCER_DELAY_RANGE_MIN 60
+    #define PRODUCER_DELAY_RANGE_MAX 300
 #endif
 
 #ifndef MESSAGE_SERIALIZED_LEN

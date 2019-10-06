@@ -1,18 +1,10 @@
 #!/bin/bash
 
-# Git pass: 3X69EhVrEj7MTgg&rp&q3ds9h4A2DwCT
-
 clear
-JSONSPATH="/home/argiris/Desktop/HY3604/Project 2 - Final/report/Timeline/Sessions/"
+JSONSPATH="$HOME/Desktop/HY3604/Project 2 - Final/report/WebReport/Sessions/"
 PATH0001="${JSONSPATH}0001/"
 PATH9026="${JSONSPATH}9026/"
 PATH8600="${JSONSPATH}8600/"
-
-# Empty JSONs directory
-rm "${JSONSPATH:?}session1.json" &&
-rm "${JSONSPATH:?}session2.json" &&
-rm "${JSONSPATH:?}session3.json" &&
-echo "Emptied JSONs directory"
 
 # Copy from device
 ## get index

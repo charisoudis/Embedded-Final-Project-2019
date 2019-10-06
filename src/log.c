@@ -153,7 +153,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     fclose( logFilePointer );
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\", \"transmitted\": \"%d\", \"producedDelayAvg\": \"%.2fs\", \"devices\": [",
+    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\", \"transmitted\": \"%d\", \"producedDelayAvg\": \"%.2fmin\", \"devices\": [",
             executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ),
             messagesStats->produced, messagesStats->received, messagesStats->transmitted, messagesStats->producedDelayAvg );
 
@@ -202,6 +202,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
         Message message = messages[message_i];
+        if ( 0 == message.created_at ) break;
 
         fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
              message.sender, message.recipient, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
