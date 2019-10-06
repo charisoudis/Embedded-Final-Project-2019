@@ -11,6 +11,8 @@ extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNE
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 extern uint32_t executionTimeRequested;
 
+extern Message messages[ MESSAGES_SIZE ];
+
 //------------------------------------------------------------------------------------------------
 
 static FILE *logFilePointer;
@@ -194,6 +196,18 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
 
     // Finalize & close json file pointer
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "], \"messages_buffer\": [" );
+
+    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
+    {
+        Message message = messages[message_i];
+
+        fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
+             message.sender, message.recipient, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
+         );
+    }
+
     removeTrailingCommaFromJson();
     fprintf( jsonFilePointer, "]}}" );
     fclose( jsonFilePointer );
