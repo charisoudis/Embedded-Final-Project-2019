@@ -202,7 +202,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
         Message message = messages[message_i];
-        if ( 0 == message.created_at ) break;
+        if ( 0 == message.created_at ) continue;
 
         fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
              message.sender, message.recipient, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
