@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/utils.h
+stdint.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+stdbool.h
+-
+time.h
+-
+
+../test/basic_tests/../lib/cmocka/include/cmocka.h
+
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/run.c
+test_utils.h
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/test_utils.h
+
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/test_utils.c
+test_utils.h
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/test_utils.h
+
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/test_utils.h
+stdarg.h
+-
+stddef.h
+-
+setjmp.h
+-
+cmocka.h
+-
+utils.h
+/home/achariso/Desktop/Embedded Systems/Projects/Final/test/basic_tests/utils.h
+

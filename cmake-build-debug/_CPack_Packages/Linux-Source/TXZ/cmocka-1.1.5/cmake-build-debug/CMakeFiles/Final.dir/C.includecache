@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/h/client.h
+stdbool.h
+-
+time.h
+-
+utils.h
+../src/h/utils.h
+
+../src/h/utils.h
+stdint.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+stdbool.h
+-
+time.h
+-
+
+/home/achariso/Desktop/Embedded Systems/Projects/Final/main.c
+locale.h
+-
+utils.h
+/home/achariso/Desktop/Embedded Systems/Projects/Final/utils.h
+client.h
+/home/achariso/Desktop/Embedded Systems/Projects/Final/client.h
+

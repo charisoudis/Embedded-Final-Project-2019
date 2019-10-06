@@ -1,0 +1,148 @@
+/*
+|--------------------------------------------------------------------------
+| start: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Date    : Thu, 11 Jul 2019 @ 17:33:45
+| Client  : 9026
+| FileName: log.txt
+|
+*/
+
+[INF]| 2019-07-11T17:33:55Z | onAlarm | - |
+	Caught the SIGALRM signal
+[INF]| 2019-07-11T17:33:55Z | onAlarm | - |
+	Exiting now...
+
+/*
+|--------------------------------------------------------------------------
+| end: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Duration Actual     : 10.001002 secs
+| Duration Requested  : 10 secs
+| Devices Connected   : 0
+|
+| Messages Produced   : 3 ( avg. delay = 0.072 min )
+| Messages Received   : 0
+| Messages Transmitted: 0
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| start: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Date    : Thu, 11 Jul 2019 @ 17:37:06
+| Client  : 9026
+| FileName: log.txt
+|
+*/
+
+[INF]| 2019-07-11T17:37:16Z | onAlarm | - |
+	Caught the SIGALRM signal
+[INF]| 2019-07-11T17:37:16Z | onAlarm | - |
+	Exiting now...
+
+/*
+|--------------------------------------------------------------------------
+| end: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Duration Actual     : 10.001023 secs
+| Duration Requested  : 10 secs
+| Devices Connected   : 0
+|
+| Messages Produced   : 4 ( avg. delay = 0.042 min )
+| Messages Received   : 0
+| Messages Transmitted: 0
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| start: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Date    : 2019-09-29T17:54:32Z
+| Client  : 10.0.00.00
+| FileName: log.txt
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| end: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Duration Actual     : 0.000000 secs
+| Duration Requested  : 0 secs
+| Devices Connected   : 0
+|
+| Messages Produced   : 0 ( avg. delay = 0.000 min )
+| Messages Received   : 0
+| Messages Transmitted: 0
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| start: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Date    : 2019-09-29T17:57:27Z
+| Client  : 10.0.00.00
+| FileName: log.txt
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| end: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Duration Actual     : 0.000000 secs
+| Duration Requested  : 0 secs
+| Devices Connected   : 0
+|
+| Messages Produced   : 0 ( avg. delay = 0.000 min )
+| Messages Received   : 0
+| Messages Transmitted: 0
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| start: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Date    : 2019-09-29T18:01:01Z
+| Client  : 10.0.00.00
+| FileName: log.txt
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| end: NEW SESSION
+|--------------------------------------------------------------------------
+|
+| Duration Actual     : 0.000000 secs
+| Duration Requested  : 0 secs
+| Devices Connected   : 0
+|
+| Messages Produced   : 0 ( avg. delay = 0.000 min )
+| Messages Received   : 0
+| Messages Transmitted: 0
+|
+*/
+
+

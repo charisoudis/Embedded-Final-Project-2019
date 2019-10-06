@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/assert_macro_test.dir/assert_macro.c.o CMakeFiles/assert_macro_test.dir/assert_macro_test.c.o  -o assert_macro_test -Wl,-rpath,"/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/src" ../src/libcmocka.so.0.7.0 

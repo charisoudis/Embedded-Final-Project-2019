@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/uptime.dir/uptime.c.o  -o uptime libproc_uptime.a 

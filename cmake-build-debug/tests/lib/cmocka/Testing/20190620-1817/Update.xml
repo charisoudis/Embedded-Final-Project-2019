@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Update mode="Client" Generator="ctest-3.13.2">
+	<Site>achariso-Lenovo-ideapad-Y700-15ISK</Site>
+	<BuildName>Linux-c++</BuildName>
+	<BuildStamp>20190620-1817-Continuous</BuildStamp>
+	<StartDateTime>Jun 20 21:17 EEST</StartDateTime>
+	<StartTime>1561054658</StartTime>
+	<UpdateCommand>"/usr/bin/git" "fetch"</UpdateCommand>
+	<UpdateType>GIT</UpdateType>
+	<Revision>546bd50924245f4ca7292a3ef6a92504aa375455</Revision>
+	<EndDateTime>Jun 20 21:17 EEST</EndDateTime>
+	<EndTime>1561054660</EndTime>
+	<ElapsedMinutes>0</ElapsedMinutes>
+	<UpdateReturnStatus/>
+</Update>

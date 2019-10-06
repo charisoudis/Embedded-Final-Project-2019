@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cmocka-wrap-examples"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\test\;CMake Files\test\lib\;CMake Files\test\lib\cmocka\;CMake Files\test\lib\cmocka\cmake\;CMake Files\test\lib\cmocka\cmake\Modules\;CMake Files\test\lib\cmocka\include\;CMake Files\test\lib\cmocka\src\;CMake Files\test\lib\cmocka\doc\;CMake Files\test\lib\cmocka\example\;CMake Files\test\lib\cmocka\example\mock\;CMake Files\test\lib\cmocka\example\mock\chef_wrap\;CMake Files\test\lib\cmocka\example\mock\uptime\;CMake Files\test\final_tests\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="waiter_test_wrap">
+				<Option output="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/waiter_test_wrap" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/include"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 waiter_test_wrap"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="waiter_test_wrap/fast">
+				<Option output="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/waiter_test_wrap" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/include"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug"/>
+					<Add directory="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 waiter_test_wrap/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/achariso/Desktop/Embedded\ Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/example/mock/chef_wrap/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap/chef.c">
+			<Option target="waiter_test_wrap"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap/chef.h">
+			<Option target="waiter_test_wrap"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap/waiter_test_wrap.c">
+			<Option target="waiter_test_wrap"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap/waiter_test_wrap.h">
+			<Option target="waiter_test_wrap"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/CPackConfig.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/CTestConfig.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/CompilerChecks.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/ConfigureChecks.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/DefineOptions.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmocka-config.cmake.in">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmocka.pc.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/config.h.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/AddCCompilerFlag.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/AddCMockaTest.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/CheckCCompilerFlagSSP.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/DefineCMakeDefaults.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/DefineCompilerFlags.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/DefinePlatformDefaults.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/cmake/Modules/MacroEnsureOutOfSourceBuild.cmake">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\cmake\Modules\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/include/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\include\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\src\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/doc/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\doc\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\example\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\example\mock\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/chef_wrap/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\example\mock\chef_wrap\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/lib/cmocka/example/mock/uptime/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\lib\cmocka\example\mock\uptime\"/>
+		</Unit>
+		<Unit filename="/home/achariso/Desktop/Embedded Systems/Projects/Final/test/final_tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\final_tests\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

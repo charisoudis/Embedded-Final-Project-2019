@@ -1,0 +1,26 @@
+--- Begin Cleanup ---
+--- End Cleanup ---
+"/usr/bin/git" "rev-list" "-n" "1" "HEAD" "--"
+rl-out> 546bd50924245f4ca7292a3ef6a92504aa375455
+--- Begin Update ---
+"/usr/bin/git" "fetch"
+"/usr/bin/git" "rev-parse" "--git-dir"
+rev-parse-out> .git
+FETCH_HEAD> 546bd50924245f4ca7292a3ef6a92504aa375455		branch 'master' of https://git.cryptomilk.org/projects/cmocka
+"/usr/bin/git" "reset" "--hard" "546bd50924245f4ca7292a3ef6a92504aa375455"
+reset-out> HEAD is now at 546bd50 cmocka: check MALLOC_ALIGNMENT macro
+"/usr/bin/git" "rev-parse" "--show-cdup"
+rev-parse-out> 
+"/usr/bin/git" "--version"
+version-out> git version 2.20.1
+"/usr/bin/git" "submodule" "sync" "--recursive"
+"/usr/bin/git" "submodule" "update" "--recursive"
+--- End Update ---
+"/usr/bin/git" "rev-list" "-n" "1" "HEAD" "--"
+rl-out> 546bd50924245f4ca7292a3ef6a92504aa375455
+--- Begin Revisions ---
+"/usr/bin/git" "rev-list" "--reverse" "546bd50924245f4ca7292a3ef6a92504aa375455..546bd50924245f4ca7292a3ef6a92504aa375455" "--" | "/usr/bin/git" "diff-tree" "--stdin" "--always" "-z" "-r" "--pretty=raw" "--encoding=utf-8"
+dt-out> 
+"/usr/bin/git" "update-index" "--refresh"
+"/usr/bin/git" "diff-index" "-z" "HEAD" "--"
+--- End Revisions ---

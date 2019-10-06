@@ -1,0 +1,1868 @@
+The system is: Linux - 5.0.0-16-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_90ec3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_90ec3.dir/build.make CMakeFiles/cmTC_90ec3.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_90ec3.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_90ec3.dir/testCCompiler.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c"
+Linking C executable cmTC_90ec3
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_90ec3.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_90ec3.dir/testCCompiler.c.o  -o cmTC_90ec3 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5a042/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5a042.dir/build.make CMakeFiles/cmTC_5a042.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_5a042
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5a042.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o  -o cmTC_5a042 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5a042' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/8/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper -plugin-opt=-fresolution=/tmp/ccU3p2QW.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_5a042 /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/8 -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/8/../../.. CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5a042' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_5a042/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_5a042.dir/build.make CMakeFiles/cmTC_5a042.dir/build]
+  ignore line: [make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_5a042]
+  ignore line: [/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5a042.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o  -o cmTC_5a042 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5a042' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/8/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper -plugin-opt=-fresolution=/tmp/ccU3p2QW.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_5a042 /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/8 -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/8/../../.. CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccU3p2QW.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_5a042] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../..]
+    arg [CMakeFiles/cmTC_5a042.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o] ==> ignore
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8] ==> [/usr/lib/gcc/x86_64-linux-gnu/8]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../..] ==> [/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/8;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6f929/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6f929.dir/build.make CMakeFiles/cmTC_6f929.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6f929.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_6f929.dir/feature_tests.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_6f929
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6f929.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_6f929.dir/feature_tests.c.o  -o cmTC_6f929 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9ca41/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9ca41.dir/build.make CMakeFiles/cmTC_9ca41.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9ca41.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_9ca41.dir/feature_tests.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_9ca41
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9ca41.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_9ca41.dir/feature_tests.c.o  -o cmTC_9ca41 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0693b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0693b.dir/build.make CMakeFiles/cmTC_0693b.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0693b.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_0693b.dir/feature_tests.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_0693b
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0693b.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_0693b.dir/feature_tests.c.o  -o cmTC_0693b 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.out"
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_74496/fast"
+/usr/bin/make -f CMakeFiles/cmTC_74496.dir/build.make CMakeFiles/cmTC_74496.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_74496.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_74496.dir/testCXXCompiler.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
+Linking CXX executable cmTC_74496
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_74496.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_74496.dir/testCXXCompiler.cxx.o  -o cmTC_74496 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9cb11/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9cb11.dir/build.make CMakeFiles/cmTC_9cb11.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_9cb11
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9cb11.dir/link.txt --verbose=1
+/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_9cb11 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9cb11' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/8/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper -plugin-opt=-fresolution=/tmp/ccKUTClv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9cb11 /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/8 -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/8/../../.. CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9cb11' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_9cb11/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_9cb11.dir/build.make CMakeFiles/cmTC_9cb11.dir/build]
+  ignore line: [make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_9cb11]
+  ignore line: [/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9cb11.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_9cb11 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/8/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/8/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9cb11' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/8/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper -plugin-opt=-fresolution=/tmp/ccKUTClv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9cb11 /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/8 -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/8/../../.. CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccKUTClv.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_9cb11] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crti.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/crtbeginS.o] ==> ignore
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/8/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../..]
+    arg [CMakeFiles/cmTC_9cb11.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/crtendS.o] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/crtn.o] ==> ignore
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8] ==> [/usr/lib/gcc/x86_64-linux-gnu/8]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/8/../../..] ==> [/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/8;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++2a] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f3776/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f3776.dir/build.make CMakeFiles/cmTC_f3776.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_f3776.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++2a -o CMakeFiles/cmTC_f3776.dir/feature_tests.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_f3776
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3776.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_f3776.dir/feature_tests.cxx.o  -o cmTC_f3776 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++17] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b62d6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b62d6.dir/build.make CMakeFiles/cmTC_b62d6.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b62d6.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++17 -o CMakeFiles/cmTC_b62d6.dir/feature_tests.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_b62d6
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b62d6.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_b62d6.dir/feature_tests.cxx.o  -o cmTC_b62d6 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_cad1c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cad1c.dir/build.make CMakeFiles/cmTC_cad1c.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cad1c.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_cad1c.dir/feature_tests.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_cad1c
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cad1c.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_cad1c.dir/feature_tests.cxx.o  -o cmTC_cad1c 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_217cd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_217cd.dir/build.make CMakeFiles/cmTC_217cd.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_217cd.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_217cd.dir/feature_tests.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_217cd
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_217cd.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_217cd.dir/feature_tests.cxx.o  -o cmTC_217cd 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_fa329/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fa329.dir/build.make CMakeFiles/cmTC_fa329.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fa329.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_fa329.dir/feature_tests.cxx.o -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_fa329
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa329.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_fa329.dir/feature_tests.cxx.o  -o cmTC_fa329 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0956e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0956e.dir/build.make CMakeFiles/cmTC_0956e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0956e.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_0956e.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_0956e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0956e.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_0956e.dir/CheckIncludeFile.c.o  -o cmTC_0956e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e49e9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e49e9.dir/build.make CMakeFiles/cmTC_e49e9.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e49e9.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e49e9.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e49e9
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e49e9.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e49e9.dir/CheckFunctionExists.c.o  -o cmTC_e49e9 -lpthread 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Performing C SOURCE FILE Test REQUIRED_FLAGS_WERROR succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9f509/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9f509.dir/build.make CMakeFiles/cmTC_9f509.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9f509.dir/src.c.o
+/usr/bin/cc   -DREQUIRED_FLAGS_WERROR -fPIE   -Werror -o CMakeFiles/cmTC_9f509.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_9f509
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9f509.dir/link.txt --verbose=1
+/usr/bin/cc  -DREQUIRED_FLAGS_WERROR    CMakeFiles/cmTC_9f509.dir/src.c.o  -o cmTC_9f509 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_STD_GNU99_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1c9d5/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1c9d5.dir/build.make CMakeFiles/cmTC_1c9d5.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1c9d5.dir/src.c.o
+/usr/bin/cc   -DWITH_STD_GNU99_FLAG -Werror -fPIE   -std=gnu99 -o CMakeFiles/cmTC_1c9d5.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1c9d5
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1c9d5.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_STD_GNU99_FLAG -Werror    CMakeFiles/cmTC_1c9d5.dir/src.c.o  -o cmTC_1c9d5 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WPEDANTIC_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1f1c1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1f1c1.dir/build.make CMakeFiles/cmTC_1f1c1.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1f1c1.dir/src.c.o
+/usr/bin/cc   -DWITH_WPEDANTIC_FLAG -Werror -fPIE   -Wpedantic -o CMakeFiles/cmTC_1f1c1.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1f1c1
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1f1c1.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WPEDANTIC_FLAG -Werror    CMakeFiles/cmTC_1f1c1.dir/src.c.o  -o cmTC_1f1c1 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WALL_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6be10/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6be10.dir/build.make CMakeFiles/cmTC_6be10.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6be10.dir/src.c.o
+/usr/bin/cc   -DWITH_WALL_FLAG -Werror -fPIE   -Wall -o CMakeFiles/cmTC_6be10.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_6be10
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6be10.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WALL_FLAG -Werror    CMakeFiles/cmTC_6be10.dir/src.c.o  -o cmTC_6be10 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSHADOW_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1e322/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1e322.dir/build.make CMakeFiles/cmTC_1e322.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1e322.dir/src.c.o
+/usr/bin/cc   -DWITH_WSHADOW_FLAG -Werror -fPIE   -Wshadow -o CMakeFiles/cmTC_1e322.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1e322
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e322.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WSHADOW_FLAG -Werror    CMakeFiles/cmTC_1e322.dir/src.c.o  -o cmTC_1e322 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WMISSING_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_55b08/fast"
+/usr/bin/make -f CMakeFiles/cmTC_55b08.dir/build.make CMakeFiles/cmTC_55b08.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_55b08.dir/src.c.o
+/usr/bin/cc   -DWITH_WMISSING_PROTOTYPES_FLAG -Werror -fPIE   -Wmissing-prototypes -o CMakeFiles/cmTC_55b08.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_55b08
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_55b08.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WMISSING_PROTOTYPES_FLAG -Werror    CMakeFiles/cmTC_55b08.dir/src.c.o  -o cmTC_55b08 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WCAST_ALIGN_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_83bc7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_83bc7.dir/build.make CMakeFiles/cmTC_83bc7.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_83bc7.dir/src.c.o
+/usr/bin/cc   -DWITH_WCAST_ALIGN_FLAG -Werror -fPIE   -Wcast-align -o CMakeFiles/cmTC_83bc7.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_83bc7
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83bc7.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WCAST_ALIGN_FLAG -Werror    CMakeFiles/cmTC_83bc7.dir/src.c.o  -o cmTC_83bc7 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_ADDRESS_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b5b17/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b5b17.dir/build.make CMakeFiles/cmTC_b5b17.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b5b17.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_ADDRESS_FLAG -Werror -fPIE   -Werror=address -o CMakeFiles/cmTC_b5b17.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_b5b17
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b5b17.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_ADDRESS_FLAG -Werror    CMakeFiles/cmTC_b5b17.dir/src.c.o  -o cmTC_b5b17 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSTRICT_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0a491/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0a491.dir/build.make CMakeFiles/cmTC_0a491.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0a491.dir/src.c.o
+/usr/bin/cc   -DWITH_WSTRICT_PROTOTYPES_FLAG -Werror -fPIE   -Wstrict-prototypes -o CMakeFiles/cmTC_0a491.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_0a491
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0a491.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WSTRICT_PROTOTYPES_FLAG -Werror    CMakeFiles/cmTC_0a491.dir/src.c.o  -o cmTC_0a491 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_STRICT_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4eb36/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4eb36.dir/build.make CMakeFiles/cmTC_4eb36.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4eb36.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_STRICT_PROTOTYPES_FLAG -Werror -fPIE   -Werror=strict-prototypes -o CMakeFiles/cmTC_4eb36.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_4eb36
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4eb36.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_STRICT_PROTOTYPES_FLAG -Werror    CMakeFiles/cmTC_4eb36.dir/src.c.o  -o cmTC_4eb36 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WWRITE_STRINGS_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_93f09/fast"
+/usr/bin/make -f CMakeFiles/cmTC_93f09.dir/build.make CMakeFiles/cmTC_93f09.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_93f09.dir/src.c.o
+/usr/bin/cc   -DWITH_WWRITE_STRINGS_FLAG -Werror -fPIE   -Wwrite-strings -o CMakeFiles/cmTC_93f09.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_93f09
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93f09.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WWRITE_STRINGS_FLAG -Werror    CMakeFiles/cmTC_93f09.dir/src.c.o  -o cmTC_93f09 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_WRITE_STRINGS_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_be874/fast"
+/usr/bin/make -f CMakeFiles/cmTC_be874.dir/build.make CMakeFiles/cmTC_be874.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_be874.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_WRITE_STRINGS_FLAG -Werror -fPIE   -Werror=write-strings -o CMakeFiles/cmTC_be874.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_be874
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_be874.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_WRITE_STRINGS_FLAG -Werror    CMakeFiles/cmTC_be874.dir/src.c.o  -o cmTC_be874 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_IMPLICIT_FUNCTION_DECLARATION_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_21254/fast"
+/usr/bin/make -f CMakeFiles/cmTC_21254.dir/build.make CMakeFiles/cmTC_21254.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_21254.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_IMPLICIT_FUNCTION_DECLARATION_FLAG -Werror -fPIE   -Werror-implicit-function-declaration -o CMakeFiles/cmTC_21254.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_21254
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21254.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_IMPLICIT_FUNCTION_DECLARATION_FLAG -Werror    CMakeFiles/cmTC_21254.dir/src.c.o  -o cmTC_21254 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WPOINTER_ARITH_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7ec36/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7ec36.dir/build.make CMakeFiles/cmTC_7ec36.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7ec36.dir/src.c.o
+/usr/bin/cc   -DWITH_WPOINTER_ARITH_FLAG -Werror -fPIE   -Wpointer-arith -o CMakeFiles/cmTC_7ec36.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_7ec36
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ec36.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WPOINTER_ARITH_FLAG -Werror    CMakeFiles/cmTC_7ec36.dir/src.c.o  -o cmTC_7ec36 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_POINTER_ARITH_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1cb56/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1cb56.dir/build.make CMakeFiles/cmTC_1cb56.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1cb56.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_POINTER_ARITH_FLAG -Werror -fPIE   -Werror=pointer-arith -o CMakeFiles/cmTC_1cb56.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1cb56
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1cb56.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_POINTER_ARITH_FLAG -Werror    CMakeFiles/cmTC_1cb56.dir/src.c.o  -o cmTC_1cb56 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WDECLARATION_AFTER_STATEMENT_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_15500/fast"
+/usr/bin/make -f CMakeFiles/cmTC_15500.dir/build.make CMakeFiles/cmTC_15500.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_15500.dir/src.c.o
+/usr/bin/cc   -DWITH_WDECLARATION_AFTER_STATEMENT_FLAG -Werror -fPIE   -Wdeclaration-after-statement -o CMakeFiles/cmTC_15500.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_15500
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15500.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WDECLARATION_AFTER_STATEMENT_FLAG -Werror    CMakeFiles/cmTC_15500.dir/src.c.o  -o cmTC_15500 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_DECLARATION_AFTER_STATEMENT_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0f947/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0f947.dir/build.make CMakeFiles/cmTC_0f947.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0f947.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_DECLARATION_AFTER_STATEMENT_FLAG -Werror -fPIE   -Werror=declaration-after-statement -o CMakeFiles/cmTC_0f947.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_0f947
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f947.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_DECLARATION_AFTER_STATEMENT_FLAG -Werror    CMakeFiles/cmTC_0f947.dir/src.c.o  -o cmTC_0f947 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WRETURN_TYPE_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a83ed/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a83ed.dir/build.make CMakeFiles/cmTC_a83ed.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a83ed.dir/src.c.o
+/usr/bin/cc   -DWITH_WRETURN_TYPE_FLAG -Werror -fPIE   -Wreturn-type -o CMakeFiles/cmTC_a83ed.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_a83ed
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a83ed.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WRETURN_TYPE_FLAG -Werror    CMakeFiles/cmTC_a83ed.dir/src.c.o  -o cmTC_a83ed 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_RETURN_TYPE_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8264e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8264e.dir/build.make CMakeFiles/cmTC_8264e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8264e.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_RETURN_TYPE_FLAG -Werror -fPIE   -Werror=return-type -o CMakeFiles/cmTC_8264e.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_8264e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8264e.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_RETURN_TYPE_FLAG -Werror    CMakeFiles/cmTC_8264e.dir/src.c.o  -o cmTC_8264e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WUNINITIALIZED_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bc564/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bc564.dir/build.make CMakeFiles/cmTC_bc564.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bc564.dir/src.c.o
+/usr/bin/cc   -DWITH_WUNINITIALIZED_FLAG -Werror -fPIE   -Wuninitialized -o CMakeFiles/cmTC_bc564.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_bc564
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bc564.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WUNINITIALIZED_FLAG -Werror    CMakeFiles/cmTC_bc564.dir/src.c.o  -o cmTC_bc564 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_UNINITIALIZED_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6663a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6663a.dir/build.make CMakeFiles/cmTC_6663a.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6663a.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_UNINITIALIZED_FLAG -Werror -fPIE   -Werror=uninitialized -o CMakeFiles/cmTC_6663a.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_6663a
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6663a.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_UNINITIALIZED_FLAG -Werror    CMakeFiles/cmTC_6663a.dir/src.c.o  -o cmTC_6663a 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WIMPLICIT_FALLTHROUGH_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c199e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c199e.dir/build.make CMakeFiles/cmTC_c199e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c199e.dir/src.c.o
+/usr/bin/cc   -DWITH_WIMPLICIT_FALLTHROUGH_FLAG -Werror -fPIE   -Wimplicit-fallthrough -o CMakeFiles/cmTC_c199e.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_c199e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c199e.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WIMPLICIT_FALLTHROUGH_FLAG -Werror    CMakeFiles/cmTC_c199e.dir/src.c.o  -o cmTC_c199e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_STRICT_OVERFLOW_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2b8b7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2b8b7.dir/build.make CMakeFiles/cmTC_2b8b7.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2b8b7.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_STRICT_OVERFLOW_FLAG -Werror -fPIE   -Werror=strict-overflow -o CMakeFiles/cmTC_2b8b7.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_2b8b7
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2b8b7.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_STRICT_OVERFLOW_FLAG -Werror    CMakeFiles/cmTC_2b8b7.dir/src.c.o  -o cmTC_2b8b7 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSTRICT_OVERFLOW_2_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ce037/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ce037.dir/build.make CMakeFiles/cmTC_ce037.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ce037.dir/src.c.o
+/usr/bin/cc   -DWITH_WSTRICT_OVERFLOW_2_FLAG -Werror -fPIE   -Wstrict-overflow=2 -o CMakeFiles/cmTC_ce037.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_ce037
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ce037.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WSTRICT_OVERFLOW_2_FLAG -Werror    CMakeFiles/cmTC_ce037.dir/src.c.o  -o cmTC_ce037 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WNO_FORMAT_ZERO_LENGTH_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_36c82/fast"
+/usr/bin/make -f CMakeFiles/cmTC_36c82.dir/build.make CMakeFiles/cmTC_36c82.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_36c82.dir/src.c.o
+/usr/bin/cc   -DWITH_WNO_FORMAT_ZERO_LENGTH_FLAG -Werror -fPIE   -Wno-format-zero-length -o CMakeFiles/cmTC_36c82.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_36c82
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36c82.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WNO_FORMAT_ZERO_LENGTH_FLAG -Werror    CMakeFiles/cmTC_36c82.dir/src.c.o  -o cmTC_36c82 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WMISSING_FIELD_INITIALIZERS_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2aac1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2aac1.dir/build.make CMakeFiles/cmTC_2aac1.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2aac1.dir/src.c.o
+/usr/bin/cc   -DWITH_WMISSING_FIELD_INITIALIZERS_FLAG -Werror -fPIE   -Wmissing-field-initializers -o CMakeFiles/cmTC_2aac1.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_2aac1
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2aac1.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WMISSING_FIELD_INITIALIZERS_FLAG -Werror    CMakeFiles/cmTC_2aac1.dir/src.c.o  -o cmTC_2aac1 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test REQUIRED_FLAGS_WFORMAT succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d46ea/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d46ea.dir/build.make CMakeFiles/cmTC_d46ea.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d46ea.dir/src.c.o
+/usr/bin/cc   -DREQUIRED_FLAGS_WFORMAT -Werror -fPIE   -Wformat -o CMakeFiles/cmTC_d46ea.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_d46ea
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d46ea.dir/link.txt --verbose=1
+/usr/bin/cc  -DREQUIRED_FLAGS_WFORMAT -Werror    CMakeFiles/cmTC_d46ea.dir/src.c.o  -o cmTC_d46ea 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WFORMAT_SECURITY_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d068a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d068a.dir/build.make CMakeFiles/cmTC_d068a.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d068a.dir/src.c.o
+/usr/bin/cc   -DWITH_WFORMAT_SECURITY_FLAG -Werror -Wformat -fPIE   -Wformat-security -o CMakeFiles/cmTC_d068a.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_d068a
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d068a.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WFORMAT_SECURITY_FLAG -Werror -Wformat    CMakeFiles/cmTC_d068a.dir/src.c.o  -o cmTC_d068a 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_FORMAT_SECURITY_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_161c8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_161c8.dir/build.make CMakeFiles/cmTC_161c8.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_161c8.dir/src.c.o
+/usr/bin/cc   -DWITH_WERROR_FORMAT_SECURITY_FLAG -Werror -Wformat -fPIE   -Werror=format-security -o CMakeFiles/cmTC_161c8.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_161c8
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_161c8.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_WERROR_FORMAT_SECURITY_FLAG -Werror -Wformat    CMakeFiles/cmTC_161c8.dir/src.c.o  -o cmTC_161c8 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_FNO_COMMON_FLAG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ddb97/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ddb97.dir/build.make CMakeFiles/cmTC_ddb97.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ddb97.dir/src.c.o
+/usr/bin/cc   -DWITH_FNO_COMMON_FLAG -Werror -Wformat -fPIE   -fno-common -o CMakeFiles/cmTC_ddb97.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_ddb97
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ddb97.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_FNO_COMMON_FLAG -Werror -Wformat    CMakeFiles/cmTC_ddb97.dir/src.c.o  -o cmTC_ddb97 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_STACK_PROTECTOR_STRONG succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_597a8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_597a8.dir/build.make CMakeFiles/cmTC_597a8.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_597a8.dir/src.c.o
+/usr/bin/cc   -DWITH_STACK_PROTECTOR_STRONG -fstack-protector-strong -fPIE   -o CMakeFiles/cmTC_597a8.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_597a8
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_597a8.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_STACK_PROTECTOR_STRONG -fstack-protector-strong    CMakeFiles/cmTC_597a8.dir/src.c.o  -o cmTC_597a8 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+Performing C SOURCE FILE Test WITH_STACK_CLASH_PROTECTION succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2d3c1/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2d3c1.dir/build.make CMakeFiles/cmTC_2d3c1.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2d3c1.dir/src.c.o
+/usr/bin/cc   -DWITH_STACK_CLASH_PROTECTION -fstack-clash-protection -fPIE   -o CMakeFiles/cmTC_2d3c1.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_2d3c1
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2d3c1.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_STACK_CLASH_PROTECTION -fstack-clash-protection    CMakeFiles/cmTC_2d3c1.dir/src.c.o  -o cmTC_2d3c1 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+Performing C SOURCE FILE Test WITH_VISIBILITY_HIDDEN succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1e11d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1e11d.dir/build.make CMakeFiles/cmTC_1e11d.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1e11d.dir/src.c.o
+/usr/bin/cc   -DWITH_VISIBILITY_HIDDEN -fPIE   -fvisibility=hidden -o CMakeFiles/cmTC_1e11d.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1e11d
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e11d.dir/link.txt --verbose=1
+/usr/bin/cc  -DWITH_VISIBILITY_HIDDEN    CMakeFiles/cmTC_1e11d.dir/src.c.o  -o cmTC_1e11d 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Determining if the include file assert.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_40cca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_40cca.dir/build.make CMakeFiles/cmTC_40cca.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40cca.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_40cca.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_40cca
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40cca.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_40cca.dir/CheckIncludeFile.c.o  -o cmTC_40cca 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file inttypes.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5a8ac/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5a8ac.dir/build.make CMakeFiles/cmTC_5a8ac.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5a8ac.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_5a8ac.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_5a8ac
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5a8ac.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_5a8ac.dir/CheckIncludeFile.c.o  -o cmTC_5a8ac 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file malloc.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8c521/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8c521.dir/build.make CMakeFiles/cmTC_8c521.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8c521.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_8c521.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_8c521
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8c521.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_8c521.dir/CheckIncludeFile.c.o  -o cmTC_8c521 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file memory.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_70b56/fast"
+/usr/bin/make -f CMakeFiles/cmTC_70b56.dir/build.make CMakeFiles/cmTC_70b56.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_70b56.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_70b56.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_70b56
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70b56.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_70b56.dir/CheckIncludeFile.c.o  -o cmTC_70b56 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file setjmp.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8dc42/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8dc42.dir/build.make CMakeFiles/cmTC_8dc42.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8dc42.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_8dc42.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_8dc42
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8dc42.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_8dc42.dir/CheckIncludeFile.c.o  -o cmTC_8dc42 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file signal.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9502e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9502e.dir/build.make CMakeFiles/cmTC_9502e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9502e.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_9502e.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_9502e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9502e.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_9502e.dir/CheckIncludeFile.c.o  -o cmTC_9502e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdarg.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6303e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6303e.dir/build.make CMakeFiles/cmTC_6303e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6303e.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_6303e.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_6303e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6303e.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_6303e.dir/CheckIncludeFile.c.o  -o cmTC_6303e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_43cca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_43cca.dir/build.make CMakeFiles/cmTC_43cca.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_43cca.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_43cca.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_43cca
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43cca.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_43cca.dir/CheckIncludeFile.c.o  -o cmTC_43cca 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ef145/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ef145.dir/build.make CMakeFiles/cmTC_ef145.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ef145.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_ef145.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_ef145
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ef145.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_ef145.dir/CheckIncludeFile.c.o  -o cmTC_ef145 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdio.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6db9c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6db9c.dir/build.make CMakeFiles/cmTC_6db9c.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6db9c.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_6db9c.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_6db9c
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6db9c.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_6db9c.dir/CheckIncludeFile.c.o  -o cmTC_6db9c 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdlib.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_dce70/fast"
+/usr/bin/make -f CMakeFiles/cmTC_dce70.dir/build.make CMakeFiles/cmTC_dce70.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_dce70.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_dce70.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_dce70
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dce70.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_dce70.dir/CheckIncludeFile.c.o  -o cmTC_dce70 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file string.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_55ef4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_55ef4.dir/build.make CMakeFiles/cmTC_55ef4.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_55ef4.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_55ef4.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_55ef4
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_55ef4.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_55ef4.dir/CheckIncludeFile.c.o  -o cmTC_55ef4 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file strings.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_11179/fast"
+/usr/bin/make -f CMakeFiles/cmTC_11179.dir/build.make CMakeFiles/cmTC_11179.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_11179.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_11179.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_11179
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_11179.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_11179.dir/CheckIncludeFile.c.o  -o cmTC_11179 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file sys/stat.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_11f3d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_11f3d.dir/build.make CMakeFiles/cmTC_11f3d.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_11f3d.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_11f3d.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_11f3d
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_11f3d.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_11f3d.dir/CheckIncludeFile.c.o  -o cmTC_11f3d 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_01244/fast"
+/usr/bin/make -f CMakeFiles/cmTC_01244.dir/build.make CMakeFiles/cmTC_01244.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_01244.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_01244.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_01244
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01244.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_01244.dir/CheckIncludeFile.c.o  -o cmTC_01244 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file time.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ee9ae/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ee9ae.dir/build.make CMakeFiles/cmTC_ee9ae.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ee9ae.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_ee9ae.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_ee9ae
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee9ae.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_ee9ae.dir/CheckIncludeFile.c.o  -o cmTC_ee9ae 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file unistd.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c033a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c033a.dir/build.make CMakeFiles/cmTC_c033a.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c033a.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_c033a.dir/CheckIncludeFile.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c"
+Linking C executable cmTC_c033a
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c033a.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_c033a.dir/CheckIncludeFile.c.o  -o cmTC_c033a 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Performing C SOURCE FILE Test HAVE_STRUCT_TIMESPEC succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c9458/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c9458.dir/build.make CMakeFiles/cmTC_c9458.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c9458.dir/src.c.o
+/usr/bin/cc   -DHAVE_STRUCT_TIMESPEC -fPIE   -o CMakeFiles/cmTC_c9458.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_c9458
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c9458.dir/link.txt --verbose=1
+/usr/bin/cc  -DHAVE_STRUCT_TIMESPEC    CMakeFiles/cmTC_c9458.dir/src.c.o  -o cmTC_c9458 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <time.h>
+
+int main()
+{
+   (void)sizeof(((struct timespec *)0)->tv_sec);
+   return 0;
+}
+
+Determining if the function calloc exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_270ac/fast"
+/usr/bin/make -f CMakeFiles/cmTC_270ac.dir/build.make CMakeFiles/cmTC_270ac.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_270ac.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=calloc -fPIE   -o CMakeFiles/cmTC_270ac.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘calloc’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_270ac
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_270ac.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=calloc    CMakeFiles/cmTC_270ac.dir/CheckFunctionExists.c.o  -o cmTC_270ac 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function exit exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d1be3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d1be3.dir/build.make CMakeFiles/cmTC_d1be3.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d1be3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=exit -fPIE   -o CMakeFiles/cmTC_d1be3.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_d1be3
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1be3.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=exit    CMakeFiles/cmTC_d1be3.dir/CheckFunctionExists.c.o  -o cmTC_d1be3 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function fprintf exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6647e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6647e.dir/build.make CMakeFiles/cmTC_6647e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6647e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=fprintf -fPIE   -o CMakeFiles/cmTC_6647e.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘fprintf’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_6647e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6647e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=fprintf    CMakeFiles/cmTC_6647e.dir/CheckFunctionExists.c.o  -o cmTC_6647e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function free exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_71c94/fast"
+/usr/bin/make -f CMakeFiles/cmTC_71c94.dir/build.make CMakeFiles/cmTC_71c94.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_71c94.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=free -fPIE   -o CMakeFiles/cmTC_71c94.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_71c94
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_71c94.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=free    CMakeFiles/cmTC_71c94.dir/CheckFunctionExists.c.o  -o cmTC_71c94 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function longjmp exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_19fd2/fast"
+/usr/bin/make -f CMakeFiles/cmTC_19fd2.dir/build.make CMakeFiles/cmTC_19fd2.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_19fd2.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=longjmp -fPIE   -o CMakeFiles/cmTC_19fd2.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_19fd2
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19fd2.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=longjmp    CMakeFiles/cmTC_19fd2.dir/CheckFunctionExists.c.o  -o cmTC_19fd2 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function siglongjmp exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ab708/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ab708.dir/build.make CMakeFiles/cmTC_ab708.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ab708.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=siglongjmp -fPIE   -o CMakeFiles/cmTC_ab708.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ab708
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ab708.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=siglongjmp    CMakeFiles/cmTC_ab708.dir/CheckFunctionExists.c.o  -o cmTC_ab708 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function malloc exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_91680/fast"
+/usr/bin/make -f CMakeFiles/cmTC_91680.dir/build.make CMakeFiles/cmTC_91680.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_91680.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=malloc -fPIE   -o CMakeFiles/cmTC_91680.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_91680
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_91680.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=malloc    CMakeFiles/cmTC_91680.dir/CheckFunctionExists.c.o  -o cmTC_91680 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function memcpy exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_da532/fast"
+/usr/bin/make -f CMakeFiles/cmTC_da532.dir/build.make CMakeFiles/cmTC_da532.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_da532.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=memcpy -fPIE   -o CMakeFiles/cmTC_da532.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘memcpy’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_da532
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_da532.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=memcpy    CMakeFiles/cmTC_da532.dir/CheckFunctionExists.c.o  -o cmTC_da532 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function memset exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1452a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1452a.dir/build.make CMakeFiles/cmTC_1452a.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1452a.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=memset -fPIE   -o CMakeFiles/cmTC_1452a.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘memset’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_1452a
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1452a.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=memset    CMakeFiles/cmTC_1452a.dir/CheckFunctionExists.c.o  -o cmTC_1452a 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function printf exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d3f49/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d3f49.dir/build.make CMakeFiles/cmTC_d3f49.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d3f49.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=printf -fPIE   -o CMakeFiles/cmTC_d3f49.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘printf’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_d3f49
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3f49.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=printf    CMakeFiles/cmTC_d3f49.dir/CheckFunctionExists.c.o  -o cmTC_d3f49 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function setjmp exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_afe18/fast"
+/usr/bin/make -f CMakeFiles/cmTC_afe18.dir/build.make CMakeFiles/cmTC_afe18.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_afe18.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=setjmp -fPIE   -o CMakeFiles/cmTC_afe18.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_afe18
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_afe18.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=setjmp    CMakeFiles/cmTC_afe18.dir/CheckFunctionExists.c.o  -o cmTC_afe18 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function signal exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_cd897/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cd897.dir/build.make CMakeFiles/cmTC_cd897.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_cd897.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=signal -fPIE   -o CMakeFiles/cmTC_cd897.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_cd897
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cd897.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=signal    CMakeFiles/cmTC_cd897.dir/CheckFunctionExists.c.o  -o cmTC_cd897 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function strsignal exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4d72b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4d72b.dir/build.make CMakeFiles/cmTC_4d72b.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4d72b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strsignal -fPIE   -o CMakeFiles/cmTC_4d72b.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_4d72b
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d72b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strsignal    CMakeFiles/cmTC_4d72b.dir/CheckFunctionExists.c.o  -o cmTC_4d72b 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function strcmp exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bdd2e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bdd2e.dir/build.make CMakeFiles/cmTC_bdd2e.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bdd2e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strcmp -fPIE   -o CMakeFiles/cmTC_bdd2e.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘strcmp’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_bdd2e
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bdd2e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strcmp    CMakeFiles/cmTC_bdd2e.dir/CheckFunctionExists.c.o  -o cmTC_bdd2e 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function clock_gettime exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7cfec/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7cfec.dir/build.make CMakeFiles/cmTC_7cfec.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7cfec.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=clock_gettime -fPIE   -o CMakeFiles/cmTC_7cfec.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7cfec
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cfec.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=clock_gettime    CMakeFiles/cmTC_7cfec.dir/CheckFunctionExists.c.o  -o cmTC_7cfec 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function sprintf exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_905c0/fast"
+/usr/bin/make -f CMakeFiles/cmTC_905c0.dir/build.make CMakeFiles/cmTC_905c0.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_905c0.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sprintf -fPIE   -o CMakeFiles/cmTC_905c0.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘sprintf’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_905c0
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_905c0.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sprintf    CMakeFiles/cmTC_905c0.dir/CheckFunctionExists.c.o  -o cmTC_905c0 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the function vsnprintf exists passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ba974/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ba974.dir/build.make CMakeFiles/cmTC_ba974.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ba974.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=vsnprintf -fPIE   -o CMakeFiles/cmTC_ba974.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘vsnprintf’ [-Wbuiltin-declaration-mismatch]
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/share/cmake-3.13/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+   CHECK_FUNCTION_EXISTS(void);
+   ^~~~~~~~~~~~~~~~~~~~~
+Linking C executable cmTC_ba974
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba974.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=vsnprintf    CMakeFiles/cmTC_ba974.dir/CheckFunctionExists.c.o  -o cmTC_ba974 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Performing C SOURCE FILE Test HAVE_GCC_THREAD_LOCAL_STORAGE succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_826b3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_826b3.dir/build.make CMakeFiles/cmTC_826b3.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_826b3.dir/src.c.o
+/usr/bin/cc   -DHAVE_GCC_THREAD_LOCAL_STORAGE -fPIE   -o CMakeFiles/cmTC_826b3.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_826b3
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_826b3.dir/link.txt --verbose=1
+/usr/bin/cc  -DHAVE_GCC_THREAD_LOCAL_STORAGE    CMakeFiles/cmTC_826b3.dir/src.c.o  -o cmTC_826b3 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+__thread int tls;
+
+int main(void) {
+    return 0;
+}
+Performing C SOURCE FILE Test HAVE_CLOCK_REALTIME succeeded with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7565b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7565b.dir/build.make CMakeFiles/cmTC_7565b.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7565b.dir/src.c.o
+/usr/bin/cc   -DHAVE_CLOCK_REALTIME -fPIE   -o CMakeFiles/cmTC_7565b.dir/src.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_7565b
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7565b.dir/link.txt --verbose=1
+/usr/bin/cc  -DHAVE_CLOCK_REALTIME    CMakeFiles/cmTC_7565b.dir/src.c.o  -o cmTC_7565b /usr/lib/x86_64-linux-gnu/librt.so 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+
+#include <time.h>
+
+int main(void) {
+    struct timespec ts;
+
+    clock_gettime(CLOCK_REALTIME, &ts);
+
+    return 0;
+}
+Determining size of unsigned short passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7d308/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7d308.dir/build.make CMakeFiles/cmTC_7d308.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7d308.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_7d308.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CheckTypeSize/CMAKE_SIZEOF_UNSIGNED_SHORT.c"
+Linking C executable cmTC_7d308
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7d308.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_7d308.dir/CMAKE_SIZEOF_UNSIGNED_SHORT.c.o  -o cmTC_7d308 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Determining if the system is big endian passed with the following output:
+Change Dir: /home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bb878/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bb878.dir/build.make CMakeFiles/cmTC_bb878.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bb878.dir/TestEndianess.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_bb878.dir/TestEndianess.c.o   -c "/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp/TestEndianess.c"
+Linking C executable cmTC_bb878
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.5429.37/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bb878.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_bb878.dir/TestEndianess.c.o  -o cmTC_bb878 
+make[1]: Leaving directory '/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+TestEndianess.c:
+/* A 16 bit integer is required. */
+typedef unsigned short cmakeint16;
+
+/* On a little endian machine, these 16bit ints will give "THIS IS LITTLE ENDIAN."
+   On a big endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_little[] =  {0x4854, 0x5349, 0x4920, 0x2053, 0x494c, 0x5454, 0x454c, 0x4520, 0x444e, 0x4149, 0x2e4e, 0x0000};
+
+/* on a big endian machine, these 16bit ints will give "THIS IS BIG ENDIAN."
+   On a little endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_big[] =     {0x5448, 0x4953, 0x2049, 0x5320, 0x4249, 0x4720, 0x454e, 0x4449, 0x414e, 0x2e2e, 0x0000};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_little[argc];
+  require += info_big[argc];
+  (void)argv;
+  return require;
+}
+
+

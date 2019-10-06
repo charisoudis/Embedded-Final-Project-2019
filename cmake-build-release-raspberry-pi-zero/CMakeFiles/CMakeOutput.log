@@ -1,0 +1,806 @@
+The system is: Linux - 5.0.0-27-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/3.14.5/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_063d2/fast 
+/usr/bin/make -f CMakeFiles/cmTC_063d2.dir/build.make CMakeFiles/cmTC_063d2.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_063d2.dir/testCCompiler.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"    -o CMakeFiles/cmTC_063d2.dir/testCCompiler.c.o   -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_063d2
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_063d2.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"      CMakeFiles/cmTC_063d2.dir/testCCompiler.c.o  -o cmTC_063d2 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f37da/fast 
+/usr/bin/make -f CMakeFiles/cmTC_f37da.dir/build.make CMakeFiles/cmTC_f37da.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -v -o CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc
+Target: arm-linux-gnueabihf
+Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib
+Thread model: posix
+gcc version 9.1.0 (GCC) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/cc1 -quiet -v -iprefix /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/ -isysroot /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o -version -o /tmp/cckLcHZH.s
+GNU C17 (GCC) version 9.1.0 (arm-linux-gnueabihf)
+	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include"
+ignoring nonexistent directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/local/include"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include
+End of search list.
+GNU C17 (GCC) version 9.1.0 (arm-linux-gnueabihf)
+	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: a29af570b9d7404f576523d4b58c4c0b
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o /tmp/cckLcHZH.s
+GNU assembler version 2.28 (arm-linux-gnueabihf) using BFD version (GNU Binutils) 2.28
+COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/
+LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+Linking C executable cmTC_f37da
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f37da.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"     -v CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o  -o cmTC_f37da 
+Using built-in specs.
+COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc
+COLLECT_LTO_WRAPPER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry\ Pi\ Zero\ -\ Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper
+Target: arm-linux-gnueabihf
+Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib
+Thread model: posix
+gcc version 9.1.0 (GCC) 
+COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/
+LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f37da'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/collect2 -plugin /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/liblto_plugin.so -plugin-opt=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4JnaML.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -m armelf_linux_eabi -o cmTC_f37da /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crt1.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crti.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtbegin.o -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0 -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtend.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f37da'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include]
+  end of search list found
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc/usr/include]
+  implicit include dirs: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_f37da/fast ]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_f37da.dir/build.make CMakeFiles/cmTC_f37da.dir/build]
+  ignore line: [make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o]
+  ignore line: ["/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -v -o CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc]
+  ignore line: [Target: arm-linux-gnueabihf]
+  ignore line: [Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.1.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/cc1 -quiet -v -iprefix /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/ -isysroot /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o -version -o /tmp/cckLcHZH.s]
+  ignore line: [GNU C17 (GCC) version 9.1.0 (arm-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include"]
+  ignore line: [ignoring nonexistent directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (GCC) version 9.1.0 (arm-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: a29af570b9d7404f576523d4b58c4c0b]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o /tmp/cckLcHZH.s]
+  ignore line: [GNU assembler version 2.28 (arm-linux-gnueabihf) using BFD version (GNU Binutils) 2.28]
+  ignore line: [COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [Linking C executable cmTC_f37da]
+  ignore line: [/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f37da.dir/link.txt --verbose=1]
+  ignore line: ["/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"     -v CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o  -o cmTC_f37da ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry\ Pi\ Zero\ -\ Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper]
+  ignore line: [Target: arm-linux-gnueabihf]
+  ignore line: [Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.1.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f37da'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/collect2 -plugin /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/liblto_plugin.so -plugin-opt=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4JnaML.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -m armelf_linux_eabi -o cmTC_f37da /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crt1.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crti.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtbegin.o -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0 -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib CMakeFiles/cmTC_f37da.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtend.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f37da'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp']
+  ignore line: []
+  implicit libs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5c670/fast 
+/usr/bin/make -f CMakeFiles/cmTC_5c670.dir/build.make CMakeFiles/cmTC_5c670.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5c670.dir/feature_tests.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -std=c11 -o CMakeFiles/cmTC_5c670.dir/feature_tests.c.o   -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.c
+Linking C executable cmTC_5c670
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c670.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"      CMakeFiles/cmTC_5c670.dir/feature_tests.c.o  -o cmTC_5c670 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d3920/fast 
+/usr/bin/make -f CMakeFiles/cmTC_d3920.dir/build.make CMakeFiles/cmTC_d3920.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d3920.dir/feature_tests.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -std=c99 -o CMakeFiles/cmTC_d3920.dir/feature_tests.c.o   -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.c
+Linking C executable cmTC_d3920
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3920.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"      CMakeFiles/cmTC_d3920.dir/feature_tests.c.o  -o cmTC_d3920 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_172ad/fast 
+/usr/bin/make -f CMakeFiles/cmTC_172ad.dir/build.make CMakeFiles/cmTC_172ad.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_172ad.dir/feature_tests.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -std=c90 -o CMakeFiles/cmTC_172ad.dir/feature_tests.c.o   -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.c
+Linking C executable cmTC_172ad
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_172ad.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"      CMakeFiles/cmTC_172ad.dir/feature_tests.c.o  -o cmTC_172ad 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/3.14.5/CompilerIdCXX/a.out"
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4761d/fast 
+/usr/bin/make -f CMakeFiles/cmTC_4761d.dir/build.make CMakeFiles/cmTC_4761d.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4761d.dir/testCXXCompiler.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"     -o CMakeFiles/cmTC_4761d.dir/testCXXCompiler.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_4761d
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4761d.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_4761d.dir/testCXXCompiler.cxx.o  -o cmTC_4761d 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4201a/fast 
+/usr/bin/make -f CMakeFiles/cmTC_4201a.dir/build.make CMakeFiles/cmTC_4201a.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -v -o CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++
+Target: arm-linux-gnueabihf
+Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib
+Thread model: posix
+gcc version 9.1.0 (GCC) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/cc1plus -quiet -v -iprefix /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/ -isysroot /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc -D_GNU_SOURCE /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/ccdpXtfn.s
+GNU C++14 (GCC) version 9.1.0 (arm-linux-gnueabihf)
+	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include"
+ignoring nonexistent directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/local/include"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed"
+ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include
+End of search list.
+GNU C++14 (GCC) version 9.1.0 (arm-linux-gnueabihf)
+	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: da18581bc437ef6594658aa0d2754ce3
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccdpXtfn.s
+GNU assembler version 2.28 (arm-linux-gnueabihf) using BFD version (GNU Binutils) 2.28
+COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/
+LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+Linking CXX executable cmTC_4201a
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4201a.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"      -v CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4201a 
+Using built-in specs.
+COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++
+COLLECT_LTO_WRAPPER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry\ Pi\ Zero\ -\ Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper
+Target: arm-linux-gnueabihf
+Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib
+Thread model: posix
+gcc version 9.1.0 (GCC) 
+COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/
+LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4201a' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/collect2 -plugin /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/liblto_plugin.so -plugin-opt=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpiBrcp.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -m armelf_linux_eabi -o cmTC_4201a /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crt1.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crti.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtbegin.o -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0 -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtend.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4201a' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include]
+    add: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include]
+  end of search list found
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0/backward]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include]
+  collapse include dir [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include] ==> [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc/usr/include]
+  implicit include dirs: [/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include/c++/9.1.0/backward;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/include;/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_4201a/fast ]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_4201a.dir/build.make CMakeFiles/cmTC_4201a.dir/build]
+  ignore line: [make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: ["/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -v -o CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++]
+  ignore line: [Target: arm-linux-gnueabihf]
+  ignore line: [Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.1.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/cc1plus -quiet -v -iprefix /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/ -isysroot /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc -D_GNU_SOURCE /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/ccdpXtfn.s]
+  ignore line: [GNU C++14 (GCC) version 9.1.0 (arm-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include"]
+  ignore line: [ignoring nonexistent directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/../../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/arm-linux-gnueabihf]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include/c++/9.1.0/backward]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/include-fixed]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/include]
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (GCC) version 9.1.0 (arm-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 7.4.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: da18581bc437ef6594658aa0d2754ce3]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccdpXtfn.s]
+  ignore line: [GNU assembler version 2.28 (arm-linux-gnueabihf) using BFD version (GNU Binutils) 2.28]
+  ignore line: [COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [Linking CXX executable cmTC_4201a]
+  ignore line: [/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4201a.dir/link.txt --verbose=1]
+  ignore line: ["/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"      -v CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4201a ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry\ Pi\ Zero\ -\ Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper]
+  ignore line: [Target: arm-linux-gnueabihf]
+  ignore line: [Configured with: ../configure --prefix= --target=arm-linux-gnueabihf --enable-languages=c,c++,fortran --with-sysroot=/arm-linux-gnueabihf/libc --with-build-sysroot=/opt/cross-pi-gcc-9.1.0-0/arm-linux-gnueabihf/libc --with-arch=armv6 --with-fpu=vfp --with-float=hard --disable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 9.1.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib/:/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4201a' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/collect2 -plugin /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/liblto_plugin.so -plugin-opt=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../libexec/gcc/arm-linux-gnueabihf/9.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpiBrcp.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -m armelf_linux_eabi -o cmTC_4201a /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crt1.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crti.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtbegin.o -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0 -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/../../../../arm-linux-gnueabihf/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/lib -L/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib CMakeFiles/cmTC_4201a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../lib/gcc/arm-linux-gnueabihf/9.1.0/crtend.o /home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/../arm-linux-gnueabihf/libc/usr/lib/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4201a' '-shared-libgcc'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp']
+  ignore line: []
+  implicit libs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++2a] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_65384/fast 
+/usr/bin/make -f CMakeFiles/cmTC_65384.dir/build.make CMakeFiles/cmTC_65384.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_65384.dir/feature_tests.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -std=c++2a -o CMakeFiles/cmTC_65384.dir/feature_tests.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_65384
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65384.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_65384.dir/feature_tests.cxx.o  -o cmTC_65384 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++17] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4d80b/fast 
+/usr/bin/make -f CMakeFiles/cmTC_4d80b.dir/build.make CMakeFiles/cmTC_4d80b.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4d80b.dir/feature_tests.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -std=c++17 -o CMakeFiles/cmTC_4d80b.dir/feature_tests.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_4d80b
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d80b.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_4d80b.dir/feature_tests.cxx.o  -o cmTC_4d80b 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ec337/fast 
+/usr/bin/make -f CMakeFiles/cmTC_ec337.dir/build.make CMakeFiles/cmTC_ec337.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ec337.dir/feature_tests.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -std=c++14 -o CMakeFiles/cmTC_ec337.dir/feature_tests.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_ec337
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ec337.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_ec337.dir/feature_tests.cxx.o  -o cmTC_ec337 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c8804/fast 
+/usr/bin/make -f CMakeFiles/cmTC_c8804.dir/build.make CMakeFiles/cmTC_c8804.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c8804.dir/feature_tests.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -std=c++11 -o CMakeFiles/cmTC_c8804.dir/feature_tests.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c8804
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c8804.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_c8804.dir/feature_tests.cxx.o  -o cmTC_c8804 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7708b/fast 
+/usr/bin/make -f CMakeFiles/cmTC_7708b.dir/build.make CMakeFiles/cmTC_7708b.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7708b.dir/feature_tests.cxx.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"    -std=c++98 -o CMakeFiles/cmTC_7708b.dir/feature_tests.cxx.o -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_7708b
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7708b.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"       CMakeFiles/cmTC_7708b.dir/feature_tests.cxx.o  -o cmTC_7708b 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b13ed/fast 
+/usr/bin/make -f CMakeFiles/cmTC_b13ed.dir/build.make CMakeFiles/cmTC_b13ed.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b13ed.dir/CheckIncludeFile.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"    -o CMakeFiles/cmTC_b13ed.dir/CheckIncludeFile.c.o   -c /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b13ed
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b13ed.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"      -rdynamic CMakeFiles/cmTC_b13ed.dir/CheckIncludeFile.c.o  -o cmTC_b13ed 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f8624/fast 
+/usr/bin/make -f CMakeFiles/cmTC_f8624.dir/build.make CMakeFiles/cmTC_f8624.dir/build
+make[1]: Entering directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f8624.dir/CheckFunctionExists.c.o
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f8624.dir/CheckFunctionExists.c.o   -c /home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/share/cmake-3.14/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f8624
+/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f8624.dir/link.txt --verbose=1
+"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc"  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_f8624.dir/CheckFunctionExists.c.o  -o cmTC_f8624 -lpthread 
+make[1]: Leaving directory '/home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero/CMakeFiles/CMakeTmp'
+
+

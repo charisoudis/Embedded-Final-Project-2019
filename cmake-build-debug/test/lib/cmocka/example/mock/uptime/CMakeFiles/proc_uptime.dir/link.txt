@@ -1,0 +1,2 @@
+/usr/bin/ar qc libproc_uptime.a  CMakeFiles/proc_uptime.dir/proc_uptime.c.o
+/usr/bin/ranlib libproc_uptime.a
