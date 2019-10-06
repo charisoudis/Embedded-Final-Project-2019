@@ -12,6 +12,8 @@ extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 extern uint32_t executionTimeRequested;
 
 extern Message messages[ MESSAGES_SIZE ];
+extern Message *messagesForMe;
+extern messages_head_t messagesForMeHead;
 
 //------------------------------------------------------------------------------------------------
 
@@ -144,22 +146,24 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
                         "| Devices Connected   : %d\n"
                         "|\n"
                         "| Messages Produced   : %u ( avg. delay = %.03f min )\n"
-                        "| Messages Received   : %u\n"
-                        "| Messages Transmitted: %u\n"
+                        "| Messages Received   : %u (for me: %u)\n"
+                        "| Messages Transmitted: %u (to recipient: %u)\n"
                         "|\n"
                         "*/\n\n\n",
                 executionTimeActual, executionTimeRequested, 0,
-                messagesStats->produced, messagesStats->producedDelayAvg, messagesStats->received,
-                messagesStats->transmitted);
+                messagesStats->produced, messagesStats->producedDelayAvg,
+                messagesStats->received, messagesStats->received_for_me,
+                messagesStats->transmitted, messagesStats->transmitted_to_recipient );
     }
 
     // Close file pointer
     fclose( logFilePointer );
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\", \"transmitted\": \"%d\", \"producedDelayAvg\": \"%.2fmin\", \"devices\": [",
+    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\",, \"received_for_me\": \"%d\", \"transmitted\": \"%d\", \"transmitted_to_recipient\": \"%d\", \"producedDelayAvg\": \"%.2fmin\", \"devices\": [",
             executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ),
-            messagesStats->produced, messagesStats->received, messagesStats->transmitted, messagesStats->producedDelayAvg );
+            messagesStats->produced, messagesStats->received, messagesStats->received_for_me,
+            messagesStats->transmitted, messagesStats->transmitted_to_recipient, messagesStats->producedDelayAvg );
 
     // Inspect all messages that are in $messages buffer's final state
 //    inspect_messages( true );
@@ -211,6 +215,19 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
         fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
              message.sender, message.recipient, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
          );
+    }
+
+    removeTrailingCommaFromJson();
+    fprintf( jsonFilePointer, "], \"messages_for_me_buffer\": [" );
+
+    for ( uint16_t message_i = 0; message_i < messagesForMeHead; message_i++ )
+    {
+        Message message = messagesForMe[message_i];
+        if ( 0 == message.created_at ) continue;
+
+        fprintf( jsonFilePointer, "{\"first_sender\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
+                message.sender, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
+        );
     }
 
     removeTrailingCommaFromJson();
