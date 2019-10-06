@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Toolchain/cross-pi-gcc-9.1.0-0/bin/ERTS-2019" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test/lib/googletest" vcs="Git" />
   </component>
 </project>
