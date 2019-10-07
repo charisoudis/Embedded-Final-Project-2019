@@ -286,7 +286,9 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 
         // Store in $messages buffer
         pthread_mutex_lock( &messagesBufferLock );
-            messages_push( &message );
+            CLIENT_AEM == message.recipient ?
+                inbox_push( &message, &connectedDevice ):
+                messages_push( &message );
         pthread_mutex_unlock( &messagesBufferLock );
 
         // Update stats

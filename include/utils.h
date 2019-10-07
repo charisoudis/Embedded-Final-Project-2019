@@ -72,6 +72,17 @@ uint32_t ip2aem(const char *ip);
 /// \return
 bool isMessageEqual(Message message1, Message message2);
 
+/// \brief Check if two messages of INBOX have exactly the same values in ALL of their fields ( metadata excluded ).
+/// \param message1
+/// \param message2
+/// \return
+bool isMessageEqualInbox(InboxMessage message1, InboxMessage message2);
+
+/// Resolves AEM index (in $CLIENT_AEM_LIST array) of given $device, if not already resolved.
+/// \param device
+/// \return
+int32_t resolveAemIndex( Device device );
+
 /// \brief Tries to connect via socket to given IP address & port.
 /// \param ip the IP address to open socket to
 /// \param port

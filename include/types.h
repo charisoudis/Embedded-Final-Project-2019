@@ -29,6 +29,17 @@ typedef struct message_t {
     uint8_t transmitted_to_recipient;
 } Message;
 
+typedef struct inbox_message_t {
+    // Necessary fields
+    uint32_t sender;                    // ΑΕΜ αποστολέα:       uint32
+    uint64_t created_at;                // Χρόνος δημιουργίας:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    uint64_t saved_at;                  // Χρόνος αποθήκευσης:  uint64 ( Linux timestamp - 10 digits at the time of writing )
+    char body[MESSAGE_BODY_LEN];        // Κείμενο μηνύματος:   ASCII[256]
+
+    // Metadata
+    uint32_t first_sender;              // ΑΕΜ της συσκευής που μετέδωσε το μήνυμα
+} InboxMessage;
+
 /* pthread function arguments pointer */
 typedef struct communication_worker_args_t {
 

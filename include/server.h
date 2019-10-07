@@ -26,9 +26,10 @@ void devices_push(Device device);
 /// \param device
 void devices_remove(Device device);
 
-/// \brief Push $message to $messagesForMe circle buffer. Updates $messageForMeHead accordingly.
+/// Push message to $INBOX buffer, checking for existence.
 /// \param message
-void messages_for_me_push(Message *message);
+/// \param device used to keep stats of the first device that gave us our message
+void inbox_push(Message *message, Device *device);
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message

@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------------------------
 
 extern MessagesStats messagesStats;
-extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock;
+extern pthread_mutex_t messagesBufferLock, availableThreadsLock;
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
@@ -19,10 +19,9 @@ extern uint32_t CLIENT_AEM;
 
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 messages_head_t messagesHead;
-messages_head_t messagesForMeHead;
+messages_head_t inboxHead;
 Message messages[ MESSAGES_SIZE ];
-Message *messagesForMe;
-uint16_t MESSAGES_FOR_ME_SIZE = MESSAGES_SIZE;
+InboxMessage *INBOX;
 
 // Active flag for each AEM
 bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
@@ -33,9 +32,7 @@ bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
 /// \return uint8 0 if FALSE, 1 if TRUE
 bool devices_exists(Device device)
 {
-    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
-        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
-
+    device.aemIndex = resolveAemIndex( device );
     return ( device.aemIndex > -1 ) ?
         ( CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] == 1 ? true : false ):
         false;
@@ -54,9 +51,7 @@ bool devices_exists_aem(uint32_t aem)
 /// \param device
 void devices_push(Device device)
 {
-    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
-        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
-
+    device.aemIndex = resolveAemIndex( device );
     if ( device.aemIndex > -1 )
         CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] = 1;
 }
@@ -65,58 +60,61 @@ void devices_push(Device device)
 /// \param device
 void devices_remove(Device device)
 {
-    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_ACTIVE_LIST[0] ) )
-        device.aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
-
+    device.aemIndex = resolveAemIndex( device );
     if ( device.aemIndex > -1 )
         CLIENT_AEM_ACTIVE_LIST[ device.aemIndex ] = 0;
 }
 
-void messages_for_me_push(Message *message)
+/// Push message to $INBOX buffer, checking for existence.
+/// \param message
+/// \param device used to keep stats of the first device that gave us our message
+void inbox_push(Message *message, Device *device)
 {
+    // Cast Message to InboxMessage
+    InboxMessage inboxMessage = {
+            .sender = message->sender,
+            .created_at = message->created_at,
+            .saved_at = (uint64_t) time( NULL ),
+            .first_sender = device->AEM
+    };
+    strcpy( inboxMessage.body, message->body );
+
     // Check if message exists
-    for ( uint16_t message_i = 0; message_i < messagesForMeHead; message_i++ )
+    for (uint16_t inbox_message_i = 0; inbox_message_i < inboxHead; inbox_message_i++ )
     {
-        if ( 1 == isMessageEqual( *message, messagesForMe[message_i] ) )
+        if ( 1 == isMessageEqualInbox( inboxMessage, INBOX[inbox_message_i] ) )
             return;
 
-        if ( messagesForMe[message_i].created_at == 0 )
+        if ( INBOX[inbox_message_i].created_at == 0 )
             break;
     }
 
     // Place message at buffer's head
-    memcpy( (void *) ( messagesForMe + messagesForMeHead ), (void *) message, sizeof( Message ) );
+    memcpy((void *) ( INBOX + inboxHead ), (void *) &inboxMessage, sizeof( InboxMessage ) );
 
     // Increment head
-    messagesForMeHead++;
+    inboxHead++;
 
     // Update stats
     messagesStats.received_for_me++;
 
     // Check buffer overflow
-    if ( messagesForMeHead == MESSAGES_FOR_ME_SIZE )
-    {
-        // If reached buffer's size, double buffer size by reallocating memory
-        messagesForMe = (Message *) realloc( messagesForMe, (MESSAGES_FOR_ME_SIZE * 2) * sizeof( Message ) );
-
-        // Update size
-        MESSAGES_FOR_ME_SIZE *= 2;
-    }
+//    if ( inboxHead == INBOX_SIZE )
+//    {
+//        // If reached buffer's size, double buffer size by reallocating memory
+//        INBOX = (Message *) realloc( INBOX, (INBOX_SIZE * 2) * sizeof( Message ) );
+//
+//        // Update size
+//        INBOX_SIZE *= 2;
+//    }
 }
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
 /// \param message
 void messages_push(Message *message)
 {
-    // Check where the message should be saved
-    if ( CLIENT_AEM == message->recipient )
-    {
-        messages_for_me_push( message );
-        return;
-    }
-
     // Find where to place new message
-    if ( !strcmp( "sent_only", MESSAGES_PUSH_OVERRIDE_POLICY ) )
+    if ( 0 == strcmp( "sent_only", MESSAGES_PUSH_OVERRIDE_POLICY ) )
     {
         messages_head_t messagesHeadOriginal = messagesHead;
 
@@ -167,7 +165,7 @@ void listening_worker()
     int status;
     struct sockaddr_in serverAddress;
     struct sockaddr_in clientAddress;
-    char logMessage[LOG_MESSAGE_MAX_LEN];
+//    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Create the server ( parent ) socket
     server_socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

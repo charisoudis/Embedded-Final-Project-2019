@@ -54,6 +54,10 @@
     #define MESSAGES_SIZE 2000
 #endif
 
+#ifndef INBOX_SIZE
+    #define INBOX_SIZE 1000
+#endif
+
 #ifndef SOCKET_LISTEN_QUEUE_LEN
     #define SOCKET_LISTEN_QUEUE_LEN 5
 #endif

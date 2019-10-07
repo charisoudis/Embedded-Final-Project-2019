@@ -12,8 +12,8 @@ extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 extern uint32_t executionTimeRequested;
 
 extern Message messages[ MESSAGES_SIZE ];
-extern Message *messagesForMe;
-extern messages_head_t messagesForMeHead;
+extern InboxMessage *INBOX;
+extern messages_head_t inboxHead;
 
 //------------------------------------------------------------------------------------------------
 
@@ -208,7 +208,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
 
     // Finalize & close json file pointer
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"messages_buffer\": [" );
+    fprintf( jsonFilePointer, "], \"buffer_messages\": [" );
 
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
@@ -221,15 +221,18 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     }
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"messages_for_me_buffer\": [" );
+    fprintf( jsonFilePointer, "], \"inbox_messages\": [" );
 
-    for ( uint16_t message_i = 0; message_i < messagesForMeHead; message_i++ )
+    for (uint16_t inbox_message_i = 0; inbox_message_i < inboxHead; inbox_message_i++ )
     {
-        Message message = messagesForMe[message_i];
-        if ( 0 == message.created_at ) continue;
+        InboxMessage inboxMessage = INBOX[inbox_message_i];
+        if ( 0 == inboxMessage.created_at ) continue;
 
-        fprintf( jsonFilePointer, "{\"first_sender\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
-                message.sender, timestamp2ftime( message.created_at, "%FT%TZ" ), message.body
+        fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"created_at\": \"%s\", \"saved_at\": \"%s\", \"body\": \"%s\", \"first_sender\": \"%u\"},",
+                 inboxMessage.sender,
+                 timestamp2ftime( inboxMessage.created_at, "%FT%TZ" ),
+                 timestamp2ftime( inboxMessage.saved_at, "%FT%TZ" ),
+                 inboxMessage.body, inboxMessage.first_sender
         );
     }
 

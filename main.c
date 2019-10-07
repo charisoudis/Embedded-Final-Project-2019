@@ -31,8 +31,8 @@ uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH] = {0};
 //------------------------------------------------------------------------------------------------
 
 extern messages_head_t messagesHead;
-extern messages_head_t messagesForMeHead;
-extern Message *messagesForMe;
+extern messages_head_t inboxHead;
+extern InboxMessage *INBOX;
 
 /// \brief Handler of SIGALRM signal. Used to terminate execution when MAX_EXECUTION_TIME finishes.
 /// \param signo
@@ -74,7 +74,6 @@ int main( int argc, char **argv )
 //
 //    return 1;
 
-
     // Set max execution time ( in seconds )
     executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME :
             (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
@@ -108,11 +107,11 @@ int main( int argc, char **argv )
 
     // Initialize types
     messagesHead = 0;
-    messagesForMeHead = 0;
+    inboxHead = 0;
 
-    // Initialize messagesForMe buffer
-    messagesForMe = (Message *) malloc( MESSAGES_SIZE * sizeof( Message ) );
-//    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ ) messagesForMe[message_i].created_at = 0;
+    // Initialize INBOX buffer
+    INBOX = (InboxMessage *) malloc(INBOX_SIZE * sizeof( InboxMessage ) );
+//    for ( uint16_t message_i = 0; message_i < INBOX_SIZE; message_i++ ) INBOX[message_i].created_at = 0;
 
     // Initialize logger
     log_tearUp( "log.txt", "session1.json" );

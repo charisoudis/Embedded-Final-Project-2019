@@ -156,7 +156,7 @@ void implode(const char * glue, const Message message, char *messageSerialized)
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
-    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010lld%s%s",
+    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010lu%s%s",
              message.sender, glue,
              message.recipient, glue,
              message.created_at, glue,
@@ -222,7 +222,7 @@ void inspect_messages(bool inspect_each)
     {
         if ( messages[message_i].created_at > 0 )
         {
-            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %lld ) \n",
+            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %010lu ) \n",
                      message_i, messages[message_i].sender,
                      messages[message_i].recipient, messages[message_i].created_at
             );
@@ -277,6 +277,33 @@ bool isMessageEqual(Message message1, Message message2)
         return false;
 
     return true;
+}
+
+/// \brief Check if two messages have exactly the same values in ALL of their fields.
+/// \param message1
+/// \param message2
+/// \return
+bool isMessageEqualInbox(InboxMessage message1, InboxMessage message2)
+{
+    if ( message1.sender != message2.sender )
+        return false;
+    if ( message1.created_at != message2.created_at )
+        return false;
+    if ( 0 != strcmp( message1.body, message2.body ) )
+        return false;
+
+    return true;
+}
+
+/// Resolves AEM index (in $CLIENT_AEM_LIST array) of given $device, if not already resolved.
+/// \param device
+/// \return
+inline int32_t resolveAemIndex( Device device )
+{
+    if ( -1 == device.aemIndex || ( 0 == device.aemIndex && device.AEM != CLIENT_AEM_LIST[0] ) )
+        return binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, device.AEM );
+
+    return device.aemIndex;
 }
 
 /// \brief Tries to connect via socket to given IP address & port.
