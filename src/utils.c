@@ -18,7 +18,7 @@ extern MessagesStats messagesStats;
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
 
-extern Message messages[ MESSAGES_SIZE ];
+extern Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
 
 //------------------------------------------------------------------------------------------------
 
@@ -220,16 +220,16 @@ void inspect_messages(bool inspect_each)
     fprintf( stdout, "\n\ninspection:start\n" );
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        if ( messages[message_i].created_at > 0 )
+        if (MESSAGES_BUFFER[message_i].created_at > 0 )
         {
-            fprintf( stdout, "\t%02d) %04d --> %04d ( time: %010lu ) \n",
-                     message_i, messages[message_i].sender,
-                     messages[message_i].recipient, messages[message_i].created_at
+            fprintf(stdout, "\t%02d) %04d --> %04d ( time: %010lu ) \n",
+                    message_i, MESSAGES_BUFFER[message_i].sender,
+                    MESSAGES_BUFFER[message_i].recipient, MESSAGES_BUFFER[message_i].created_at
             );
 
             if ( inspect_each )
             {
-                inspect(messages[message_i], true, stdout );
+                inspect(MESSAGES_BUFFER[message_i], true, stdout );
             }
         }
     }
@@ -306,37 +306,27 @@ inline int32_t resolveAemIndex( Device device )
     return device.aemIndex;
 }
 
-/// \brief Tries to connect via socket to given IP address & port.
-/// \param ip the IP address to open socket to
+/// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
+/// \param aem
 /// \param port
+/// \param socket_fd
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect(const char *ip, uint16_t port)
+int socket_connect( uint32_t aem, uint16_t port, int socket_fd )
 {
-    uint32_t aem = ip2aem( ip );
+    struct sockaddr_in serverAddress;
     if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
         return -1;
 
-    int socket_fd;
-    int status;
-    struct sockaddr_in serverAddress;
-
-    status = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
-    if ( status < 0 )
-    {
-        perror("\tsocket_connect(): socket() failed" );
-        return -1;
-    }
-
-    socket_fd = status;
+//    fprintf( stdout, "\t%s\n", aem2ip( aem ) );
 
     // Set "server" address
     memset( &serverAddress, 0, sizeof(serverAddress) );
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons( port );
-    serverAddress.sin_addr.s_addr = inet_addr( ip );
-
-    return ( connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ) ?
-        socket_fd : -1;
+    serverAddress.sin_addr.s_addr = inet_addr( aem2ip( aem ) );
+    
+    return connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
+            socket_fd : -1;
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.

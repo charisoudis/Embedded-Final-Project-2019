@@ -20,8 +20,8 @@ extern uint32_t CLIENT_AEM;
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 messages_head_t messagesHead;
 messages_head_t inboxHead;
-Message messages[ MESSAGES_SIZE ];
-InboxMessage *INBOX;
+Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
+InboxMessage INBOX[ INBOX_SIZE ];
 
 // Active flag for each AEM
 bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
@@ -121,8 +121,8 @@ void messages_push(Message *message)
         // start searching for a hole from buffer's head
         do
         {
-            if ( 0 == messages[messagesHead].created_at ) break;    // found empty message: hole
-            if ( messages[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
+            if (0 == MESSAGES_BUFFER[messagesHead].created_at ) break;    // found empty message: hole
+            if ( MESSAGES_BUFFER[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
         }
         while ( ++messagesHead < MESSAGES_SIZE );
 
@@ -133,8 +133,8 @@ void messages_push(Message *message)
 
             while ( messagesHead < messagesHeadOriginal )
             {
-                if ( 0 == messages[messagesHead].created_at ) break;
-                if ( messages[messagesHead].transmitted ) break;
+                if (0 == MESSAGES_BUFFER[messagesHead].created_at ) break;
+                if ( MESSAGES_BUFFER[messagesHead].transmitted ) break;
 
                 messagesHead++;
             }
@@ -144,7 +144,7 @@ void messages_push(Message *message)
     }
 
     // Place message at buffer's head
-    memcpy( (void *) ( messages + messagesHead ), (void *) message, sizeof( Message ) );
+    memcpy((void *) (MESSAGES_BUFFER + messagesHead ), (void *) message, sizeof( Message ) );
 
     // Increment head
     if ( ++messagesHead == MESSAGES_SIZE )
@@ -224,6 +224,8 @@ void listening_worker()
                 .server = true
         };
         memcpy( &args.connected_device, &device, sizeof( Device ) );
+
+        fprintf( stdout, "AM SERVER\n" );
 
         // Log
 //        pthread_mutex_lock( &logLock );

@@ -47,7 +47,7 @@ uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH] = {0};
 /* messagesHead is in range: [0, $MESSAGES_SIZE - 1] */
 extern messages_head_t messagesHead;
 extern messages_head_t inboxHead;
-extern Message messages[ MESSAGES_SIZE ];
+extern Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
 extern InboxMessage *INBOX;
 
 // Active flag for each AEM
@@ -105,8 +105,8 @@ public:
             i = false;
 
         // Restore $messagesHead back to 0
-        //  - "erase" all messages
-        memset( &messages, 0, MESSAGES_SIZE * sizeof(Message) );
+        //  - "erase" all MESSAGES_BUFFER
+        memset(&MESSAGES_BUFFER, 0, MESSAGES_SIZE * sizeof(Message) );
         //  - set $messagesHead
         messagesHead = 0;
         inboxHead = 0;
@@ -240,7 +240,7 @@ TEST_F(ServerTest, MessagesPushFull)
     uint32_t thirdTransmittedMessageIndex = 0;
     uint8_t thirdTransmittedMessageIndexSet = 0;
 
-    // Add $MESSAGE_SIZE messages
+    // Add $MESSAGE_SIZE MESSAGES_BUFFER
     Message message;
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {

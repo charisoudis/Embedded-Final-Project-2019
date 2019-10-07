@@ -19,7 +19,7 @@ extern MessagesStats messagesStats;
 extern pthread_t communicationThreads[ COMMUNICATION_WORKERS_MAX ];
 extern uint8_t communicationThreadsAvailable;
 
-extern Message messages[ MESSAGES_SIZE ];
+extern Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
 
 //------------------------------------------------------------------------------------------------
 
@@ -113,14 +113,18 @@ bool communication_datetime_receiver()
     uint64_t previous_now;
     uint64_t new_now;
 
-    // Format setter's IP address
-    ip = aem2ip( SETUP_DATETIME_AEM );
+    // Create socket file descriptor
+    socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( socket_fd < 0 )
+    {
+        perror("\tcommunication_datetime_receiver(): socket() failed" );
+        return NULL;
+    }
 
     do
     {
         // Try connecting
-        socket_fd = socket_connect( ip, SOCKET_PORT + 1 );
-        if ( -1 != socket_fd )
+        if ( -1 != socket_connect( SETUP_DATETIME_AEM, SOCKET_PORT + 1, socket_fd ) )
         {
             log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
 
@@ -274,17 +278,17 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
         // Check for duplicates
         for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
         {
-            if ( 1 == isMessageEqual( message, messages[message_i] ) )
+            if ( 1 == isMessageEqual(message, MESSAGES_BUFFER[message_i] ) )
                 goto next_loop;
 
-            if ( messages[message_i].created_at == 0 )
+            if (MESSAGES_BUFFER[message_i].created_at == 0 )
                 break;
         }
 
         // Update message's transmitted devices to include sender ( so as not to send back )
         message.transmitted_devices[ connectedDevice.aemIndex ] = 1;
 
-        // Store in $messages buffer
+        // Store in $MESSAGES_BUFFER buffer
         pthread_mutex_lock( &messagesBufferLock );
             CLIENT_AEM == message.recipient ?
                 inbox_push( &message, &connectedDevice ):
@@ -317,13 +321,13 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             error(-1, "connectedDevice.aemIndex equals -1. Exiting...");
         }
 
-        if ( messages[message_i].created_at > 0
-             && 0 == messages[message_i].transmitted_devices[ connectedDevice.aemIndex ]
-             && 0 == messages[message_i].transmitted_to_recipient
+        if (MESSAGES_BUFFER[message_i].created_at > 0
+            && 0 == MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ]
+            && 0 == MESSAGES_BUFFER[message_i].transmitted_to_recipient
         )
         {
             // Serialize
-            implode( "_", messages[message_i], messageSerialized );
+            implode("_", MESSAGES_BUFFER[message_i], messageSerialized );
 
             // Log
 //            pthread_mutex_lock( &logLock );
@@ -334,26 +338,26 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             // Transmit
             send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
 
-            // Update Status in $messages buffer
+            // Update Status in $MESSAGES_BUFFER buffer
             pthread_mutex_lock( &messagesBufferLock );
-                messages[message_i].transmitted = 1;
-                messages[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
-                if ( connectedDevice.AEM == messages[message_i].recipient )
+            MESSAGES_BUFFER[message_i].transmitted = 1;
+            MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
+                if (connectedDevice.AEM == MESSAGES_BUFFER[message_i].recipient )
                 {
-                    messages[message_i].transmitted_to_recipient = 1;
+                    MESSAGES_BUFFER[message_i].transmitted_to_recipient = 1;
                 }
             pthread_mutex_unlock( &messagesBufferLock );
 
             // Update stats
             pthread_mutex_lock( &messagesStatsLock );
                 messagesStats.transmitted++;
-                if ( connectedDevice.AEM == messages[message_i].recipient )
+                if (connectedDevice.AEM == MESSAGES_BUFFER[message_i].recipient )
                 {
                     messagesStats.transmitted_to_recipient++;
                 }
             pthread_mutex_unlock( &messagesStatsLock );
 
-            log_event_message( "transmitted", &messages[message_i] );
+            log_event_message( "transmitted", &MESSAGES_BUFFER[message_i] );
         }
     }
 }

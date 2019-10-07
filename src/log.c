@@ -11,8 +11,8 @@ extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNE
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 extern uint32_t executionTimeRequested;
 
-extern Message messages[ MESSAGES_SIZE ];
-extern InboxMessage *INBOX;
+extern Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
+extern InboxMessage INBOX[ INBOX_SIZE ];
 extern messages_head_t inboxHead;
 
 //------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 {
     gettimeofday( &lastEventStart, NULL );
 
-    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [",
+    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"MESSAGES_BUFFER\": [",
             timestamp2ftime( (uint64_t) time(NULL), "%H:%M:%S" ), type,
             server, client );
 }
@@ -160,12 +160,12 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
     fclose( logFilePointer );
 
     removeTrailingCommaFromJson();
-    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\",, \"received_for_me\": \"%d\", \"transmitted\": \"%d\", \"transmitted_to_recipient\": \"%d\", \"producedDelayAvg\": \"%.2fmin\", \"devices\": [",
+    fprintf( jsonFilePointer, "], \"duration\": \"%f s\", \"end\": \"%s\", \"stats\": { \"produced\": \"%d\", \"received\": \"%d\", \"received_for_me\": \"%d\", \"transmitted\": \"%d\", \"transmitted_to_recipient\": \"%d\", \"producedDelayAvg\": \"%.2fmin\", \"devices\": [",
             executionTimeActual, timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ),
             messagesStats->produced, messagesStats->received, messagesStats->received_for_me,
             messagesStats->transmitted, messagesStats->transmitted_to_recipient, messagesStats->producedDelayAvg );
 
-    // Inspect all messages that are in $messages buffer's final state
+    // Inspect all MESSAGES_BUFFER that are in $MESSAGES_BUFFER buffer's final state
 //    inspect_messages( true );
 
     // Inspect connections
@@ -212,7 +212,7 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
 
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
-        Message message = messages[message_i];
+        Message message = MESSAGES_BUFFER[message_i];
         if ( 0 == message.created_at ) continue;
 
         fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"recipient\": \"%u\", \"created_at\": \"%s\", \"body\": \"%s\"},",
@@ -225,7 +225,8 @@ void log_tearDown(const double executionTimeActual, const MessagesStats *message
 
     for (uint16_t inbox_message_i = 0; inbox_message_i < inboxHead; inbox_message_i++ )
     {
-        InboxMessage inboxMessage = INBOX[inbox_message_i];
+        #define inboxMessage INBOX[inbox_message_i]
+//        InboxMessage inboxMessage = INBOX[inbox_message_i];
         if ( 0 == inboxMessage.created_at ) continue;
 
         fprintf( jsonFilePointer, "{\"sender\": \"%u\", \"created_at\": \"%s\", \"saved_at\": \"%s\", \"body\": \"%s\", \"first_sender\": \"%u\"},",
@@ -249,13 +250,11 @@ void log_tearUp(const char *logFileName, const char *jsonFileName)
     // Check if log file exists
     //  - yes: new session
     //  - no : new file + new session
-    logFilePointer = (access(logFileName, F_OK ) == -1 ) ?
-                     fopen(logFileName, "w" ) :
-                     fopen(logFileName, "a" );
+    remove( logFileName );
+    logFilePointer = fopen(logFileName, "w+" );
 
     // Check if session.json file exists
-    if ( access( jsonFileName, F_OK ) != -1 )
-        remove( jsonFileName );
+    remove( jsonFileName );
     jsonFilePointer = fopen( jsonFileName, "w+" );
 
     const char* nowAsString = timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" );

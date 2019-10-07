@@ -9,7 +9,7 @@
 
 extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock, logEventLock;
 extern MessagesStats messagesStats;
-extern Message messages[MESSAGES_SIZE];
+extern Message MESSAGES_BUFFER[MESSAGES_SIZE];
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
 extern uint8_t communicationThreadsAvailable;
@@ -50,10 +50,11 @@ uint32_t getClientAem(const char *interface)
 void *polling_worker(void)
 {
     int status;
-    int listIndex;
+    int polling_socket_fd;
+    uint16_t listIndex;
     uint32_t aem;
-    const char *ip;
-    char logMessage[LOG_MESSAGE_MAX_LEN];
+//    const char *ip;
+//    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
@@ -62,17 +63,20 @@ void *polling_worker(void)
 //        log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
 //    pthread_mutex_unlock( &logLock );
 
+    // Create polling socket
+    polling_socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( polling_socket_fd < 0 )
+    {
+        perror("\tpolling_worker(): socket() failed" );
+        return NULL;
+    }
+
     listIndex = 0;
     aem = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
     do
     {
-        // Format IP address
-        ip = aem2ip( aem );
-        fprintf( stdout, "ip = %s\n", ip );
-
         // Try connecting
-        int socket_fd = socket_connect( ip, SOCKET_PORT );
-        if ( -1 != socket_fd )
+        if ( -1 != socket_connect( aem, SOCKET_PORT, polling_socket_fd ) )
         {
             //----- NON-CANCELABLE SECTION
             status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -81,18 +85,19 @@ void *polling_worker(void)
 
             // Connected > OffLoad to communication worker
             //  - format arguments
-            uint32_t serverAem = ip2aem( ip );
             Device device = {
-                    .AEM = serverAem,
-                    .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, serverAem )
+                    .AEM = aem,
+                    .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem )
             };
             CommunicationWorkerArgs args = {
-                    .connected_socket_fd = (uint16_t) socket_fd,
+                    .connected_socket_fd = (uint16_t) polling_socket_fd,
                     .server = false
             };
             memcpy( &args.connected_device, &device, sizeof( Device ) );
 
-            // Log
+            fprintf( stdout, "adfadsfa\n" );
+
+//            // Log
 //            pthread_mutex_lock( &logLock );
 //                sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
 //                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
@@ -123,7 +128,7 @@ void *polling_worker(void)
                 communication_worker( &args );
             }
 
-            // Log
+//            // Log
 //            pthread_mutex_lock( &logLock );
 //                sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
 //                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
@@ -133,6 +138,10 @@ void *polling_worker(void)
             if ( status != 0 )
                 error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
             //-----:end
+        }
+        else
+        {
+            usleep( 250000 );
         }
 
         // Reset polling if reached AEMs range's maximum.
@@ -174,7 +183,7 @@ void *producer_worker(void)
 
         // Generate
         generateRandomMessage( &message );
-//        inspect( message, true, stdout );
+        inspect( message, true, stdout );
 
         //----- NON-CANCELABLE SECTION
         status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -199,7 +208,8 @@ void *producer_worker(void)
         //-----:end
 
         // Sleep
-        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
+//        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
+        delay = (uint32_t) (rand() % (5 + 1 - 1 ) + 1);
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }
