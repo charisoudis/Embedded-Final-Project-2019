@@ -1,4 +1,0 @@
-/home/achariso/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6262.62/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Release "-DCMAKE_C_COMPILER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-gcc" "-DCMAKE_CXX_COMPILER=/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++" -G "CodeBlocks - Unix Makefiles" /home/achariso/Desktop/EmbeddedSystems/Projects/Final
--- Configuring done
--- Generating done
--- Build files have been written to: /home/achariso/Desktop/EmbeddedSystems/Projects/Final/cmake-build-release-raspberry-pi-zero

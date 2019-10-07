@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/assert_module_test.dir/assert_module.c.o CMakeFiles/assert_module_test.dir/assert_module_test.c.o  -o assert_module_test -Wl,-rpath,"/home/achariso/Desktop/Embedded Systems/Projects/Final/cmake-build-debug/test/lib/cmocka/src" ../src/libcmocka.so.0.7.0 

@@ -1,1 +1,0 @@
-"/home/achariso/Desktop/EmbeddedSystems/Projects/Rasberry Pi Zero - Dependencies/cross-pi-gcc-9.1.0-0/bin/arm-linux-gnueabihf-c++"  -O3 -DNDEBUG   CMakeFiles/runFinalTests.dir/UtilsTest.cpp.o CMakeFiles/runFinalTests.dir/ServerTest.cpp.o  -o runFinalTests ../../lib/libgtest.a ../../lib/libgtest_main.a ../../src/libFINAL_LIB.a -lpthread ../../lib/libgtest.a -lpthread 

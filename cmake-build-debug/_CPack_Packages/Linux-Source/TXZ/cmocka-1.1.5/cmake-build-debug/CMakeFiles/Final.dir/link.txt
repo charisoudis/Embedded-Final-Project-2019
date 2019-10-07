@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/Final.dir/main.c.o  -o Final src/c/libFINAL_LIB.a 

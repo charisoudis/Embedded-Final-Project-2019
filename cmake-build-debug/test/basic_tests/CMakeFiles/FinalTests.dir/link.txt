@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/FinalTests.dir/test_utils.c.o CMakeFiles/FinalTests.dir/run.c.o  -o FinalTests -nostartfiles 

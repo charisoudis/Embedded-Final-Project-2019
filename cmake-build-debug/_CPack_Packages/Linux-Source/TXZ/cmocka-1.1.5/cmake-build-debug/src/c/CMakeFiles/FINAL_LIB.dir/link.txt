@@ -1,2 +1,0 @@
-/usr/bin/ar qc libFINAL_LIB.a  CMakeFiles/FINAL_LIB.dir/client.c.o CMakeFiles/FINAL_LIB.dir/server.c.o CMakeFiles/FINAL_LIB.dir/utils.c.o
-/usr/bin/ranlib libFINAL_LIB.a

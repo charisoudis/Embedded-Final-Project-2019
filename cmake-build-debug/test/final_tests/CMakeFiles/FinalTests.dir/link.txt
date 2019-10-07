@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/FinalTests.dir/UtilsTest.cpp.o  -o FinalTests ../../lib/libgtestd.a ../../lib/libgtest_maind.a ../../src/libFINAL_LIB.a ../../lib/libgtestd.a -lpthread 
