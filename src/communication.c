@@ -74,6 +74,8 @@ void communication_datetime_listener_worker(void)
         if (client_socket_fd < 0)
             error(client_socket_fd, "ERROR on accept");
 
+        pthread_mutex_lock(&logEventLock);
+
         //  - get client address
         char ip[INET_ADDRSTRLEN];
         inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
@@ -90,6 +92,9 @@ void communication_datetime_listener_worker(void)
         //  - close write stream
         shutdown( client_socket_fd, SHUT_WR );
 //        close( client_socket_fd );
+        
+        pthread_mutex_unlock(&logEventLock);
+
 
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
     }
