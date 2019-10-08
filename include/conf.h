@@ -47,7 +47,7 @@
 
 // start: Server.h
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
-    #define MESSAGES_PUSH_OVERRIDE_POLICY "sent_only"   // "sent_only", "blind"
+    #define MESSAGES_PUSH_OVERRIDE_POLICY "blind"   // "sent_only", "blind"
 #endif
 
 #ifndef MESSAGES_SIZE

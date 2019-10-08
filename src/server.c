@@ -161,7 +161,7 @@ void listening_worker()
     bzero((char *)&serverAddress, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = inet_addr( aem2ip( CLIENT_AEM ) );
-    serverAddress.sin_port = htons((unsigned short)SOCKET_PORT);
+    serverAddress.sin_port = htons((unsigned short)SOCKET_PORT );
 
     /* setsockopt: Handy debugging trick that lets
      * us rerun the server immediately after we kill it;

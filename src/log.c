@@ -182,7 +182,7 @@ void log_tearUp(const char *jsonFileName)
 {
     // Check if session.json file exists
     remove( jsonFileName );
-    jsonFilePointer = fopen( jsonFileName, "w+" );
+    jsonFilePointer = fopen( jsonFileName, "w" );
 
     const char* nowAsString = timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" );
 
@@ -208,18 +208,26 @@ void log_tearUp(const char *jsonFileName)
 /// \brief Removes last character from session.json file
 void removeTrailingCommaFromJson(void)
 {
-    fpos_t lastFilePosition;
-    fpos_t endFilePosition;
+//    fpos_t lastFilePosition;
+//    fpos_t endFilePosition;
+    __off_t lastFileOffset;
+    __off_t endFileOffset;
 
     // Get end file position
-    fgetpos( jsonFilePointer, &endFilePosition );
+//    fgetpos( jsonFilePointer, &endFilePosition );
+    endFileOffset = ftello( jsonFilePointer );
 
     // Go to last character's position
     fseeko( jsonFilePointer, -1, SEEK_END );
 
     // Get last character's position in session.json file
-    fgetpos ( jsonFilePointer, &lastFilePosition );
+//    fgetpos( jsonFilePointer, &lastFilePosition );
+    lastFileOffset = ftello( jsonFilePointer );
 
     // Set new write position to last character's position to overwrite character ( if it was comma )
-    fsetpos ( jsonFilePointer, ',' == (char) fgetc( jsonFilePointer ) ? &lastFilePosition : &endFilePosition );
+//    fsetpos( jsonFilePointer, ',' == (char) fgetc( jsonFilePointer ) ? &lastFilePosition : &endFilePosition );
+    if ( ',' == (char) fgetc( jsonFilePointer ) )
+    {
+        ftruncate( fileno(jsonFilePointer), lastFileOffset );
+    }
 }

@@ -62,7 +62,7 @@ void *polling_worker(void)
     do
     {
         // Try connecting
-        socket_fd = socket_connect(aem, SOCKET_PORT );
+        socket_fd = socket_connect( aem, SOCKET_PORT );
         if (-1 != socket_fd )
         {
             //----- NON-CANCELABLE SECTION
@@ -148,7 +148,7 @@ void *producer_worker(void)
 
             // Generate
             generateRandomMessage( &message );
-            inspect( message, true, stdout );
+//            inspect( message, true, stdout );
 
             //----- NON-CANCELABLE SECTION
             status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );

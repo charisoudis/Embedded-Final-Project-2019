@@ -152,11 +152,12 @@ void generateRandomMessage(Message *message)
 /// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized
 /// \param messageSerialized a string containing all message fields glued together using $glue
-void implode(const char * glue, const Message message, char *messageSerialized)
+void implode(const char *glue, const Message message, char *messageSerialized)
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
-    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010lu%s%s",
+    // sprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010ld%s%s",
+    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010llu%s%s",
              message.sender, glue,
              message.recipient, glue,
              message.created_at, glue,
@@ -297,9 +298,9 @@ int socket_connect( uint32_t aem, uint16_t port )
         return -1;
 
     ip = aem2ip( aem );
-    fprintf( stdout, "\tip = \"%s\"\n", ip );
+    fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
 
-    socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
+    socket_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
     if ( socket_fd < 0 )
     {
         perror("\tsocket_connect(): socket() failed" );
@@ -307,7 +308,7 @@ int socket_connect( uint32_t aem, uint16_t port )
     }
 
     // Set "server" address
-    memset( &serverAddress, 0, sizeof(serverAddress) );
+    bzero((char *)&serverAddress, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons( port );
     serverAddress.sin_addr.s_addr = inet_addr( ip );
