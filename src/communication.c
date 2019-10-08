@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <assert.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -298,6 +299,10 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             && 0 == MESSAGES_BUFFER[message_i].transmitted_to_recipient
         )
         {
+            // ASSERTION
+            if ( CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient )
+                error( -1, "communication_transmitter_worker(): \"Assertion CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient\" failed" );
+
             // Serialize
             implode("_", MESSAGES_BUFFER[message_i], messageSerialized );
 
