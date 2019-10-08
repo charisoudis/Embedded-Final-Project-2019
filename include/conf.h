@@ -35,8 +35,8 @@
 #endif
 
 #ifndef PRODUCER_DELAY_RANGE    // in seconds
-    #define PRODUCER_DELAY_RANGE_MIN 60
-    #define PRODUCER_DELAY_RANGE_MAX 300
+    #define PRODUCER_DELAY_RANGE_MIN 60     // 1 min
+    #define PRODUCER_DELAY_RANGE_MAX 300    // 5 min
 #endif
 
 #ifndef MESSAGE_SERIALIZED_LEN

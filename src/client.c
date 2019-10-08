@@ -173,8 +173,7 @@ void *producer_worker(void)
         //-----:end
 
         // Sleep
-//        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
-        delay = (uint32_t) (rand() % 5 + 1);
+        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }
