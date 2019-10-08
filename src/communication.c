@@ -13,7 +13,7 @@ extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CON
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
-extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock, logEventLock;
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logEventLock;
 extern MessagesStats messagesStats;
 
 extern pthread_t communicationThreads[ COMMUNICATION_WORKERS_MAX ];
@@ -85,16 +85,11 @@ void communication_datetime_listener_worker(void)
 
         //  - send time
         send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
-//        send( client_socket_fd, &tz, sizeof(struct timezone), 0 );
 
         //  - close write stream
         shutdown( client_socket_fd, SHUT_WR );
+        close( client_socket_fd );
 
-//        log_event_message_datetime( ( uint64_t ) time(NULL), ( uint64_t ) time(NULL) );
-//        log_event_stop();
-//        pthread_mutex_unlock( &logEventLock );
-
-//        fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
     }
 }
@@ -104,27 +99,17 @@ void communication_datetime_listener_worker(void)
 bool communication_datetime_receiver()
 {
     struct timeval tv = {0, 0};
-    struct timezone tz = {0, 0};
-
     int socket_fd;
     bool result;
-    const char *ip;
 
     uint64_t previous_now;
     uint64_t new_now;
 
-    // Create socket file descriptor
-    socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
-    if ( socket_fd < 0 )
-    {
-        perror("\tcommunication_datetime_receiver(): socket() failed" );
-        return NULL;
-    }
-
     do
     {
         // Try connecting
-        if ( -1 != socket_connect( SETUP_DATETIME_AEM, SOCKET_PORT + 1, socket_fd ) )
+        socket_fd = socket_connect( SETUP_DATETIME_AEM, SOCKET_PORT + 1 );
+        if ( -1 != socket_fd )
         {
             log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
 
@@ -133,7 +118,6 @@ bool communication_datetime_receiver()
 
             //  - get time
             result = read( socket_fd, &tv, sizeof(struct timeval) ) == sizeof(struct timeval);
-//                    read( socket_fd, &tz, sizeof(struct timezone) ) == sizeof(struct timezone);
 
             //  - get time
             if ( result )
@@ -157,12 +141,11 @@ bool communication_datetime_receiver()
 
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
+            close( socket_fd );
 
             log_event_stop();
 
-//            fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
             fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
-
             break;
         }
     }
@@ -176,15 +159,16 @@ bool communication_datetime_receiver()
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-    char logMessage[LOG_MESSAGE_MAX_LEN];
     bool deviceExists;
 
     // Check if there is an active connection with given device
     // Update active devices
     pthread_mutex_lock( &activeDevicesLock );
-    deviceExists = devices_exists( args->connected_device );
-    if ( !deviceExists )
-        devices_push( args->connected_device );
+        deviceExists = devices_exists( args->connected_device );
+        if ( !deviceExists )
+        {
+            devices_push( args->connected_device );
+        }
     pthread_mutex_unlock( &activeDevicesLock );
 
     pthread_mutex_lock( &logEventLock );
@@ -206,7 +190,7 @@ void communication_worker(void *thread_args)
             communication_receiver_worker( args->connected_socket_fd, args->connected_device );
             shutdown( args->connected_socket_fd, SHUT_RD );
         }
-            //  - reverse communication
+        //  - reverse communication
         else
         {
             communication_receiver_worker( args->connected_socket_fd, args->connected_device );
@@ -229,12 +213,10 @@ void communication_worker(void *thread_args)
     }
     else
     {
-//        pthread_mutex_lock( &logLock );
-//        sprintf( logMessage, deviceExists ?
-//                             "Active connection with device found: AEM = %04d. Skipping...":
-//                             "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
-//        log_error( logMessage, "communication_worker()", 0 );
-//        pthread_mutex_unlock( &logLock );
+        fprintf( stderr, deviceExists ?
+            "Active connection with device found: AEM = %04d. Skipping...":
+            "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM
+        );
     }
 
     // Close Socket
@@ -260,18 +242,10 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 {
     Message message;
     char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     next_loop:
     while ( read( connectedSocket, messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
     {
-        //----- CRITICAL SECTION
-//        pthread_mutex_lock( &logLock );
-//        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
-//        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-//        pthread_mutex_unlock( &logLock );
-        //-----:end
-
         // Reconstruct message
         explode( &message, "_", messageSerialized );
 
@@ -301,7 +275,6 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
         pthread_mutex_unlock( &messagesStatsLock );
 
         // Log received message
-        log_message( "communication_receiver_worker()", message );
         log_event_message( "received", &message );
     }
 }
@@ -312,7 +285,6 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice)
 {
     char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
@@ -328,12 +300,6 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
         {
             // Serialize
             implode("_", MESSAGES_BUFFER[message_i], messageSerialized );
-
-            // Log
-//            pthread_mutex_lock( &logLock );
-//            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
-//            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-//            pthread_mutex_unlock( &logLock );
 
             // Transmit
             send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );

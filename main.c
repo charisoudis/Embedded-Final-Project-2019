@@ -17,7 +17,6 @@ uint8_t communicationThreadsAvailable = COMMUNICATION_WORKERS_MAX;
 static pthread_t pollingThread, producerThread, datetimeListenerThread;
 pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock, logEventLock;
 
-//DevicesQueue activeDevicesQueue;
 MessagesStats messagesStats;
 
 uint32_t CLIENT_AEM;
@@ -52,27 +51,6 @@ int main( int argc, char **argv )
 {
     int status;
 
-//    Message message;
-//    MessagesStats messagesStats1 = {0, 0,0, 0.0F};
-//
-//    log_tearUp( "log.txt", "session1.json" );
-//    log_event_start( "connnection", 9026, 8600 );
-//
-//    generateRandomMessage( &message );
-//    log_event_message( "received", &message );
-//    generateRandomMessage( &message );
-//    log_event_message( "received", &message );
-//
-//    generateRandomMessage( &message );
-//    log_event_message( "transmitted", &message );
-//    generateRandomMessage( &message );
-//    log_event_message( "transmitted", &message );
-//
-//    log_event_stop();
-//    log_tearDown( 0.0, &messagesStats1 );
-//
-//    return 1;
-
     // Set max execution time ( in seconds )
     executionTimeRequested = ( argc < 2 ) ? MAX_EXECUTION_TIME :
             (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
@@ -93,9 +71,6 @@ int main( int argc, char **argv )
     status = pthread_mutex_init( &messagesStatsLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( messagesStatsLock ) failed" );
-//    status = pthread_mutex_init( &logLock, NULL );
-//    if ( status != 0 )
-//        error( status, "\tmain(): pthread_mutex_init( logLock ) failed" );
     status = pthread_mutex_init( &logEventLock, NULL );
     if ( status != 0 )
         error( status, "\tmain(): pthread_mutex_init( logEventLock ) failed" );
@@ -109,7 +84,7 @@ int main( int argc, char **argv )
     inboxHead = 0;
 
     // Initialize logger
-    log_tearUp( "log.txt", "session1.json" );
+    log_tearUp( "session1.json" );
     messagesStats.produced = 0;
     messagesStats.received = 0;
     messagesStats.received_for_me = 0;
@@ -164,11 +139,8 @@ int main( int argc, char **argv )
 
 static void onAlarm( int signo )
 {
-    char logMessage[LOG_MESSAGE_MAX_LEN];
-    sprintf( logMessage, "Caught the SIGALRM signal ( signo = %d )", signo );
-    log_info( logMessage, "onAlarm", "-" );
-
     int status;
+    fprintf( stdout, "Caught the SIGALRM signal ( signo = %d )", signo );
 
     // Kill Producer Thread
     status = pthread_cancel( producerThread );
@@ -213,12 +185,10 @@ static void onAlarm( int signo )
 
     double executionTimeActual = (double)executionTimeActualSeconds + (double)executionTimeActualNanoSeconds/(double)1e9;
 
-    log_info( "Exiting now...", "onAlarm", "-" );
-
     // Close logger
     messagesStats.producedDelayAvg /= ( float ) messagesStats.produced; // avg
     messagesStats.producedDelayAvg /= 60.0;                             // sec --> min
-    log_tearDown(executionTimeActual, &messagesStats);
+    log_tearDown(executionTimeActual);
 
     exit( EXIT_SUCCESS );
 }

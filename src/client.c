@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------------------------------------
 
-extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logLock, logEventLock;
+extern pthread_mutex_t messagesBufferLock, availableThreadsLock, logEventLock;
 extern MessagesStats messagesStats;
 extern Message MESSAGES_BUFFER[MESSAGES_SIZE];
 
@@ -53,30 +53,17 @@ void *polling_worker(void)
     int polling_socket_fd;
     uint16_t listIndex;
     uint32_t aem;
-//    const char *ip;
-//    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Use current time as seed for random generator
     srand( (unsigned int) time(NULL) );
 
-//    pthread_mutex_lock( &logLock );
-//        log_info( "Started polling loop! Checking in socket_connect()...", "polling_worker()", "-" );
-//    pthread_mutex_unlock( &logLock );
-
-    // Create polling socket
-    polling_socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
-    if ( polling_socket_fd < 0 )
-    {
-        perror("\tpolling_worker(): socket() failed" );
-        return NULL;
-    }
-
     listIndex = 0;
-    aem = ( !strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
+    aem = ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
     do
     {
         // Try connecting
-        if ( -1 != socket_connect( aem, SOCKET_PORT, polling_socket_fd ) )
+        polling_socket_fd = socket_connect( aem, SOCKET_PORT );
+        if ( -1 != polling_socket_fd )
         {
             //----- NON-CANCELABLE SECTION
             status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -94,14 +81,6 @@ void *polling_worker(void)
                     .server = false
             };
             memcpy( &args.connected_device, &device, sizeof( Device ) );
-
-            fprintf( stdout, "adfadsfa\n" );
-
-//            // Log
-//            pthread_mutex_lock( &logLock );
-//                sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
-//                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
-//            pthread_mutex_unlock( &logLock );
 
             //  - open thread
             if ( communicationThreadsAvailable > 0 )
@@ -128,32 +107,18 @@ void *polling_worker(void)
                 communication_worker( &args );
             }
 
-//            // Log
-//            pthread_mutex_lock( &logLock );
-//                sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
-//                log_info( logMessage, "polling_worker()", "socket.h > socket_connect()" );
-//            pthread_mutex_unlock( &logLock );
-
             status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
             if ( status != 0 )
                 error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
             //-----:end
         }
-        else
-        {
-            usleep( 250000 );
-        }
 
         // Reset polling if reached AEMs range's maximum.
-        if ( !strcmp( "range", CLIENT_AEM_SOURCE ) )
+        if ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) )
         {
             if ( ++aem > CLIENT_AEM_RANGE_MAX )
             {
                 aem = CLIENT_AEM_RANGE_MIN;
-
-//                pthread_mutex_lock( &logLock );
-//                    log_info( "CLIENT_AEM_RANGE_MAX reached. Starting from CLIENT_AEM_RANGE_MIN...", "polling_worker()", "-" );
-//                pthread_mutex_unlock( &logLock );
             }
         }
         else
@@ -179,25 +144,25 @@ void *producer_worker(void)
     do
     {
         pthread_mutex_lock( &logEventLock );
-        log_event_start( "production", 0, 0 );
+            log_event_start( "production", 0, 0 );
 
-        // Generate
-        generateRandomMessage( &message );
-        inspect( message, true, stdout );
+            // Generate
+            generateRandomMessage( &message );
+            inspect( message, true, stdout );
 
-        //----- NON-CANCELABLE SECTION
-        status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
-        if ( status != 0 )
-            error( status, "\tproducer_worker(): pthread_setcancelstate( DISABLE ) failed" );
+            //----- NON-CANCELABLE SECTION
+            status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
+            if ( status != 0 )
+                error( status, "\tproducer_worker(): pthread_setcancelstate( DISABLE ) failed" );
 
-        // Store
-        pthread_mutex_lock( &messagesBufferLock );
-            messages_push( &message );
-        pthread_mutex_unlock( &messagesBufferLock );
+            // Store
+            pthread_mutex_lock( &messagesBufferLock );
+                messages_push( &message );
+            pthread_mutex_unlock( &messagesBufferLock );
 
-        // Log to session.json
-        log_event_message( "produced", &message );
-        log_event_stop();
+            // Log to session.json
+            log_event_message( "produced", &message );
+            log_event_stop();
         pthread_mutex_unlock( &logEventLock );
 
         messagesStats.produced++;
@@ -209,7 +174,7 @@ void *producer_worker(void)
 
         // Sleep
 //        delay = (uint32_t) (rand() % (PRODUCER_DELAY_RANGE_MAX + 1 - PRODUCER_DELAY_RANGE_MIN ) + PRODUCER_DELAY_RANGE_MIN);
-        delay = (uint32_t) (rand() % (5 + 1 - 1 ) + 1);
+        delay = (uint32_t) (rand() % 5 + 1);
         messagesStats.producedDelayAvg += delay;
         sleep( delay );
     }

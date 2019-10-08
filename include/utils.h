@@ -86,9 +86,8 @@ int32_t resolveAemIndex( Device device );
 /// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
 /// \param aem
 /// \param port
-/// \param socket_fd
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect(uint32_t aem, uint16_t port, int socket_fd);
+int socket_connect( uint32_t aem, uint16_t port );
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

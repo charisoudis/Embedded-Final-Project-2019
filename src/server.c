@@ -97,16 +97,6 @@ void inbox_push(Message *message, Device *device)
 
     // Update stats
     messagesStats.received_for_me++;
-
-    // Check buffer overflow
-//    if ( inboxHead == INBOX_SIZE )
-//    {
-//        // If reached buffer's size, double buffer size by reallocating memory
-//        INBOX = (Message *) realloc( INBOX, (INBOX_SIZE * 2) * sizeof( Message ) );
-//
-//        // Update size
-//        INBOX_SIZE *= 2;
-//    }
 }
 
 /// \brief Push $message to $messages circle buffer. Updates $messageHead acc. to selected override policy.
@@ -122,7 +112,7 @@ void messages_push(Message *message)
         do
         {
             if (0 == MESSAGES_BUFFER[messagesHead].created_at ) break;    // found empty message: hole
-            if ( MESSAGES_BUFFER[messagesHead].transmitted ) break;   // found message that was transmitted: "hole"
+            if ( MESSAGES_BUFFER[messagesHead].transmitted ) break;       // found message that was transmitted: "hole"
         }
         while ( ++messagesHead < MESSAGES_SIZE );
 
@@ -151,10 +141,6 @@ void messages_push(Message *message)
     {
         messagesHead = 0;
     }
-
-//    pthread_mutex_lock( &logLock );
-//        inspect_messages( true );
-//    pthread_mutex_unlock( &logLock );
 }
 
 /// \brief Main server loop. Calls communication_thread() on each new connection.
@@ -165,7 +151,6 @@ void listening_worker()
     int status;
     struct sockaddr_in serverAddress;
     struct sockaddr_in clientAddress;
-//    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     // Create the server ( parent ) socket
     server_socket_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -198,10 +183,6 @@ void listening_worker()
         error(status, "ERROR on binding");
 
     listen( server_socket_fd, SOCKET_LISTEN_QUEUE_LEN );
-
-//    pthread_mutex_lock( &logLock );
-//        log_info( "Started listening loop! Waiting in accept()...", "listening_worker()", "-" );
-//    pthread_mutex_unlock( &logLock );
     while (1)
     {
         client_socket_fd = accept(server_socket_fd, (struct sockaddr *) &clientAddress, &(socklen_t){ sizeof( struct sockaddr_in ) } );
@@ -224,14 +205,6 @@ void listening_worker()
                 .server = true
         };
         memcpy( &args.connected_device, &device, sizeof( Device ) );
-
-        fprintf( stdout, "AM SERVER\n" );
-
-        // Log
-//        pthread_mutex_lock( &logLock );
-//            sprintf( logMessage, "Connected: AEM = %04d ( index = %02d )", device.AEM, device.aemIndex );
-//            log_info( logMessage, "listening_worker()", "socket.h > accept()" );
-//        pthread_mutex_unlock( &logLock );
 
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
@@ -261,11 +234,5 @@ void listening_worker()
             args.concurrent = false;
             communication_worker( &args );
         }
-
-        // Log
-//        pthread_mutex_lock( &logLock );
-//        sprintf( logMessage, "Finished: AEM = %04d", device.AEM );
-//        log_info( logMessage, "listening_worker()", "socket.h > accept()" );
-//        pthread_mutex_unlock( &logLock );
     }
 }

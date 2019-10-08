@@ -12,7 +12,7 @@ extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CON
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
-extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock;
 extern MessagesStats messagesStats;
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
@@ -309,21 +309,31 @@ inline int32_t resolveAemIndex( Device device )
 /// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
 /// \param aem
 /// \param port
-/// \param socket_fd
 /// \return -1 on error, opened socket's file descriptor on success
-int socket_connect( uint32_t aem, uint16_t port, int socket_fd )
+int socket_connect( uint32_t aem, uint16_t port )
 {
+    int socket_fd;
     struct sockaddr_in serverAddress;
+    const char *ip;
+
     if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
         return -1;
 
-//    fprintf( stdout, "\t%s\n", aem2ip( aem ) );
+    ip = aem2ip( aem );
+    fprintf( stdout, "\tip = \"%s\"\n", ip );
+
+    socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( socket_fd < 0 )
+    {
+        perror("\tsocket_connect(): socket() failed" );
+        error( socket_fd,"socket_connect(): socket failed" );
+    }
 
     // Set "server" address
     memset( &serverAddress, 0, sizeof(serverAddress) );
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons( port );
-    serverAddress.sin_addr.s_addr = inet_addr( aem2ip( aem ) );
+    serverAddress.sin_addr.s_addr = inet_addr( ip );
     
     return connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
             socket_fd : -1;
