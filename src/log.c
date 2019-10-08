@@ -31,7 +31,7 @@ void log_event_start( const char* type, uint32_t server, uint32_t client )
 {
     gettimeofday( &lastEventStart, NULL );
 
-    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"MESSAGES_BUFFER\": [",
+    fprintf( jsonFilePointer, "{\"occured_at\": \"%s\", \"type\": \"%s\", \"server\": \"%u\", \"client\": \"%u\", \"messages\": [",
             timestamp2ftime( (uint64_t) time(NULL), "%H:%M:%S" ), type,
             server, client );
 }
