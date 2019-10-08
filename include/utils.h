@@ -57,10 +57,6 @@ void implode(const char *glue, Message message, char *messageSerialized);
 /// \param fp file pointer to where to output inspection
 void inspect(Message message, bool metadata, FILE *fp);
 
-/// \brief Inspect all messages in $messages buffer.
-/// \param inspect_each
-void inspect_messages(bool inspect_each);
-
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )
 /// \return aem uint32_t

@@ -213,29 +213,6 @@ void inspect(const Message message, bool metadata, FILE *fp)
     fprintf( fp, "}\n" );
 }
 
-/// \brief Inspect all messages in $messages buffer.
-/// \param inspect_each
-void inspect_messages(bool inspect_each)
-{
-    fprintf( stdout, "\n\ninspection:start\n" );
-    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
-    {
-        if (MESSAGES_BUFFER[message_i].created_at > 0 )
-        {
-            fprintf(stdout, "\t%02d) %04d --> %04d ( time: %010lu ) \n",
-                    message_i, MESSAGES_BUFFER[message_i].sender,
-                    MESSAGES_BUFFER[message_i].recipient, MESSAGES_BUFFER[message_i].created_at
-            );
-
-            if ( inspect_each )
-            {
-                inspect(MESSAGES_BUFFER[message_i], true, stdout );
-            }
-        }
-    }
-    fprintf( stdout, "\n\ninspection:end\n" );
-}
-
 /// \brief Extracts AEM from given IPv4 address.
 /// \param ip string ( resulting from inet_ntop() )
 /// \return aem uint32_t
