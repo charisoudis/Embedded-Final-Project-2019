@@ -50,7 +50,7 @@ uint32_t getClientAem(const char *interface)
 void *polling_worker(void)
 {
     int status;
-    int polling_socket_fd;
+    int socket_fd;
     uint16_t listIndex;
     uint32_t aem;
 
@@ -62,8 +62,8 @@ void *polling_worker(void)
     do
     {
         // Try connecting
-        polling_socket_fd = socket_connect( aem, SOCKET_PORT );
-        if ( -1 != polling_socket_fd )
+        socket_fd = socket_connect(aem, SOCKET_PORT );
+        if (-1 != socket_fd )
         {
             //----- NON-CANCELABLE SECTION
             status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
@@ -77,7 +77,7 @@ void *polling_worker(void)
                     .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem )
             };
             CommunicationWorkerArgs args = {
-                    .connected_socket_fd = (uint16_t) polling_socket_fd,
+                    .connected_socket_fd = (uint16_t) socket_fd,
                     .server = false
             };
             memcpy( &args.connected_device, &device, sizeof( Device ) );
