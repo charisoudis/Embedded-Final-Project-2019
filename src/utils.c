@@ -298,7 +298,7 @@ bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
         return false;
 
     ip = aem2ip( aem );
-    fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
+//    fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
 
     // Set "server" address
     bzero((char *)&serverAddress, sizeof(serverAddress));
@@ -306,8 +306,15 @@ bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
     serverAddress.sin_port = htons( port );
     serverAddress.sin_addr.s_addr = inet_addr( ip );
     
-    return connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
+    bool return_value = connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
             true : false;
+
+//    if ( false == return_value )
+//    {
+//        close( socket_fd );
+//    }
+
+    return return_value;
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.

@@ -56,6 +56,7 @@ void *polling_worker(void)
     int32_t socket_fd;
     int32_t POLLING_SOCKET_FDS[ pollingListLength ];
     uint32_t aem;
+    uint32_t round_i;
 
     // Setup polling socket FDs
     for ( uint16_t socket_fd_i = 0; socket_fd_i < pollingListLength; socket_fd_i++ )
@@ -69,8 +70,11 @@ void *polling_worker(void)
     }
 
     // Polling loop
+    round_i = 0;
     do
     {
+        fprintf( stdout, "\tpolling_worker(): round_i = %04d\n", round_i );
+
         // Start a new polling round in the list of AEMs
         for ( uint16_t client_aem_i = 0; client_aem_i < pollingListLength; client_aem_i++ )
         {
@@ -134,35 +138,9 @@ void *polling_worker(void)
             }
         }
 
-        break;
+        round_i++;
     }
     while( 1 );
-//
-//    do
-//    {
-//        aem = ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
-//
-//
-//
-//        // Reset polling if reached AEMs range's maximum.
-//        if ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) )
-//        {
-//            if ( ++aem > CLIENT_AEM_RANGE_MAX )
-//            {
-//                aem = CLIENT_AEM_RANGE_MIN;
-//            }
-//        }
-//        else
-//        {
-//            if ( ++listIndex == CLIENT_AEM_LIST_LENGTH )
-//            {
-//                listIndex = 0;
-//            }
-//
-//            aem = CLIENT_AEM_LIST[listIndex];
-//        }
-//    }
-//    while( 1 );
 }
 
 /// \brief Message producer thread. Produces a random message at the end of the pre-defined interval.

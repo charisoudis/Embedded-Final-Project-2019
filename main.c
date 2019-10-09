@@ -49,30 +49,30 @@ static void onSetupAlarm(int signo);
 /// \return
 int main( int argc, char **argv )
 {
-    Message message;
-    messagesStats.produced = 0;
-    messagesStats.received = 0;
-    messagesStats.received_for_me = 0;
-    messagesStats.transmitted = 0;
-    messagesStats.transmitted_to_recipient = 0;
-
-    log_tearUp( "session1.json" );
-    log_event_start( "connnection", 9026, 8600 );
-
-    generateRandomMessage( &message );
-    log_event_message( "received", &message );
-    generateRandomMessage( &message );
-    log_event_message( "received", &message );
-
-    generateRandomMessage( &message );
-    log_event_message( "transmitted", &message );
-    generateRandomMessage( &message );
-    log_event_message( "transmitted", &message );
-
-    log_event_stop();
-    log_tearDown( 0.0 );
-
-    return 1;
+//    Message message;
+//    messagesStats.produced = 0;
+//    messagesStats.received = 0;
+//    messagesStats.received_for_me = 0;
+//    messagesStats.transmitted = 0;
+//    messagesStats.transmitted_to_recipient = 0;
+//
+//    log_tearUp( "session1.json" );
+//    log_event_start( "connnection", 9026, 8600 );
+//
+//    generateRandomMessage( &message );
+//    log_event_message( "received", &message );
+//    generateRandomMessage( &message );
+//    log_event_message( "received", &message );
+//
+//    generateRandomMessage( &message );
+//    log_event_message( "transmitted", &message );
+//    generateRandomMessage( &message );
+//    log_event_message( "transmitted", &message );
+//
+//    log_event_stop();
+//    log_tearDown( 0.0 );
+//
+//    return 1;
 
     int status;
 
