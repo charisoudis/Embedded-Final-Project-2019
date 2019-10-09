@@ -54,20 +54,8 @@ void *polling_worker(void)
 
     int status;
     int32_t socket_fd;
-    int32_t POLLING_SOCKET_FDS[ pollingListLength ];
     uint32_t aem;
     uint32_t round_i;
-
-    // Setup polling socket FDs
-//    for ( uint16_t socket_fd_i = 0; socket_fd_i < pollingListLength; socket_fd_i++ )
-//    {
-//        POLLING_SOCKET_FDS[ socket_fd_i ] = (int32_t) socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
-//        if ( POLLING_SOCKET_FDS[ socket_fd_i ] < 0 )
-//        {
-//            perror("\tpolling_worker(): socket() failed" );
-//            _exit( 1 );
-//        }
-//    }
 
     // Polling loop
     round_i = 0;
@@ -84,8 +72,7 @@ void *polling_worker(void)
                   CLIENT_AEM_LIST[ client_aem_i ];
 
             // Get socket
-//            socket_fd = POLLING_SOCKET_FDS[ client_aem_i ];
-            socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
+            socket_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
 
             // Try connecting
             if ( true == socket_connect( socket_fd, aem, SOCKET_PORT ) )

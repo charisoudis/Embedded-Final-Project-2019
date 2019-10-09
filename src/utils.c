@@ -309,11 +309,6 @@ bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
     bool return_value = connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
             true : false;
 
-//    if ( false == return_value )
-//    {
-//        close( socket_fd );
-//    }
-
     return return_value;
 }
 

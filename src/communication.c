@@ -91,7 +91,7 @@ void communication_datetime_listener_worker(void)
 
             //  - close write stream
             shutdown( client_socket_fd, SHUT_WR );
-//            close( client_socket_fd );
+            close( client_socket_fd );
         
         pthread_mutex_unlock( &logEventLock );
 
@@ -148,7 +148,7 @@ bool communication_datetime_receiver()
 
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
-//            close( socket_fd );
+            close( socket_fd );
 
             log_event_stop();
 
@@ -225,7 +225,7 @@ void communication_worker(void *thread_args)
         }
 
         // Close Socket
-//        close( args->connected_socket_fd );
+        close( args->connected_socket_fd );
 
         // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
         if ( args->concurrent )
