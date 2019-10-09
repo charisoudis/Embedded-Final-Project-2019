@@ -104,11 +104,15 @@ void log_tearDown(const double executionTimeActual)
             messagesStats.transmitted, messagesStats.transmitted_to_recipient, messagesStats.producedDelayAvg );
 
     // Inspect connections
-    fprintf( stdout, "\n\n-------------------- start: DEVICES INSPECTION --------------------\n" );
+    if ( ALSO_LOG_TO_STDOUT )
+        fprintf( stdout, "\n\n-------------------- start: DEVICES INSPECTION --------------------\n" );
+
     for ( uint32_t device_i = 0; device_i < CLIENT_AEM_LIST_LENGTH; device_i++ )
     {
         uint32_t aem = CLIENT_AEM_LIST[device_i];
-        fprintf( stdout, "\t- %04d\n", aem );
+
+        if ( ALSO_LOG_TO_STDOUT )
+            fprintf( stdout, "\t- %04d\n", aem );
 
         if ( 0 < CLIENT_AEM_CONN_N_LIST[device_i] )
         {
@@ -120,11 +124,12 @@ void log_tearDown(const double executionTimeActual)
                 double duration = (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec ) * 1e3 +
                         (double)( CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec - CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec ) * 1e-3;
 
-                fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lfms )\n",
-                    CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
-                    CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
-                    duration
-                );
+                if ( ALSO_LOG_TO_STDOUT )
+                    fprintf( stdout, "\t\t start: %lf | end %lf ( duration: %lfms )\n",
+                        CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-6,
+                        CLIENT_AEM_CONN_END_LIST[device_i][n].tv_sec + CLIENT_AEM_CONN_END_LIST[device_i][n].tv_usec * 1e-6,
+                        duration
+                    );
 
                 fprintf( jsonFilePointer, "{\"start\": \"%s.%03d\", \"end\": \"%s.%03d\", \"duration\": \"%.2fms\" },",
                     timestamp2ftime( CLIENT_AEM_CONN_START_LIST[device_i][n].tv_sec, "%H:%M:%S" ), (int)(CLIENT_AEM_CONN_START_LIST[device_i][n].tv_usec * 1e-3),
@@ -139,7 +144,9 @@ void log_tearDown(const double executionTimeActual)
             fprintf( jsonFilePointer, "], \"average_duration\": \"%.2fms\"},", averageDuration / (double) CLIENT_AEM_CONN_N_LIST[device_i] );
         }
     }
-    fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
+
+    if ( ALSO_LOG_TO_STDOUT )
+        fprintf( stdout, "\n-------------------- end: DEVICES INSPECTION --------------------\n\n" );
 
     // Finalize & close json file pointer
     removeTrailingCommaFromJson();
@@ -182,7 +189,7 @@ void log_tearUp(const char *jsonFileName)
 {
     // Check if session.json file exists
     remove( jsonFileName );
-    jsonFilePointer = fopen( jsonFileName, "w" );
+    jsonFilePointer = fopen( jsonFileName, "w+" );
 
     const char* nowAsString = timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" );
 
@@ -208,26 +215,24 @@ void log_tearUp(const char *jsonFileName)
 /// \brief Removes last character from session.json file
 void removeTrailingCommaFromJson(void)
 {
-//    fpos_t lastFilePosition;
-//    fpos_t endFilePosition;
-    __off_t lastFileOffset;
-    __off_t endFileOffset;
+    fpos_t lastFilePosition;
+    fpos_t endFilePosition;
 
     // Get end file position
-//    fgetpos( jsonFilePointer, &endFilePosition );
-    endFileOffset = ftello( jsonFilePointer );
+    fgetpos( jsonFilePointer, &endFilePosition );
 
     // Go to last character's position
-    fseeko( jsonFilePointer, -1, SEEK_END );
+    if ( -1 == fseek( jsonFilePointer, -1L, SEEK_CUR ) )
+    {
+        perror( "removeTrailingCommaFromJson(): fseek" );
+    }
 
     // Get last character's position in session.json file
-//    fgetpos( jsonFilePointer, &lastFilePosition );
-    lastFileOffset = ftello( jsonFilePointer );
+    fgetpos( jsonFilePointer, &lastFilePosition );
 
     // Set new write position to last character's position to overwrite character ( if it was comma )
-//    fsetpos( jsonFilePointer, ',' == (char) fgetc( jsonFilePointer ) ? &lastFilePosition : &endFilePosition );
-    if ( ',' == (char) fgetc( jsonFilePointer ) )
+    if ( -1 == fsetpos( jsonFilePointer, ',' == (char) fgetc( jsonFilePointer ) ? &lastFilePosition : &endFilePosition ) )
     {
-        ftruncate( fileno(jsonFilePointer), lastFileOffset );
+        perror( "removeTrailingCommaFromJson(): fsetpos()" );
     }
 }

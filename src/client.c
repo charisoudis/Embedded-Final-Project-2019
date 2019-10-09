@@ -49,89 +49,120 @@ uint32_t getClientAem(const char *interface)
 /// \brief Polling thread. Starts polling to find active servers. Creates a new thread for each server found.
 void *polling_worker(void)
 {
+    uint16_t pollingListLength = ( 0 == strcmp("list", CLIENT_AEM_SOURCE) ) ?
+            CLIENT_AEM_LIST_LENGTH : CLIENT_AEM_RANGE_LENGTH;
+
     int status;
-    int socket_fd;
-    uint16_t listIndex;
+    int32_t socket_fd;
+    int32_t POLLING_SOCKET_FDS[ pollingListLength ];
     uint32_t aem;
 
-    // Use current time as seed for random generator
-    srand( (unsigned int) time(NULL) );
-
-    listIndex = 0;
-    aem = ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
-    do
+    // Setup polling socket FDs
+    for ( uint16_t socket_fd_i = 0; socket_fd_i < pollingListLength; socket_fd_i++ )
     {
-        // Try connecting
-        socket_fd = socket_connect( aem, SOCKET_PORT );
-        if (-1 != socket_fd )
+        POLLING_SOCKET_FDS[ socket_fd_i ] = (int32_t) socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
+        if ( POLLING_SOCKET_FDS[ socket_fd_i ] < 0 )
         {
-            //----- NON-CANCELABLE SECTION
-            status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
-            if ( status != 0 )
-                error( status, "\tpolling_worker(): pthread_setcancelstate( DISABLE ) failed" );
-
-            // Connected > OffLoad to communication worker
-            //  - format arguments
-            Device device = {
-                    .AEM = aem,
-                    .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, aem )
-            };
-            CommunicationWorkerArgs args = {
-                    .connected_socket_fd = (uint16_t) socket_fd,
-                    .server = false
-            };
-            memcpy( &args.connected_device, &device, sizeof( Device ) );
-
-            //  - open thread
-            if ( communicationThreadsAvailable > 0 )
-            {
-                pthread_mutex_lock( &availableThreadsLock );
-                    pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
-                    communicationThreadsAvailable--;
-                pthread_mutex_unlock( &availableThreadsLock );
-
-                args.concurrent = true;
-
-                status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
-                if ( status != 0 )
-                    error( status, "\tpolling_worker(): pthread_create() failed" );
-
-                status = pthread_detach( communicationThread );
-                if ( status != 0 )
-                    error( status, "\tpolling_worker(): pthread_detach() failed" );
-            }
-            else
-            {
-                // run in current thread
-                args.concurrent = false;
-                communication_worker( &args );
-            }
-
-            status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
-            if ( status != 0 )
-                error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
-            //-----:end
-        }
-
-        // Reset polling if reached AEMs range's maximum.
-        if ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) )
-        {
-            if ( ++aem > CLIENT_AEM_RANGE_MAX )
-            {
-                aem = CLIENT_AEM_RANGE_MIN;
-            }
-        }
-        else
-        {
-            if ( ++listIndex == CLIENT_AEM_LIST_LENGTH )
-            {
-                listIndex = 0;
-            }
-
-            aem = CLIENT_AEM_LIST[listIndex];
+            perror("\tpolling_worker(): socket() failed" );
+            _exit( 1 );
         }
     }
+
+    // Polling loop
+    do
+    {
+        // Start a new polling round in the list of AEMs
+        for ( uint16_t client_aem_i = 0; client_aem_i < pollingListLength; client_aem_i++ )
+        {
+            // Get aem
+            aem = ( pollingListLength == CLIENT_AEM_RANGE_LENGTH ) ?
+                  ( CLIENT_AEM_RANGE_MIN + client_aem_i ):
+                  CLIENT_AEM_LIST[ client_aem_i ];
+
+            // Get socket
+            socket_fd = POLLING_SOCKET_FDS[ client_aem_i ];
+
+            // Try connecting
+            if ( true == socket_connect( socket_fd, aem, SOCKET_PORT ) )
+            {
+                //----- NON-CANCELABLE SECTION
+                status = pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
+                if ( status != 0 )
+                    error( status, "\tpolling_worker(): pthread_setcancelstate( DISABLE ) failed" );
+
+                // Connected > OffLoad to communication worker
+                //  - format arguments
+                Device device = {
+                        .AEM = aem,
+                        .aemIndex = client_aem_i
+                };
+                CommunicationWorkerArgs args = {
+                        .connected_socket_fd = (int32_t) socket_fd,
+                        .server = false
+                };
+                memcpy( &args.connected_device, &device, sizeof( Device ) );
+
+                //  - open thread
+                if ( communicationThreadsAvailable > 0 )
+                {
+                    pthread_mutex_lock( &availableThreadsLock );
+                    pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+                    communicationThreadsAvailable--;
+                    pthread_mutex_unlock( &availableThreadsLock );
+
+                    args.concurrent = true;
+
+                    status = pthread_create( &communicationThread, NULL, (void *) communication_worker, &args );
+                    if ( status != 0 )
+                        error( status, "\tpolling_worker(): pthread_create() failed" );
+
+                    status = pthread_detach( communicationThread );
+                    if ( status != 0 )
+                        error( status, "\tpolling_worker(): pthread_detach() failed" );
+                }
+                else
+                {
+                    // run in current thread
+                    args.concurrent = false;
+                    communication_worker( &args );
+                }
+
+                status = pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
+                if ( status != 0 )
+                    error( status, "\tpolling_worker(): pthread_setcancelstate( ENABLE ) failed" );
+                //-----:end
+            }
+        }
+
+        break;
+    }
     while( 1 );
+//
+//    do
+//    {
+//        aem = ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) ) ? CLIENT_AEM_RANGE_MIN : CLIENT_AEM_LIST[listIndex];
+//
+//
+//
+//        // Reset polling if reached AEMs range's maximum.
+//        if ( 0 == strcmp( "range", CLIENT_AEM_SOURCE ) )
+//        {
+//            if ( ++aem > CLIENT_AEM_RANGE_MAX )
+//            {
+//                aem = CLIENT_AEM_RANGE_MIN;
+//            }
+//        }
+//        else
+//        {
+//            if ( ++listIndex == CLIENT_AEM_LIST_LENGTH )
+//            {
+//                listIndex = 0;
+//            }
+//
+//            aem = CLIENT_AEM_LIST[listIndex];
+//        }
+//    }
+//    while( 1 );
 }
 
 /// \brief Message producer thread. Produces a random message at the end of the pre-defined interval.
@@ -144,6 +175,7 @@ void *producer_worker(void)
     do
     {
         pthread_mutex_lock( &logEventLock );
+
             log_event_start( "production", 0, 0 );
 
             // Generate
@@ -163,6 +195,7 @@ void *producer_worker(void)
             // Log to session.json
             log_event_message( "produced", &message );
             log_event_stop();
+
         pthread_mutex_unlock( &logEventLock );
 
         messagesStats.produced++;

@@ -284,28 +284,21 @@ inline int32_t resolveAemIndex( Device device )
     return device.aemIndex;
 }
 
-/// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
+/// \brief Tries to connect via $socket_fd to given AEM (creating respective IP address) & port.
+/// \param socket_fd
 /// \param aem
 /// \param port
-/// \return -1 on error, opened socket's file descriptor on success
-int socket_connect( uint32_t aem, uint16_t port )
+/// \return FALSE on error, TRUE on successful connect()
+bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
 {
-    int socket_fd;
     struct sockaddr_in serverAddress;
     const char *ip;
 
     if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
-        return -1;
+        return false;
 
     ip = aem2ip( aem );
     fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
-
-    socket_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
-    if ( socket_fd < 0 )
-    {
-        perror("\tsocket_connect(): socket() failed" );
-        error( socket_fd,"socket_connect(): socket failed" );
-    }
 
     // Set "server" address
     bzero((char *)&serverAddress, sizeof(serverAddress));
@@ -314,7 +307,7 @@ int socket_connect( uint32_t aem, uint16_t port )
     serverAddress.sin_addr.s_addr = inet_addr( ip );
     
     return connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
-            socket_fd : -1;
+            true : false;
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.

@@ -79,11 +79,12 @@ bool isMessageEqualInbox(InboxMessage message1, InboxMessage message2);
 /// \return
 int32_t resolveAemIndex( Device device );
 
-/// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
+/// \brief Tries to connect via $socket_fd to given AEM (creating respective IP address) & port.
+/// \param socket_fd
 /// \param aem
 /// \param port
-/// \return -1 on error, opened socket's file descriptor on success
-int socket_connect( uint32_t aem, uint16_t port );
+/// \return FALSE on error, TRUE on successful connect()
+bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port );
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
 /// \param timestamp UNIX timestamp ( uint64 )

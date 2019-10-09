@@ -49,6 +49,31 @@ static void onSetupAlarm(int signo);
 /// \return
 int main( int argc, char **argv )
 {
+    Message message;
+    messagesStats.produced = 0;
+    messagesStats.received = 0;
+    messagesStats.received_for_me = 0;
+    messagesStats.transmitted = 0;
+    messagesStats.transmitted_to_recipient = 0;
+
+    log_tearUp( "session1.json" );
+    log_event_start( "connnection", 9026, 8600 );
+
+    generateRandomMessage( &message );
+    log_event_message( "received", &message );
+    generateRandomMessage( &message );
+    log_event_message( "received", &message );
+
+    generateRandomMessage( &message );
+    log_event_message( "transmitted", &message );
+    generateRandomMessage( &message );
+    log_event_message( "transmitted", &message );
+
+    log_event_stop();
+    log_tearDown( 0.0 );
+
+    return 1;
+
     int status;
 
     // Set max execution time ( in seconds )
@@ -92,25 +117,28 @@ int main( int argc, char **argv )
     messagesStats.transmitted_to_recipient = 0;
 
     // Setup datetime
-    setupDatetimeAem = ( argc < 3 ) ? SETUP_DATETIME_AEM : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
-    if ( setupDatetimeAem > 0 )
+    if ( 1 == SYNC_DATETIME )
     {
-        if ( CLIENT_AEM == setupDatetimeAem )
+        setupDatetimeAem = ( argc < 3 ) ? SETUP_DATETIME_AEM : (uint32_t) strtol( argv[1], (char **)NULL, STRSEP_BASE_10 );
+        if ( setupDatetimeAem > 0 )
         {
-            // Start datetime transmitter server ( in a new thread )
-            status = pthread_create( &datetimeListenerThread, NULL, (void *) communication_datetime_listener_worker, NULL );
-            if ( status != 0 )
-                error( status, "\tmain(): pthread_create( datetimeListenerThread ) failed" );
-        }
-        else
-        {
-            // Setup alarm for setup
-            alarm( SETUP_DATETIME_TIMEOUT );
-            signal( SIGALRM, onSetupAlarm );
+            if ( CLIENT_AEM == setupDatetimeAem )
+            {
+                // Start datetime transmitter server ( in a new thread )
+                status = pthread_create( &datetimeListenerThread, NULL, (void *) communication_datetime_listener_worker, NULL );
+                if ( status != 0 )
+                    error( status, "\tmain(): pthread_create( datetimeListenerThread ) failed" );
+            }
+            else
+            {
+                // Setup alarm for setup
+                alarm( SETUP_DATETIME_TIMEOUT );
+                signal( SIGALRM, onSetupAlarm );
 
-            // Receive & set datetime from datetime server
-            if ( false == communication_datetime_receiver() )
-                error( -1, "\tmain(): communication_datetime_receiver() failed" );
+                // Receive & set datetime from datetime server
+                if ( false == communication_datetime_receiver() )
+                    error( -1, "\tmain(): communication_datetime_receiver() failed" );
+            }
         }
     }
 

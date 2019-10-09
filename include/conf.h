@@ -5,15 +5,25 @@
 #include <stdbool.h>
 
 // start: main
-#define MAX_EXECUTION_TIME 7200               // 2 hours
-#define SETUP_DATETIME_AEM 0001               // Device with AEM = 0001 will setup datetime with all connected devices
-#define SETUP_DATETIME_TIMEOUT 10             // secs
+#ifndef MAX_EXECUTION_TIME
+    #define MAX_EXECUTION_TIME 7200               // 2 hours
+#endif
+// end
+
+// start: Communication.h
+#ifndef SYNC_DATETIME
+    #define SYNC_DATETIME 0                       // flag to sync date time
+    #define SETUP_DATETIME_AEM 0001               // Device with AEM = 0001 will setup datetime with all connected devices
+    #define SETUP_DATETIME_TIMEOUT 10             // secs
+#endif
 // end
 
 // start: Client.h
 #ifndef CLIENT_AEM_RANGE
     #define CLIENT_AEM_RANGE_MIN 8000
     #define CLIENT_AEM_RANGE_MAX 9050
+
+    #define CLIENT_AEM_RANGE_LENGTH (CLIENT_AEM_RANGE_MAX - CLIENT_AEM_RANGE_MIN + 1)
 #endif
 
 #ifndef CLIENT_AEM_LIST_LENGTH

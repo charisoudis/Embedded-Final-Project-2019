@@ -74,27 +74,26 @@ void communication_datetime_listener_worker(void)
         if (client_socket_fd < 0)
             error(client_socket_fd, "ERROR on accept");
 
-        pthread_mutex_lock(&logEventLock);
+        pthread_mutex_lock( &logEventLock );
 
-        //  - get client address
-        char ip[INET_ADDRSTRLEN];
-        inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
+            //  - get client address
+            char ip[INET_ADDRSTRLEN];
+            inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
 
-        //  - close read stream
-        shutdown( client_socket_fd, SHUT_RD );
+            //  - close read stream
+            shutdown( client_socket_fd, SHUT_RD );
 
-        //  - get time
-        gettimeofday( &tv, &tz );
+            //  - get time
+            gettimeofday( &tv, &tz );
 
-        //  - send time
-        send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
+            //  - send time
+            send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
 
-        //  - close write stream
-        shutdown( client_socket_fd, SHUT_WR );
-//        close( client_socket_fd );
+            //  - close write stream
+            shutdown( client_socket_fd, SHUT_WR );
+            close( client_socket_fd );
         
-        pthread_mutex_unlock(&logEventLock);
-
+        pthread_mutex_unlock( &logEventLock );
 
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
     }
@@ -111,11 +110,13 @@ bool communication_datetime_receiver()
     uint64_t previous_now;
     uint64_t new_now;
 
+    // Initialize socket file descriptor
+    socket_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
+
     do
     {
         // Try connecting
-        socket_fd = socket_connect( SETUP_DATETIME_AEM, SOCKET_PORT + 1 );
-        if ( -1 != socket_fd )
+        if ( true == socket_connect( (int32_t) socket_fd, SETUP_DATETIME_AEM, SOCKET_PORT + 1 ) )
         {
             log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
 
@@ -147,7 +148,7 @@ bool communication_datetime_receiver()
 
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
-//            close( socket_fd );
+            close( socket_fd );
 
             log_event_stop();
 
@@ -168,14 +169,7 @@ void communication_worker(void *thread_args)
     bool deviceExists;
 
     // Check if there is an active connection with given device
-    // Update active devices
-    pthread_mutex_lock( &activeDevicesLock );
-        deviceExists = devices_exists( args->connected_device );
-        if ( !deviceExists )
-        {
-            devices_push( args->connected_device );
-        }
-    pthread_mutex_unlock( &activeDevicesLock );
+    deviceExists = devices_exists( args->connected_device );
 
     pthread_mutex_lock( &logEventLock );
         log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
@@ -184,6 +178,11 @@ void communication_worker(void *thread_args)
         // If no active connection with given device exists
         if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
         {
+            // Update active devices
+            pthread_mutex_lock( &activeDevicesLock );
+                devices_push( args->connected_device );
+            pthread_mutex_unlock( &activeDevicesLock );
+
             gettimeofday( &(CLIENT_AEM_CONN_START_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
 
             // If device is server, act as transmitter, else act as receiver.
@@ -214,7 +213,7 @@ void communication_worker(void *thread_args)
 
             // Update active devices
             pthread_mutex_lock( &activeDevicesLock );
-            devices_remove( args->connected_device );
+                devices_remove( args->connected_device );
             pthread_mutex_unlock( &activeDevicesLock );
         }
         else

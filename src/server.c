@@ -24,7 +24,7 @@ Message MESSAGES_BUFFER[ MESSAGES_SIZE ];
 InboxMessage INBOX[ INBOX_SIZE ];
 
 // Active flag for each AEM
-bool CLIENT_AEM_ACTIVE_LIST[CLIENT_AEM_LIST_LENGTH] = {false};
+bool CLIENT_AEM_ACTIVE_LIST[ CLIENT_AEM_LIST_LENGTH ] = {false};
 
 
 /// \brief Check if $device exists $activeDevices FIFO queue.
@@ -163,11 +163,8 @@ void listening_worker()
     serverAddress.sin_addr.s_addr = inet_addr( aem2ip( CLIENT_AEM ) );
     serverAddress.sin_port = htons((unsigned short)SOCKET_PORT );
 
-    /* setsockopt: Handy debugging trick that lets
-     * us rerun the server immediately after we kill it;
-     * otherwise we have to wait about 20 secs.
-     * Eliminates "ERROR on binding: Address already in use" error.
-     */
+    // setsockopt: Handy debugging trick that lets us rerun the server immediately after we kill it;
+    // otherwise we have to wait about 20 secs. Eliminates "ERROR on binding: Address already in use" error.
     status = 1;
     if ( setsockopt( server_socket_fd, SOL_SOCKET, SO_REUSEPORT, (const void *)&status, sizeof(int) ) < 0 )
         perror("setsockopt ( SO_REUSEPORT )");
@@ -198,10 +195,10 @@ void listening_worker()
         uint32_t clientAem = ip2aem(ip );
         Device device = {
                 .AEM = clientAem,
-                .aemIndex = binary_search_index(CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, clientAem )
+                .aemIndex = binary_search_index( CLIENT_AEM_LIST, CLIENT_AEM_LIST_LENGTH, clientAem )
         };
         CommunicationWorkerArgs args = {
-                .connected_socket_fd = (uint16_t) client_socket_fd,
+                .connected_socket_fd = (int32_t) client_socket_fd,
                 .server = true
         };
         memcpy( &args.connected_device, &device, sizeof( Device ) );
@@ -209,14 +206,11 @@ void listening_worker()
         //  - open thread
         if ( communicationThreadsAvailable > 0 )
         {
-            //----- CRITICAL SECTION
+            // Update available treads count
             pthread_mutex_lock( &availableThreadsLock );
-
-            pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
-            communicationThreadsAvailable--;
-
+                pthread_t communicationThread = communicationThreads[ COMMUNICATION_WORKERS_MAX - communicationThreadsAvailable ];
+                communicationThreadsAvailable--;
             pthread_mutex_unlock( &availableThreadsLock );
-            //-----:end
 
             args.concurrent = true;
 
