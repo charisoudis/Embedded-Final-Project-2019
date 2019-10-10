@@ -31,7 +31,7 @@
 #endif
 
 #ifndef MAX_CONNECTIONS_WITH_SAME_CLIENT
-    #define MAX_CONNECTIONS_WITH_SAME_CLIENT 100
+    #define MAX_CONNECTIONS_WITH_SAME_CLIENT 1000
 #endif
 
 #ifndef PRODUCER_DELAY_RANGE    // in seconds
@@ -47,7 +47,7 @@
 
 // start: Server.h
 #ifndef MESSAGES_PUSH_OVERRIDE_POLICY
-    #define MESSAGES_PUSH_OVERRIDE_POLICY "sent_only"   // "sent_only", "blind"
+    #define MESSAGES_PUSH_OVERRIDE_POLICY "blind"   // "sent_only", "blind"
 #endif
 
 #ifndef MESSAGES_SIZE
