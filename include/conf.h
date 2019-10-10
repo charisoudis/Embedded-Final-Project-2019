@@ -12,7 +12,7 @@
 
 // start: Communication.h
 #ifndef SYNC_DATETIME
-    #define SYNC_DATETIME 1                       // flag to sync date time
+    #define SYNC_DATETIME 0                       // flag to sync date time
     #define SETUP_DATETIME_AEM 0001               // Device with AEM = 0001 will setup datetime with all connected devices
     #define SETUP_DATETIME_TIMEOUT 10             // secs
 #endif
