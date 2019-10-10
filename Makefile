@@ -1,45 +1,39 @@
-CC_DIR    = /home/argiris/Desktop/Argiris/EmbeddedSystems/openwrt-zsun-zsun/staging_dir/toolchain-mips_mips32_gcc-4.8-linaro_uClibc-0.9.33.2/bin
-CC        = echo "01041960" | sudo -S $(CC_DIR)/mips-openwrt-linux-gcc -std=c99 -g -Iinclude
-XFLAGS    = -lpthread
+CC := gcc
+TARGET_EXEC ?= final
 
-# Final target executable
-LINK_TARGET = ./out/final.out
+BUILD_DIR ?= ./build
+SRC_DIRS ?= ./src
+INCLUDE_DIR ?= include
 
-# Partial Object codes
-OBJS =  \
-	client.o \
-	server.o \
-	utils.o \
-	main.o
+SRCS := $(shell find $(SRC_DIRS) -name '*.c')
+SRCS := $(SRCS) main.c
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
-# Clean-up rule
-clean :
-	rm -f $(OBJS) $(LINK_TARGET)
+INC_DIRS := $(shell find $(INCLUDE_DIR) -type d)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-# Search for .c files in "src" directory; .h files in "include" directory
-# The pattern matching character '%' matches filename without the extension
-vpath %.c src
-vpath %.h include
+CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
+LDFLAGS ?= -lpthread
 
-# Entry point of compilation
-$(LINK_TARGET) : $(OBJS)
-	mkdir -p out
-	$(CC) -o $@ $^ $(XFLAGS)
+# Link all
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	$(RM) -r $(OBJS) $(DEPS)
+	rmdir $(BUILD_DIR)/$(SRC_DIRS)
 
-# Here is a Pattern Rule, often used for compile-line.
-# It says how to create a file with a .o suffix, given a file with a .c suffix.
-# The rule's command uses some built-in Make Macros:
-# $@ for the pattern-matched target
-# $< for the pattern-matched dependency
-%.o : %.c
-	$(CC) -o $@ -c $<
+# Compile a single C source
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-# Dependency Rules are often used to capture header file dependencies.
-client.o : client.h
-server.o : server.h
-utils.o : utils.h
-main.o : client.h server.h utils.h
+.PHONY: clean
+clean:
+	$(RM) -r $(BUILD_DIR)
 
-# Make rule
-all : $(LINK_TARGET)
-	rm -f $(OBJS) && sshpass -p 123456 scp $(LINK_TARGET) root@192.168.1.1:/root
+-include $(DEPS)
+
+MKDIR_P ?= mkdir -p
+
+.PHONY: print-%
+print-%  : ; @echo $* = $($*)
