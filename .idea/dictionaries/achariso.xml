@@ -15,6 +15,7 @@
       <w>signo</w>
       <w>strftime</w>
       <w>struct</w>
+      <w>timeofday</w>
       <w>tmessages</w>
       <w>tproducer</w>
       <w>tserver</w>

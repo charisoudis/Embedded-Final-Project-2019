@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <assert.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -13,7 +14,7 @@ extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CON
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
-extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock, logEventLock;
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logEventLock;
 extern MessagesStats messagesStats;
 
 extern pthread_t communicationThreads[ COMMUNICATION_WORKERS_MAX ];
@@ -73,28 +74,27 @@ void communication_datetime_listener_worker(void)
         if (client_socket_fd < 0)
             error(client_socket_fd, "ERROR on accept");
 
-        //  - get client address
-        char ip[INET_ADDRSTRLEN];
-        inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
+        pthread_mutex_lock( &logEventLock );
 
-        //  - close read stream
-        shutdown( client_socket_fd, SHUT_RD );
+            //  - get client address
+            char ip[INET_ADDRSTRLEN];
+            inet_ntop( AF_INET, &( clientAddress.sin_addr ), ip, INET_ADDRSTRLEN );
 
-        //  - get time
-        gettimeofday( &tv, &tz );
+            //  - close read stream
+            shutdown( client_socket_fd, SHUT_RD );
 
-        //  - send time
-        send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
-//        send( client_socket_fd, &tz, sizeof(struct timezone), 0 );
+            //  - get time
+            gettimeofday( &tv, &tz );
 
-        //  - close write stream
-        shutdown( client_socket_fd, SHUT_WR );
+            //  - send time
+            send( client_socket_fd, &tv, sizeof(struct timeval), 0 );
 
-//        log_event_message_datetime( ( uint64_t ) time(NULL), ( uint64_t ) time(NULL) );
-//        log_event_stop();
-//        pthread_mutex_unlock( &logEventLock );
+            //  - close write stream
+            shutdown( client_socket_fd, SHUT_WR );
+            close( client_socket_fd );
+        
+        pthread_mutex_unlock( &logEventLock );
 
-//        fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
         fprintf( stdout, "SENT DATETIME TO CLIENT ( current timestamp = %ld )\n", tv.tv_sec );
     }
 }
@@ -104,27 +104,19 @@ void communication_datetime_listener_worker(void)
 bool communication_datetime_receiver()
 {
     struct timeval tv = {0, 0};
-    struct timezone tz = {0, 0};
-
     int socket_fd;
     bool result;
-    const char *ip;
 
     uint64_t previous_now;
     uint64_t new_now;
 
-    // Create socket file descriptor
-    socket_fd = socket( AF_INET, SOCK_STREAM, 0 );
-    if ( socket_fd < 0 )
-    {
-        perror("\tcommunication_datetime_receiver(): socket() failed" );
-        return NULL;
-    }
+    // Initialize socket file descriptor
+    socket_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
 
     do
     {
         // Try connecting
-        if ( -1 != socket_connect( SETUP_DATETIME_AEM, SOCKET_PORT + 1, socket_fd ) )
+        if ( true == socket_connect( (int32_t) socket_fd, SETUP_DATETIME_AEM, SOCKET_PORT + 1 ) )
         {
             log_event_start( "datetime", SETUP_DATETIME_AEM, CLIENT_AEM );
 
@@ -133,7 +125,6 @@ bool communication_datetime_receiver()
 
             //  - get time
             result = read( socket_fd, &tv, sizeof(struct timeval) ) == sizeof(struct timeval);
-//                    read( socket_fd, &tz, sizeof(struct timezone) ) == sizeof(struct timezone);
 
             //  - get time
             if ( result )
@@ -157,12 +148,11 @@ bool communication_datetime_receiver()
 
             //  - close read stream
             shutdown( socket_fd, SHUT_RD );
+            close( socket_fd );
 
             log_event_stop();
 
-//            fprintf( stdout, "Now: %s\n", timestamp2ftime( (uint64_t) time(NULL), "%FT%TZ" ) );
             fprintf( stdout, "RECEIVED DATETIME FROM SERVER ( current timestamp = %ld )\n", tv.tv_sec );
-
             break;
         }
     }
@@ -176,80 +166,77 @@ bool communication_datetime_receiver()
 void communication_worker(void *thread_args)
 {
     CommunicationWorkerArgs *args = (CommunicationWorkerArgs *) thread_args;
-    char logMessage[LOG_MESSAGE_MAX_LEN];
     bool deviceExists;
 
     // Check if there is an active connection with given device
-    // Update active devices
-    pthread_mutex_lock( &activeDevicesLock );
     deviceExists = devices_exists( args->connected_device );
-    if ( !deviceExists )
-        devices_push( args->connected_device );
-    pthread_mutex_unlock( &activeDevicesLock );
 
     pthread_mutex_lock( &logEventLock );
-    log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
-                     args->server ? args->connected_device.AEM : CLIENT_AEM );
+        log_event_start( "connection", args->server ? CLIENT_AEM : args->connected_device.AEM,
+                         args->server ? args->connected_device.AEM : CLIENT_AEM );
 
-    // If no active connection with given device exists
-    if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
-    {
-        gettimeofday( &(CLIENT_AEM_CONN_START_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
-
-        // If device is server, act as transmitter, else act as receiver.
-        //  - forward communication
-        if ( args->server )
+        // If no active connection with given device exists
+        if ( !deviceExists && CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ] <= MAX_CONNECTIONS_WITH_SAME_CLIENT )
         {
-            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_WR );
+            // Update active devices
+            pthread_mutex_lock( &activeDevicesLock );
+                devices_push( args->connected_device );
+            pthread_mutex_unlock( &activeDevicesLock );
 
-            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_RD );
-        }
+            gettimeofday( &(CLIENT_AEM_CONN_START_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
+
+            // If device is server, act as transmitter, else act as receiver.
+            //  - forward communication
+            if ( args->server )
+            {
+                communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
+                shutdown( args->connected_socket_fd, SHUT_WR );
+
+                communication_receiver_worker( args->connected_socket_fd, args->connected_device );
+                shutdown( args->connected_socket_fd, SHUT_RD );
+            }
             //  - reverse communication
+            else
+            {
+                communication_receiver_worker( args->connected_socket_fd, args->connected_device );
+                shutdown( args->connected_socket_fd, SHUT_RD );
+
+                communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
+                shutdown( args->connected_socket_fd, SHUT_WR );
+            }
+
+            // Update connection time stats
+            gettimeofday( &(CLIENT_AEM_CONN_END_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
+
+            // Update connection time stats
+            CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]++;
+
+            // Update active devices
+            pthread_mutex_lock( &activeDevicesLock );
+                devices_remove( args->connected_device );
+            pthread_mutex_unlock( &activeDevicesLock );
+        }
         else
         {
-            communication_receiver_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_RD );
-
-            communication_transmitter_worker( args->connected_socket_fd, args->connected_device );
-            shutdown( args->connected_socket_fd, SHUT_WR );
+            fprintf( stderr, deviceExists ?
+                "Active connection with device found: AEM = %04d. Skipping...":
+                "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM
+            );
         }
 
-        // Update connection time stats
-        gettimeofday( &(CLIENT_AEM_CONN_END_LIST[args->connected_device.aemIndex][CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]]), NULL );
+        // Close Socket
+        close( args->connected_socket_fd );
 
-        // Update connection time stats
-        CLIENT_AEM_CONN_N_LIST[ args->connected_device.aemIndex ]++;
+        // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
+        if ( args->concurrent )
+        {
+            pthread_mutex_lock( &availableThreadsLock );
+            communicationThreadsAvailable++;
+            pthread_mutex_unlock( &availableThreadsLock );
+        }
 
-        // Update active devices
-        pthread_mutex_lock( &activeDevicesLock );
-        devices_remove( args->connected_device );
-        pthread_mutex_unlock( &activeDevicesLock );
-    }
-    else
-    {
-//        pthread_mutex_lock( &logLock );
-//        sprintf( logMessage, deviceExists ?
-//                             "Active connection with device found: AEM = %04d. Skipping...":
-//                             "Max no. of connections with device reached: AEM = %04d. Skipping...", args->connected_device.AEM );
-//        log_error( logMessage, "communication_worker()", 0 );
-//        pthread_mutex_unlock( &logLock );
-    }
-
-    // Close Socket
-    close( args->connected_socket_fd );
-
-    // Update number of threads ( since, if this function is called in a new thread, then that thread was detached )
-    if ( args->concurrent )
-    {
-        pthread_mutex_lock( &availableThreadsLock );
-        communicationThreadsAvailable++;
-        pthread_mutex_unlock( &availableThreadsLock );
-    }
-
-    // Finalize event log
-    log_event_stop();
+        // Finalize event log
+        log_event_stop();
     pthread_mutex_unlock( &logEventLock );
 }
 
@@ -260,18 +247,10 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 {
     Message message;
     char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
 
     next_loop:
     while ( read( connectedSocket, messageSerialized, MESSAGE_SERIALIZED_LEN ) == MESSAGE_SERIALIZED_LEN )
     {
-        //----- CRITICAL SECTION
-//        pthread_mutex_lock( &logLock );
-//        sprintf( logMessage, "received message: \"%s\"", messageSerialized );
-//        log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-//        pthread_mutex_unlock( &logLock );
-        //-----:end
-
         // Reconstruct message
         explode( &message, "_", messageSerialized );
 
@@ -301,9 +280,10 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
         pthread_mutex_unlock( &messagesStatsLock );
 
         // Log received message
-        log_message( "communication_receiver_worker()", message );
         log_event_message( "received", &message );
     }
+
+//    fprintf( stdout, "\tcommunication_receiver_worker(): AFTER LOOP!\n" );
 }
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
@@ -311,8 +291,7 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
 /// \param connectedDevice connected device that will receive messages
 void communication_transmitter_worker(int32_t connectedSocket, Device connectedDevice)
 {
-    char messageSerialized[MESSAGE_SERIALIZED_LEN];
-    char logMessage[LOG_MESSAGE_MAX_LEN];
+    char messageSerialized[MESSAGE_SERIALIZED_LEN + 1];
 
     for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
     {
@@ -321,31 +300,36 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             error(-1, "connectedDevice.aemIndex equals -1. Exiting...");
         }
 
+//        fprintf( stdout, "\tcommunication_transmitter_worker(): (0)!\n" );
+
         if (MESSAGES_BUFFER[message_i].created_at > 0
             && 0 == MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ]
             && 0 == MESSAGES_BUFFER[message_i].transmitted_to_recipient
         )
         {
+            // ASSERTION
+            if ( CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient )
+                error( -1, "communication_transmitter_worker(): \"Assertion CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient\" failed" );
+
+
+//            fprintf( stdout, "\tcommunication_transmitter_worker(): (1)!\n" );
+
             // Serialize
             implode("_", MESSAGES_BUFFER[message_i], messageSerialized );
 
-            // Log
-//            pthread_mutex_lock( &logLock );
-//            sprintf( logMessage, "sending message: \"%s\"", messageSerialized );
-//            log_info( logMessage, "communication_transmitter_worker()", "socket.h > send()" );
-//            pthread_mutex_unlock( &logLock );
+//            fprintf( stdout, "\tcommunication_transmitter_worker(): (2)!\n" );
 
             // Transmit
-            send(connectedSocket , messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
+            send(connectedSocket, messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
 
             // Update Status in $MESSAGES_BUFFER buffer
             pthread_mutex_lock( &messagesBufferLock );
-            MESSAGES_BUFFER[message_i].transmitted = 1;
-            MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
-                if (connectedDevice.AEM == MESSAGES_BUFFER[message_i].recipient )
-                {
-                    MESSAGES_BUFFER[message_i].transmitted_to_recipient = 1;
-                }
+                MESSAGES_BUFFER[message_i].transmitted = 1;
+                MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ] = 1;
+                    if (connectedDevice.AEM == MESSAGES_BUFFER[message_i].recipient )
+                    {
+                        MESSAGES_BUFFER[message_i].transmitted_to_recipient = 1;
+                    }
             pthread_mutex_unlock( &messagesBufferLock );
 
             // Update stats
@@ -360,4 +344,7 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             log_event_message( "transmitted", &MESSAGES_BUFFER[message_i] );
         }
     }
+
+
+//    fprintf( stdout, "\tcommunication_transmitter_worker(): AFTER LOOP!\n" );
 }
