@@ -12,7 +12,7 @@ extern struct timeval CLIENT_AEM_CONN_START_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CON
 extern struct timeval CLIENT_AEM_CONN_END_LIST[CLIENT_AEM_LIST_LENGTH][MAX_CONNECTIONS_WITH_SAME_CLIENT];
 extern uint8_t CLIENT_AEM_CONN_N_LIST[CLIENT_AEM_LIST_LENGTH];
 
-extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock, logLock;
+extern pthread_mutex_t messagesBufferLock, activeDevicesLock, availableThreadsLock, messagesStatsLock;
 extern MessagesStats messagesStats;
 
 extern pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
@@ -152,11 +152,12 @@ void generateRandomMessage(Message *message)
 /// \param glue the connective character(s); to be placed between successive message fields
 /// \param message the message to be serialized
 /// \param messageSerialized a string containing all message fields glued together using $glue
-void implode(const char * glue, const Message message, char *messageSerialized)
+void implode(const char *glue, const Message message, char *messageSerialized)
 {
     // Begin copying fields and adding glue
     //  - sender{glue}recipient{glue}created_at{glue}body
-    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010lu%s%s",
+    // sprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010ld%s%s",
+    snprintf(messageSerialized, MESSAGE_SERIALIZED_LEN, "%04d%s%04d%s%010llu%s%s",
              message.sender, glue,
              message.recipient, glue,
              message.created_at, glue,
@@ -211,29 +212,6 @@ void inspect(const Message message, bool metadata, FILE *fp)
     }
 
     fprintf( fp, "}\n" );
-}
-
-/// \brief Inspect all messages in $messages buffer.
-/// \param inspect_each
-void inspect_messages(bool inspect_each)
-{
-    fprintf( stdout, "\n\ninspection:start\n" );
-    for ( uint16_t message_i = 0; message_i < MESSAGES_SIZE; message_i++ )
-    {
-        if (MESSAGES_BUFFER[message_i].created_at > 0 )
-        {
-            fprintf(stdout, "\t%02d) %04d --> %04d ( time: %010lu ) \n",
-                    message_i, MESSAGES_BUFFER[message_i].sender,
-                    MESSAGES_BUFFER[message_i].recipient, MESSAGES_BUFFER[message_i].created_at
-            );
-
-            if ( inspect_each )
-            {
-                inspect(MESSAGES_BUFFER[message_i], true, stdout );
-            }
-        }
-    }
-    fprintf( stdout, "\n\ninspection:end\n" );
 }
 
 /// \brief Extracts AEM from given IPv4 address.
@@ -306,27 +284,32 @@ inline int32_t resolveAemIndex( Device device )
     return device.aemIndex;
 }
 
-/// \brief Tries to connect via socket to given AEM (creating respective IP address) & port.
+/// \brief Tries to connect via $socket_fd to given AEM (creating respective IP address) & port.
+/// \param socket_fd
 /// \param aem
 /// \param port
-/// \param socket_fd
-/// \return -1 on error, opened socket's file descriptor on success
-int socket_connect( uint32_t aem, uint16_t port, int socket_fd )
+/// \return FALSE on error, TRUE on successful connect()
+bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
 {
     struct sockaddr_in serverAddress;
-    if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
-        return -1;
+    const char *ip;
 
-//    fprintf( stdout, "\t%s\n", aem2ip( aem ) );
+    if ( CLIENT_AEM == aem || devices_exists_aem( aem ) )
+        return false;
+
+    ip = aem2ip( aem );
+//    fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
 
     // Set "server" address
-    memset( &serverAddress, 0, sizeof(serverAddress) );
+    bzero((char *)&serverAddress, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons( port );
-    serverAddress.sin_addr.s_addr = inet_addr( aem2ip( aem ) );
+    serverAddress.sin_addr.s_addr = inet_addr( ip );
     
-    return connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
-            socket_fd : -1;
+    bool return_value = connect( socket_fd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr) ) >= 0 ?
+            true : false;
+
+    return return_value;
 }
 
 /// \brief Convert given UNIX timestamp to a formatted datetime string with given $format.
