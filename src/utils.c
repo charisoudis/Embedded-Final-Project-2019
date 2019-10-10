@@ -298,7 +298,6 @@ bool socket_connect( int32_t socket_fd, uint32_t aem, uint16_t port )
         return false;
 
     ip = aem2ip( aem );
-//    fprintf( stdout, "\tsocket_connect(): ip = \"%s\"\n", ip );
 
     // Set "server" address
     bzero((char *)&serverAddress, sizeof(serverAddress));
