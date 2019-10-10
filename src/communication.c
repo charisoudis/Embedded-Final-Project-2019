@@ -5,7 +5,6 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
-#include <assert.h>
 
 //------------------------------------------------------------------------------------------------
 
@@ -282,8 +281,6 @@ void communication_receiver_worker(int32_t connectedSocket, Device connectedDevi
         // Log received message
         log_event_message( "received", &message );
     }
-
-//    fprintf( stdout, "\tcommunication_receiver_worker(): AFTER LOOP!\n" );
 }
 
 /// \brief Transmitter sub-worker of communication worker ( POSIX thread compatible function ).
@@ -300,8 +297,6 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             error(-1, "connectedDevice.aemIndex equals -1. Exiting...");
         }
 
-//        fprintf( stdout, "\tcommunication_transmitter_worker(): (0)!\n" );
-
         if (MESSAGES_BUFFER[message_i].created_at > 0
             && 0 == MESSAGES_BUFFER[message_i].transmitted_devices[ connectedDevice.aemIndex ]
             && 0 == MESSAGES_BUFFER[message_i].transmitted_to_recipient
@@ -311,13 +306,8 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             if ( CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient )
                 error( -1, "communication_transmitter_worker(): \"Assertion CLIENT_AEM == MESSAGES_BUFFER[message_i].recipient\" failed" );
 
-
-//            fprintf( stdout, "\tcommunication_transmitter_worker(): (1)!\n" );
-
             // Serialize
             implode("_", MESSAGES_BUFFER[message_i], messageSerialized );
-
-//            fprintf( stdout, "\tcommunication_transmitter_worker(): (2)!\n" );
 
             // Transmit
             send(connectedSocket, messageSerialized , MESSAGE_SERIALIZED_LEN, 0 );
@@ -344,7 +334,4 @@ void communication_transmitter_worker(int32_t connectedSocket, Device connectedD
             log_event_message( "transmitted", &MESSAGES_BUFFER[message_i] );
         }
     }
-
-
-//    fprintf( stdout, "\tcommunication_transmitter_worker(): AFTER LOOP!\n" );
 }
