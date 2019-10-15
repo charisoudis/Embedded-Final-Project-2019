@@ -8,7 +8,7 @@
 
 //------------------------------------------------------------------------------------------------
 
-uint32_t executionTimeRequested;       // secs
+uint32_t executionTimeRequested;         // secs
 static struct timespec executionTimeActualStart, executionTimeActualFinish;
 
 pthread_t communicationThreads[COMMUNICATION_WORKERS_MAX];
